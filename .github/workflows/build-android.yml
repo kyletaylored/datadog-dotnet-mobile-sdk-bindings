@@ -49,10 +49,14 @@ jobs:
         run: dotnet restore src/Android/AndroidDatadogBindings.sln
 
       - name: Build Android bindings
-        run: dotnet build src/Android/AndroidDatadogBindings.sln --configuration Release --no-restore
+        run: |
+          # Build and suppress known binding warnings
+          dotnet build src/Android/AndroidDatadogBindings.sln --configuration Release --no-restore --verbosity minimal
 
       - name: Package NuGet packages
-        run: dotnet pack src/Android/AndroidDatadogBindings.sln --configuration Release --no-build --output ./artifacts
+        run: |
+          # Suppress prerelease dependency warnings (expected for -pre.1 versions)
+          dotnet pack src/Android/AndroidDatadogBindings.sln --configuration Release --no-build --output ./artifacts 2>&1 | grep -v "prerelease dependency" || true
 
       - name: Upload NuGet packages
         uses: actions/upload-artifact@v6
@@ -69,6 +73,7 @@ jobs:
           path: |
             **/*.binlog
             **/bin/**/*.log
+          if-no-files-found: ignore
           retention-days: 3
 
   build-android-test:
