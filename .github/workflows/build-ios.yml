@@ -34,20 +34,16 @@ jobs:
             10.0.x
 
       - name: Install .NET MAUI workload
-        run: |
-          # Suppress workload support warnings
-          dotnet workload install ios --skip-sign-check 2>&1 | grep -v "is out of support" || true
+        run: dotnet workload install ios
 
       - name: Restore dependencies
         run: dotnet restore src/iOS/iOSBindings.sln
 
       - name: Build iOS bindings
-        run: |
-          # Suppress out-of-support warnings for net8.0-ios17.0
-          dotnet build src/iOS/iOSBindings.sln --configuration Release --no-restore 2>&1 | grep -v "is out of support" || true
+        run: dotnet build src/iOS/iOSBindings.sln --configuration Release --no-restore /p:CheckEolTargetFramework=false
 
       - name: Package NuGet packages
-        run: dotnet pack src/iOS/iOSBindings.sln --configuration Release --no-build --output ./artifacts
+        run: dotnet pack src/iOS/iOSBindings.sln --configuration Release --no-build --output ./artifacts /p:CheckEolTargetFramework=false
 
       - name: Upload NuGet packages
         uses: actions/upload-artifact@v6
@@ -90,9 +86,7 @@ jobs:
             10.0.x
 
       - name: Install .NET MAUI workload
-        run: |
-          # Suppress workload support warnings
-          dotnet workload install ios --skip-sign-check 2>&1 | grep -v "is out of support" || true
+        run: dotnet workload install ios
 
       - name: Download NuGet packages
         uses: actions/download-artifact@v7
@@ -108,7 +102,7 @@ jobs:
         run: dotnet restore src/iOS/T/Test.sln
 
       - name: Build test app
-        run: dotnet build src/iOS/T/Test.sln --configuration Release --no-restore -p:BuildIpa=true
+        run: dotnet build src/iOS/T/Test.sln --configuration Release --no-restore -p:BuildIpa=true -p:CheckEolTargetFramework=false
 
       - name: Upload test app
         uses: actions/upload-artifact@v6
