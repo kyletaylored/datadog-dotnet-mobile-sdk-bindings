@@ -3,8 +3,18 @@ name: Build All Platforms
 on:
   push:
     branches: [ main, develop ]
+    paths:
+      - 'src/**'
+      - 'dd-sdk-android/**'
+      - 'dd-sdk-ios/**'
+      - '.github/workflows/**'
   pull_request:
     branches: [ main, develop ]
+    paths:
+      - 'src/**'
+      - 'dd-sdk-android/**'
+      - 'dd-sdk-ios/**'
+      - '.github/workflows/**'
   workflow_dispatch:
   schedule:
     # Run weekly on Monday at 9 AM UTC

@@ -1,19 +1,8 @@
 name: Build iOS Bindings
 
 on:
-  push:
-    branches: [ main, develop ]
-    paths:
-      - 'src/iOS/**'
-      - 'dd-sdk-ios/**'
-      - '.github/workflows/build-ios.yml'
-  pull_request:
-    branches: [ main, develop ]
-    paths:
-      - 'src/iOS/**'
-      - 'dd-sdk-ios/**'
-      - '.github/workflows/build-ios.yml'
-  workflow_dispatch:
+  workflow_call:  # Allow this workflow to be called by other workflows
+  workflow_dispatch:  # Allow manual triggering
 
 env:
   DOTNET_VERSION: '10.0.x'

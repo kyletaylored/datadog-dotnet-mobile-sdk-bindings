@@ -1,19 +1,8 @@
 name: Build Android Bindings
 
 on:
-  push:
-    branches: [ main, develop ]
-    paths:
-      - 'src/Android/**'
-      - 'dd-sdk-android/**'
-      - '.github/workflows/build-android.yml'
-  pull_request:
-    branches: [ main, develop ]
-    paths:
-      - 'src/Android/**'
-      - 'dd-sdk-android/**'
-      - '.github/workflows/build-android.yml'
-  workflow_dispatch:
+  workflow_call:  # Allow this workflow to be called by other workflows
+  workflow_dispatch:  # Allow manual triggering
 
 env:
   DOTNET_VERSION: '10.0.x'
