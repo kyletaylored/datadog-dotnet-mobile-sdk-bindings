@@ -10,9 +10,11 @@ Using the Objective-C layer requires you to import the entire SDK (Logs, RUM, an
 
 Before using the iOS SDK bindings, make sure you have the following prerequisites:
 
-- iOS 17.0+
-- .NET 8 or higher
-- macOS development environment with Xcode
+- iOS 17.0+ (supports iOS 17.0 with .NET 8, iOS 18.0 with .NET 9/10)
+- .NET 8, 9, or 10
+- macOS development environment with Xcode 16.1 or later
+
+**Note:** These bindings multi-target `net8.0-ios17.0` and `net9.0-ios18.0` to support both .NET 8 and .NET 9/10. When building with .NET SDK 10, you may see warnings about `net8.0-ios17.0` being End of Life (EOL). These warnings are suppressed in the build workflows but can be safely ignored if you encounter them.
 
 ## Available Packages
 

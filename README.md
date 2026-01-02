@@ -20,8 +20,9 @@ For more information about the underlying SDKs:
 
 ### .NET
 
-- **.NET 10** (required for Android due to 16KB page size and binding fixes)
-- .NET 8 or 9 may work for iOS
+- **.NET 8, 9, or 10**
+  - Android: .NET 10 required (16KB page size support and binding fixes)
+  - iOS: .NET 8+ supported (multi-targets `net8.0-ios17.0` and `net9.0-ios18.0`)
 
 ### Android
 
@@ -30,9 +31,10 @@ For more information about the underlying SDKs:
 
 ### iOS
 
-- iOS **17.0+**
-- Xcode with command line tools
+- iOS **17.0+** (supports iOS 17.0 with .NET 8, iOS 18.0 with .NET 9/10)
+- Xcode 16.1 or later
 - macOS development environment
+- .NET 8, 9, or 10
 
 ## Quick Start
 
