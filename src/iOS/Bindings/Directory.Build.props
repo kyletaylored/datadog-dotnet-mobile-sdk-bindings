@@ -5,8 +5,11 @@
     This allows us to maintain backwards compatibility with .NET 8 while building on newer SDKs.
   -->
   <PropertyGroup>
-    <!-- Suppress NETSDK1202 by downgrading from error to warning, then suppressing the warning -->
-    <MSBuildWarningsAsMessages>$(MSBuildWarningsAsMessages);NETSDK1202</MSBuildWarningsAsMessages>
+    <!-- Downgrade NETSDK1202 and NU1202 from errors to warnings, then suppress them -->
+    <MSBuildWarningsAsMessages>$(MSBuildWarningsAsMessages);NETSDK1202;NU1202</MSBuildWarningsAsMessages>
     <NoWarn>$(NoWarn);NETSDK1202;NU1202</NoWarn>
+    <!-- Also treat NuGet warnings as messages -->
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningsNotAsErrors>$(WarningsNotAsErrors);NU1202</WarningsNotAsErrors>
   </PropertyGroup>
 </Project>

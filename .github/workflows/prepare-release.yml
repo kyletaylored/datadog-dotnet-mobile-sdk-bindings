@@ -18,6 +18,9 @@ on:
 
 env:
   DOTNET_VERSION: '10.0.x'
+  # Suppress EOL warnings for net8.0-ios17.0
+  MSBUILDTREATALLERRORS: false
+  MSBUILDWARNINGSASMESSAGES: NETSDK1202;NU1202
 
 jobs:
   prepare-android-release:
