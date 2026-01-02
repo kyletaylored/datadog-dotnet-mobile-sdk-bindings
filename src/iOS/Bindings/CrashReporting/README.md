@@ -1,35 +1,78 @@
-# .NET Bindings for the Datadog Mobile iOS SDK - CrashReporting
+# Datadog iOS SDK - Crash Reporting Bindings
 
-These bindings are for the DatadogCrashReporting framework.
+.NET bindings for the Datadog iOS SDK CrashReporting framework.
 
-These bindings are only for iOS; tvOS is not included.
+## Overview
 
-## Prerequisites
+Crash Reporting enables automatic detection and reporting of application crashes to Datadog, providing detailed stack traces and crash context.
 
-Before using the iOS SDK bindings, make sure you have the following prerequisites:
+**Package Information:**
+- **NuGet Package**: `Bcr.Datadog.iOS.CrashReporting`
+- **Target Frameworks**: `net8.0-ios17.0`, `net9.0-ios18.0`
+- **Namespace**: `Datadog.iOS.CrashReporting`
 
-- iOS 17.0 or higher
+## Requirements
+
+- iOS 17.0+
 - .NET 8 or higher
+- **Prerequisite**: `Bcr.Datadog.iOS.ObjC` must be installed and initialized
 
-## Usage
+## Installation
 
-See the [Datadog iOS SDK repository](https://github.com/DataDog/dd-sdk-ios) for more information about initialization for any given piece of functionality.
+```xml
+<ItemGroup>
+  <PackageReference Include="Bcr.Datadog.iOS.ObjC" Version="2.26.0" />
+  <PackageReference Include="Bcr.Datadog.iOS.CrashReporting" Version="2.26.0" />
+</ItemGroup>
+```
 
-All functionality requires you to initialize the SDK before use. The Datadog documentation has more information; the basics are to initialize in `FinishedLaunching()`: 
+## Implementation Guide
 
-1. Import the `Datadog.iOS.CrashReporting` namespace:
+```csharp
+using Foundation;
+using UIKit;
+using Datadog.iOS.ObjC;
+using Datadog.iOS.CrashReporting;
 
-    ```csharp
-    using Datadog.iOS.CrashReporting;
-    ```
+namespace MyApp;
 
-2. Init the DDCrashReporter:
-
-     ```csharp
+[Register("AppDelegate")]
+public class AppDelegate : UIApplicationDelegate
+{
     public override bool FinishedLaunching(UIApplication application, NSDictionary launchOptions)
     {
-        // other SDK Initialization code here
+        // Initialize Datadog SDK first
+        var config = new DDConfiguration("YOUR_CLIENT_TOKEN", "production");
+        config.Service = "my-ios-app";
+        DDDatadog.Initialize(config, DDTrackingConsent.Granted);
 
+        // Enable RUM (required for crash reporting)
+        var rumConfig = new DDRUMConfiguration("YOUR_APPLICATION_ID");
+        DDRUM.Enable(rumConfig);
+
+        // Enable Crash Reporting
         DDCrashReporter.Enable();
+
+        return true;
     }
-    ```
+}
+```
+
+## API Reference
+
+| Native API | .NET Binding |
+|-----------|--------------|
+| `CrashReporting.enable()` | `DDCrashReporter.Enable()` |
+
+## Related Documentation
+
+- **Official Docs**: [iOS Crash Reporting](https://docs.datadoghq.com/real_user_monitoring/error_tracking/mobile/ios/)
+- **Datadog iOS SDK**: [GitHub](https://github.com/DataDog/dd-sdk-ios)
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
+
+This product includes software developed at Datadog (https://www.datadoghq.com/), used under the [Apache License, v2.0](https://github.com/DataDog/dd-sdk-ios/blob/develop/LICENSE)
+
+Those portions are Copyright 2019 Datadog, Inc.

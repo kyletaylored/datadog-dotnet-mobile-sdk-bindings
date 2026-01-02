@@ -1,41 +1,104 @@
-# .NET Bindings for the Datadog Mobile iOS SDK - SessionReplay
+# Datadog iOS SDK - Session Replay Bindings
 
-These bindings are for the SessionReplay framework.
+.NET bindings for the Datadog iOS SDK SessionReplay framework.
 
-These bindings are only for iOS; tvOS is not included.
+## Overview
 
-## Prerequisites
+Session Replay allows you to record and replay user sessions, providing visual insights into user interactions and behaviors in your iOS application.
 
-Before using the iOS SDK bindings, make sure you have the following prerequisites:
+**Package Information:**
+- **NuGet Package**: `Bcr.Datadog.iOS.SessionReplay`
+- **Target Frameworks**: `net8.0-ios17.0`, `net9.0-ios18.0`
+- **Namespace**: `Datadog.iOS.SessionReplay`
 
-- iOS 17.0 or higher
+## Requirements
+
+- iOS 17.0+
 - .NET 8 or higher
+- **Prerequisite**: `Bcr.Datadog.iOS.ObjC` must be installed and initialized
 
-## Usage
+## Installation
 
-See the [Datadog iOS SDK repository](https://github.com/DataDog/dd-sdk-ios) for more information about initialization for any given piece of functionality.
+```xml
+<ItemGroup>
+  <PackageReference Include="Bcr.Datadog.iOS.ObjC" Version="2.26.0" />
+  <PackageReference Include="Bcr.Datadog.iOS.SessionReplay" Version="2.26.0" />
+</ItemGroup>
+```
 
-All functionality requires you to initialize the SDK before use. The Datadog documentation has more information; the basics are to initialize in `FinishedLaunching()`: 
+## Implementation Guide
 
-1. Import the `Datadog.iOS.SessionReplay` namespace:
+```csharp
+using Foundation;
+using UIKit;
+using Datadog.iOS.ObjC;
+using Datadog.iOS.SessionReplay;
 
-    ```csharp
-    using Datadog.iOS.SessionReplay;
-    ```
+namespace MyApp;
 
-2. Init the DDSessionReplay:
-
-     ```csharp
+[Register("AppDelegate")]
+public class AppDelegate : UIApplicationDelegate
+{
     public override bool FinishedLaunching(UIApplication application, NSDictionary launchOptions)
     {
-        // other SDK Initialization code here
+        // Initialize Datadog SDK first
+        var config = new DDConfiguration("YOUR_CLIENT_TOKEN", "production");
+        config.Service = "my-ios-app";
+        DDDatadog.Initialize(config, DDTrackingConsent.Granted);
 
-        DDSessionReplayConfiguration replayConfig = new DDSessionReplayConfiguration(
-            100.0F, 
-            DDTextAndInputPrivacyLevel.MaskAll, 
-            DDImagePrivacyLevel.MaskAll, 
-            DDTouchPrivacyLevel.Hide);
-            
+        // Enable RUM (required for Session Replay)
+        var rumConfig = new DDRUMConfiguration("YOUR_APPLICATION_ID");
+        rumConfig.SessionSampleRate = 100.0f;
+        DDRUM.Enable(rumConfig);
+
+        // Enable Session Replay
+        var replayConfig = new DDSessionReplayConfiguration(
+            100.0f,                                  // Sample rate (100%)
+            DDTextAndInputPrivacyLevel.MaskAll,      // Text privacy
+            DDImagePrivacyLevel.MaskAll,             // Image privacy
+            DDTouchPrivacyLevel.Hide                 // Touch privacy
+        );
         DDSessionReplay.Enable(replayConfig);
+
+        return true;
     }
-    ```
+}
+```
+
+## Configuration Options
+
+### Privacy Levels
+
+**Text and Input Privacy:**
+- `DDTextAndInputPrivacyLevel.MaskAll` - Mask all text and input
+- `DDTextAndInputPrivacyLevel.MaskSensitiveInputs` - Mask only sensitive inputs
+- `DDTextAndInputPrivacyLevel.Allow` - Record all text
+
+**Image Privacy:**
+- `DDImagePrivacyLevel.MaskAll` - Mask all images
+- `DDImagePrivacyLevel.MaskNonBundledOnly` - Mask non-bundled images
+- `DDImagePrivacyLevel.MaskNone` - Show all images
+
+**Touch Privacy:**
+- `DDTouchPrivacyLevel.Hide` - Hide all touches
+- `DDTouchPrivacyLevel.Show` - Show all touches
+
+## API Reference
+
+| Native API | .NET Binding |
+|-----------|--------------|
+| `SessionReplay.enable(with:)` | `DDSessionReplay.Enable(config)` |
+| `SessionReplayConfiguration(replaySampleRate:textAndInputPrivacy:imagePrivacy:touchPrivacy:)` | `new DDSessionReplayConfiguration(rate, textPrivacy, imagePrivacy, touchPrivacy)` |
+
+## Related Documentation
+
+- **Official Docs**: [Session Replay](https://docs.datadoghq.com/real_user_monitoring/session_replay/mobile/setup_and_configuration/?tab=ios)
+- **Datadog iOS SDK**: [GitHub](https://github.com/DataDog/dd-sdk-ios)
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
+
+This product includes software developed at Datadog (https://www.datadoghq.com/), used under the [Apache License, v2.0](https://github.com/DataDog/dd-sdk-ios/blob/develop/LICENSE)
+
+Those portions are Copyright 2019 Datadog, Inc.

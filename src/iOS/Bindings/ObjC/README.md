@@ -1,90 +1,316 @@
-# .NET Bindings for the Datadog Mobile iOS SDK - ObjC
+# Datadog iOS SDK - ObjC Bindings (Core)
 
-These bindings are only for iOS; tvOS is not included.
+.NET bindings for the Datadog iOS SDK Objective-C layer.
 
-> **NOTE:** These bindings are only against the Objective-C interop layer for the iOS SDK. As such, only code that is part of that layer is currently available.
+## Overview
 
-Using the Objective-C layer requires you to import much of the iOS SDK. In contrast, the Swift layer allows you to import only the specific packages you need.
+This package provides the core Datadog iOS SDK functionality through Objective-C interop. It includes initialization, configuration, and access to all major Datadog features (Logs, RUM, Trace) in a single package.
 
-## Prerequisites
+**Package Information:**
+- **NuGet Package**: `Bcr.Datadog.iOS.ObjC`
+- **Target Frameworks**: `net8.0-ios17.0`, `net9.0-ios18.0`
+- **Namespace**: `Datadog.iOS.ObjC`
 
-Before using the iOS SDK bindings, make sure you have the following prerequisites:
+**Included Features:**
+- Core SDK initialization
+- Logs (via `DDLogs`)
+- RUM - Real User Monitoring (via `DDRUM`)
+- Trace (via `DDTrace`)
 
-- iOS 17.0 or higher
+**Additional Packages** (install separately):
+- **CrashReporting**: `Bcr.Datadog.iOS.CrashReporting`
+- **SessionReplay**: `Bcr.Datadog.iOS.SessionReplay`
+- **WebViewTracking**: `Bcr.Datadog.iOS.WebViewTracking`
+
+## Requirements
+
+- iOS 17.0+
 - .NET 8 or higher
+- macOS development environment with Xcode
 
-## Usage
+## Installation
 
-See the [Datadog iOS SDK repository](https://github.com/DataDog/dd-sdk-ios) for more information about initialization for any given piece of functionality.
-
-All functionality requires you to initialize the SDK before use. The Datadog documentation has more information; the basics are to initialize in `FinishedLaunching()`: 
-
-1. Import the `Datadog.iOS.ObjC` namespace:
-
-    ```csharp
-    using Datadog.iOS.ObjC;
-    ```
-
-2. Add package references for any other needed functionality not already included in this module, which are:
-
-    * [CrashReporting](https://www.nuget.org/packages/Bcr.Datadog.iOS.CR)
-    * [SessionReplay](https://www.nuget.org/packages/Bcr.Datadog.iOS.SR)
-    * [WebViewTracking](https://www.nuget.org/packages/Bcr.Datadog.iOS.Web)
-
-3. Import any of the other namespaces for the needed functionality: 
-
-    ```csharp
-    using Datadog.iOS.CrashReporting;
-    using Datadog.iOS.SessionReplay;
-    using Datadog.iOS.WebViewTracking;
-    ```
-
-4. Initialize the Datadog SDK with your client token and environment:
-
-    ```csharp
-    public override bool FinishedLaunching(UIApplication application, NSDictionary launchOptions)
-    {
-        // Initialize the Datadog configuration
-        DDConfiguration config = new DDConfiguration("<client token>", "<environment>");
-        config.Service = "<service name>";
-        config.Site = "<Datadog Site>";
-
-        // Initialize the Datadog SDK with the configuration and tracking consent
-        DDDatadog.Initialize(config, trackingConsent);
-
-        // Enable Datadog logs
-        DDLogs.Enable(new DDLogsConfiguration(null));
-
-        // ...
-    }
-    ```
-
-For more information on using the Datadog .NET Mobile SDK, refer to the [official documentation](https://docs.datadoghq.com/).
-
-## FAQ
-
-### Why am I getting errors like `Could not find a part of the path...` when I add this NuGet package to my app and try to build it using Visual Studio on Windows?
-
-This is the notorius "max path" bug in Visual Studio that limits paths to 260 characters. It particularly affects .NET for iOS apps, as `.xcframework` files are folders with very deep structures. 
-
-The `.xcframework` paths have been shortened as much as is practical. You have the following options:
-
-1. First, upvote the [Visual Studio Dev Community](https://developercommunity.visualstudio.com/t/Allow-building-running-and-debugging-a/351628) issue. This problem has been known for years, and yet still no action has been taken.
-2. Enable the Windows registry setting for long path support.
-2. Perform all your NuGet restoration and builds on the command line.
-2. Shorten your source code path to be VERY short, as in one or two characters (if possible)
-3. Shorten your Git repository path of your clone to also be as short as possible.
-4. You may also need configure a `nuget.config` file to shorten the location of your NuGet packages. For example:
 ```xml
-<?xml version="1.0" encoding="utf-8"?>
-<configuration>
-  <config>
-    <add key="globalPackagesFolder" value="C:\n" />
-  </config>
-</configuration>
+<ItemGroup>
+  <PackageReference Include="Bcr.Datadog.iOS.ObjC" Version="2.26.0" />
+</ItemGroup>
 ```
 
+## Implementation Guide
 
+### Step 1: Initialize in AppDelegate
+
+Initialize Datadog in `FinishedLaunching`:
+
+```csharp
+using Foundation;
+using UIKit;
+using Datadog.iOS.ObjC;
+
+namespace MyApp;
+
+[Register("AppDelegate")]
+public class AppDelegate : UIApplicationDelegate
+{
+    public override bool FinishedLaunching(UIApplication application, NSDictionary launchOptions)
+    {
+        // 1. Create configuration
+        var config = new DDConfiguration(
+            clientToken: "YOUR_CLIENT_TOKEN",
+            env: "production"
+        );
+        config.Service = "my-ios-app";
+        config.Site = DDDatadogSite.Us1; // US1, US3, US5, EU1, AP1
+
+        // 2. Initialize Datadog
+        DDDatadog.Initialize(config, DDTrackingConsent.Granted);
+
+        // 3. Set verbosity (optional, for debugging)
+        DDDatadog.VerbosityLevel = DDSDKVerbosityLevel.Debug;
+
+        // 4. Enable features
+        DDLogs.Enable(new DDLogsConfiguration(null));
+
+        var rumConfig = new DDRUMConfiguration("YOUR_APPLICATION_ID");
+        rumConfig.SessionSampleRate = 100.0f;
+        DDRUM.Enable(rumConfig);
+
+        DDTrace.Enable(new DDTraceConfiguration());
+
+        return true;
+    }
+}
+```
+
+## Sample Usage
+
+### Complete Example
+
+```csharp
+using Foundation;
+using UIKit;
+using Datadog.iOS.ObjC;
+
+namespace MyApp;
+
+[Register("AppDelegate")]
+public class AppDelegate : UIApplicationDelegate
+{
+    private DDLogger? _logger;
+
+    public override UIWindow? Window { get; set; }
+
+    public override bool FinishedLaunching(UIApplication application, NSDictionary launchOptions)
+    {
+        // Initialize Datadog
+        var config = new DDConfiguration("YOUR_CLIENT_TOKEN", "production");
+        config.Service = "my-ios-app";
+        config.Site = DDDatadogSite.Us1;
+
+        DDDatadog.Initialize(config, DDTrackingConsent.Granted);
+        DDDatadog.VerbosityLevel = DDSDKVerbosityLevel.Debug;
+
+        // Set user info
+        DDDatadog.SetUserInfo(
+            "user-123",
+            "John Doe",
+            "john@example.com",
+            new NSDictionary<NSString, NSObject>(
+                new NSString("subscription"),
+                new NSString("premium")
+            )
+        );
+
+        // Enable Logs
+        DDLogs.Enable(new DDLogsConfiguration(null));
+        var logConfig = new DDLoggerConfiguration();
+        logConfig.Service = "my-ios-app";
+        logConfig.PrintLogsToConsole = true;
+        _logger = DDLogger.Create(logConfig);
+        _logger.Debug("Application started");
+
+        // Enable RUM
+        var rumConfig = new DDRUMConfiguration("YOUR_APPLICATION_ID");
+        rumConfig.SessionSampleRate = 100.0f;
+        rumConfig.TrackFrustrations = true;
+        DDRUM.Enable(rumConfig);
+
+        // Enable Trace
+        DDTrace.Enable(new DDTraceConfiguration());
+
+        // UI setup
+        Window = new UIWindow(UIScreen.MainScreen.Bounds);
+        // ... your UI code
+        Window.MakeKeyAndVisible();
+
+        return true;
+    }
+}
+```
+
+### Logging Example
+
+```csharp
+// Create logger
+var logConfig = new DDLoggerConfiguration();
+logConfig.Service = "my-ios-app";
+logConfig.NetworkInfoEnabled = true;
+logConfig.PrintLogsToConsole = true;
+
+var logger = DDLogger.Create(logConfig);
+
+// Log messages
+logger.Debug("Debug message");
+logger.Info("Info message");
+logger.Warn("Warning message");
+logger.Error("Error message");
+
+// Log with attributes
+var attributes = new NSDictionary<NSString, NSObject>(
+    new NSString("user.id"), new NSString("12345"),
+    new NSString("action"), new NSString("button_click")
+);
+logger.Info("User action", attributes);
+```
+
+### RUM Tracking Example
+
+```csharp
+// Get RUM monitor
+var rumMonitor = DDRUMMonitor.Shared;
+
+// Track view
+rumMonitor.StartView("HomeViewController", "Home", new NSDictionary());
+
+// Track action
+rumMonitor.AddAction(
+    DDRUMActionType.Tap,
+    "login_button",
+    new NSDictionary<NSString, NSObject>(
+        new NSString("button.label"),
+        new NSString("Login")
+    )
+);
+
+// Stop view
+rumMonitor.StopView("HomeViewController", new NSDictionary());
+```
+
+### Tracing Example
+
+```csharp
+// Get tracer
+var tracer = DDTracer.Shared;
+
+// Create span
+var span = tracer.StartSpan("network.request", new NSDictionary(), null);
+span.SetTag("http.url", "https://api.example.com/users");
+span.SetTag("http.method", "GET");
+
+try
+{
+    // Your operation
+    await MakeNetworkRequest();
+}
+catch (Exception ex)
+{
+    span.SetTag("error", true);
+    span.SetTag("error.message", ex.Message);
+}
+finally
+{
+    span.Finish();
+}
+```
+
+## Configuration Options
+
+### Datadog Sites
+
+| Site | Configuration |
+|------|---------------|
+| US1 (default) | `DDDatadogSite.Us1` |
+| US3 | `DDDatadogSite.Us3` |
+| US5 | `DDDatadogSite.Us5` |
+| EU1 | `DDDatadogSite.Eu1` |
+| AP1 | `DDDatadogSite.Ap1` |
+| US1_FED | `DDDatadogSite.Us1Fed` |
+
+### Tracking Consent
+
+| Value | Description |
+|-------|-------------|
+| `DDTrackingConsent.Granted` | User granted consent, collect data |
+| `DDTrackingConsent.NotGranted` | User declined, do not collect |
+| `DDTrackingConsent.Pending` | Waiting for consent, buffer data |
+
+### SDK Verbosity Levels
+
+| Level | Description |
+|-------|-------------|
+| `DDSDKVerbosityLevel.None` | No logging |
+| `DDSDKVerbosityLevel.Debug` | Debug messages |
+| `DDSDKVerbosityLevel.Info` | Informational messages |
+| `DDSDKVerbosityLevel.Warn` | Warnings |
+| `DDSDKVerbosityLevel.Error` | Errors only |
+
+## API Reference
+
+### Core SDK
+
+| Native API (Swift/Objective-C) | .NET Binding |
+|--------------------------------|--------------|
+| `Datadog.initialize(configuration:trackingConsent:)` | `DDDatadog.Initialize(config, consent)` |
+| `Datadog.setVerbosityLevel(_:)` | `DDDatadog.VerbosityLevel = level` |
+| `Datadog.setUserInfo(id:name:email:extraInfo:)` | `DDDatadog.SetUserInfo(id, name, email, extra)` |
+| `Datadog.setTrackingConsent(_:)` | `DDDatadog.SetTrackingConsent(consent)` |
+
+### Logs
+
+| Native API | .NET Binding |
+|-----------|--------------|
+| `Logs.enable(with:)` | `DDLogs.Enable(config)` |
+| `Logger.create(with:)` | `DDLogger.Create(config)` |
+| `logger.debug(_:attributes:)` | `logger.Debug(message, attributes)` |
+
+### RUM
+
+| Native API | .NET Binding |
+|-----------|--------------|
+| `RUM.enable(with:)` | `DDRUM.Enable(config)` |
+| `RUMMonitor.shared()` | `DDRUMMonitor.Shared` |
+
+### Trace
+
+| Native API | .NET Binding |
+|-----------|--------------|
+| `Trace.enable(with:)` | `DDTrace.Enable(config)` |
+| `Tracer.shared()` | `DDTracer.Shared` |
+
+## Related Documentation
+
+- **Official Datadog iOS SDK**: [GitHub Repository](https://github.com/DataDog/dd-sdk-ios)
+- **iOS Setup Guide**: [Getting Started](https://docs.datadoghq.com/real_user_monitoring/ios/)
+- **iOS Advanced Configuration**: [Advanced Setup](https://docs.datadoghq.com/real_user_monitoring/mobile_and_tv_monitoring/advanced_configuration/ios/)
+
+## Important Notes
+
+1. **ObjC Layer Only**: These bindings use the Objective-C interop layer, which requires importing much of the SDK at once
+2. **Initialize in FinishedLaunching**: Always initialize in `AppDelegate.FinishedLaunching`, not in constructors
+3. **NSDictionary**: Use `NSDictionary<NSString, NSObject>` for attributes
+4. **String Wrapping**: Wrap strings in `NSString`: `new NSString("value")`
+
+## Troubleshooting
+
+**Issue**: "Could not find a part of the path..." on Windows
+- This is the Windows 260-character path limit issue
+- See FAQ in original README for solutions (enable long paths, shorten paths, use command line builds)
+
+**Issue**: No data appearing in Datadog
+- Verify client token and application ID
+- Check `DDTrackingConsent.Granted` is set
+- Verify site configuration matches your Datadog account
+- Check network connectivity
 
 ## License
 
