@@ -37,13 +37,13 @@ jobs:
         run: dotnet workload install ios
 
       - name: Restore dependencies
-        run: dotnet restore src/iOS/iOSBindings.sln /p:CheckEolTargetFramework=false
+        run: dotnet restore src/iOS/iOSBindings.sln
 
       - name: Build iOS bindings
-        run: dotnet build src/iOS/iOSBindings.sln --configuration Release --no-restore /p:CheckEolTargetFramework=false
+        run: dotnet build src/iOS/iOSBindings.sln --configuration Release --no-restore
 
       - name: Package NuGet packages
-        run: dotnet pack src/iOS/iOSBindings.sln --configuration Release --no-build --output ./artifacts /p:CheckEolTargetFramework=false
+        run: dotnet pack src/iOS/iOSBindings.sln --configuration Release --no-build --output ./artifacts
 
       - name: Upload NuGet packages
         uses: actions/upload-artifact@v6
@@ -99,10 +99,10 @@ jobs:
           dotnet nuget add source ./artifacts --name local
 
       - name: Restore test app dependencies
-        run: dotnet restore src/iOS/T/Test.sln /p:CheckEolTargetFramework=false
+        run: dotnet restore src/iOS/T/Test.sln
 
       - name: Build test app
-        run: dotnet build src/iOS/T/Test.sln --configuration Release --no-restore -p:BuildIpa=true -p:CheckEolTargetFramework=false
+        run: dotnet build src/iOS/T/Test.sln --configuration Release --no-restore -p:BuildIpa=true
 
       - name: Upload test app
         uses: actions/upload-artifact@v6

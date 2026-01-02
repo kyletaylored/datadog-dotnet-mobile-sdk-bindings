@@ -1,0 +1,9 @@
+<Project>
+  <!--
+    This file applies properties to the test app project.
+    It suppresses the End-of-Life (EOL) check for net8.0-ios17.0 when building with .NET SDK 10+.
+  -->
+  <PropertyGroup>
+    <CheckEolTargetFramework>false</CheckEolTargetFramework>
+  </PropertyGroup>
+</Project>

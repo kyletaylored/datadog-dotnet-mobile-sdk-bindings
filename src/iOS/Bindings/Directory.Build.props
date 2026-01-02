@@ -1,0 +1,10 @@
+<Project>
+  <!--
+    This file applies properties to all projects in this directory tree.
+    It suppresses the End-of-Life (EOL) check for net8.0-ios17.0 when building with .NET SDK 10+.
+    This allows us to maintain backwards compatibility with .NET 8 while building on newer SDKs.
+  -->
+  <PropertyGroup>
+    <CheckEolTargetFramework>false</CheckEolTargetFramework>
+  </PropertyGroup>
+</Project>

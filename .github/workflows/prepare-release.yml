@@ -148,13 +148,13 @@ jobs:
         run: dotnet workload install ios
 
       - name: Restore dependencies
-        run: dotnet restore src/iOS/iOSBindings.sln /p:CheckEolTargetFramework=false
+        run: dotnet restore src/iOS/iOSBindings.sln
 
       - name: Build Release
-        run: dotnet build src/iOS/iOSBindings.sln --configuration Release --no-restore /p:CheckEolTargetFramework=false
+        run: dotnet build src/iOS/iOSBindings.sln --configuration Release --no-restore
 
       - name: Pack NuGet packages
-        run: dotnet pack src/iOS/iOSBindings.sln --configuration Release --no-build --output ./release-packages /p:CheckEolTargetFramework=false
+        run: dotnet pack src/iOS/iOSBindings.sln --configuration Release --no-build --output ./release-packages
 
       - name: List packages
         run: |
