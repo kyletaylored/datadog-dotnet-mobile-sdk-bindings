@@ -29,16 +29,16 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Download Android artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         with:
           name: android-nuget-packages
           path: ./artifacts/android
 
       - name: Download iOS artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         with:
           name: ios-nuget-packages
           path: ./artifacts/ios
@@ -62,7 +62,7 @@ jobs:
           find ./artifacts -name "*.nupkg" -exec basename {} \; | sort
 
       - name: Upload combined artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: all-nuget-packages
           path: ./artifacts/**/*.nupkg
