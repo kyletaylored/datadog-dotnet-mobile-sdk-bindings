@@ -1,0 +1,142 @@
+name: Update Submodules
+
+on:
+  workflow_dispatch:
+    inputs:
+      android-version:
+        description: 'Android SDK version (e.g., v2.21.0)'
+        required: false
+        type: string
+      ios-version:
+        description: 'iOS SDK version (e.g., 2.26.0)'
+        required: false
+        type: string
+      create-pr:
+        description: 'Create pull request with changes'
+        required: true
+        type: boolean
+        default: true
+  schedule:
+    # Check for updates weekly on Monday at 10 AM UTC
+    - cron: '0 10 * * 1'
+
+jobs:
+  update-android-submodule:
+    name: Update Android SDK Submodule
+    runs-on: ubuntu-latest
+    if: github.event.inputs.android-version != '' || github.event_name == 'schedule'
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Update dd-sdk-android submodule
+        id: update-android
+        run: |
+          cd dd-sdk-android
+          git fetch --tags
+
+          if [ -n "${{ github.event.inputs.android-version }}" ]; then
+            TARGET_VERSION="${{ github.event.inputs.android-version }}"
+            echo "Updating to specified version: $TARGET_VERSION"
+          else
+            # Get latest tag
+            TARGET_VERSION=$(git describe --tags $(git rev-list --tags --max-count=1))
+            echo "Updating to latest version: $TARGET_VERSION"
+          fi
+
+          git checkout $TARGET_VERSION
+
+          cd ..
+          git add dd-sdk-android
+
+          echo "version=$TARGET_VERSION" >> $GITHUB_OUTPUT
+          echo "updated=true" >> $GITHUB_OUTPUT
+
+      - name: Create Pull Request
+        if: steps.update-android.outputs.updated == 'true' && github.event.inputs.create-pr == 'true'
+        uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: 'Update dd-sdk-android to ${{ steps.update-android.outputs.version }}'
+          branch: update-android-sdk-${{ steps.update-android.outputs.version }}
+          title: 'Update Android SDK to ${{ steps.update-android.outputs.version }}'
+          body: |
+            ## Update Android SDK Submodule
+
+            This PR updates the `dd-sdk-android` submodule to version `${{ steps.update-android.outputs.version }}`.
+
+            ### Checklist
+            - [ ] Run `cd src/Android && ./build-aars.sh && ./copy-aars.sh`
+            - [ ] Update version in all Android `.csproj` files
+            - [ ] Update `PackageTags` with new `artifact_versioned` version
+            - [ ] Test build on all binding projects
+            - [ ] Update CHANGELOG.md
+            - [ ] Review release notes: https://github.com/DataDog/dd-sdk-android/releases/tag/${{ steps.update-android.outputs.version }}
+          labels: |
+            android
+            dependencies
+            submodule-update
+
+  update-ios-submodule:
+    name: Update iOS SDK Submodule
+    runs-on: ubuntu-latest
+    if: github.event.inputs.ios-version != '' || github.event_name == 'schedule'
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Update dd-sdk-ios submodule
+        id: update-ios
+        run: |
+          cd dd-sdk-ios
+          git fetch --tags
+
+          if [ -n "${{ github.event.inputs.ios-version }}" ]; then
+            TARGET_VERSION="${{ github.event.inputs.ios-version }}"
+            echo "Updating to specified version: $TARGET_VERSION"
+          else
+            # Get latest tag
+            TARGET_VERSION=$(git describe --tags $(git rev-list --tags --max-count=1))
+            echo "Updating to latest version: $TARGET_VERSION"
+          fi
+
+          git checkout $TARGET_VERSION
+
+          cd ..
+          git add dd-sdk-ios
+
+          echo "version=$TARGET_VERSION" >> $GITHUB_OUTPUT
+          echo "updated=true" >> $GITHUB_OUTPUT
+
+      - name: Create Pull Request
+        if: steps.update-ios.outputs.updated == 'true' && github.event.inputs.create-pr == 'true'
+        uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: 'Update dd-sdk-ios to ${{ steps.update-ios.outputs.version }}'
+          branch: update-ios-sdk-${{ steps.update-ios.outputs.version }}
+          title: 'Update iOS SDK to ${{ steps.update-ios.outputs.version }}'
+          body: |
+            ## Update iOS SDK Submodule
+
+            This PR updates the `dd-sdk-ios` submodule to version `${{ steps.update-ios.outputs.version }}`.
+
+            ### Checklist
+            - [ ] Run `cd src/iOS && ./buildxcframework.sh && ./buildobjectivesharpiebindings.sh`
+            - [ ] Review and fix Objective Sharpie output
+            - [ ] Update version in all iOS `.csproj` files
+            - [ ] Test build on all binding projects
+            - [ ] Update CHANGELOG.md
+            - [ ] Review release notes: https://github.com/DataDog/dd-sdk-ios/releases/tag/${{ steps.update-ios.outputs.version }}
+          labels: |
+            ios
+            dependencies
+            submodule-update
