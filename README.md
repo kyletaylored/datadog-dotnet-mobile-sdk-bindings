@@ -1,6 +1,6 @@
 # .NET Bindings for the Datadog Mobile SDKs
 
-Official .NET bindings for the **Datadog Mobile SDKs** on **Android** and **iOS**, enabling Real User Monitoring (RUM), Logging, Tracing, and Session Replay in:
+Unofficial .NET bindings for the **Datadog Mobile SDKs** on **Android** and **iOS**, enabling Real User Monitoring (RUM), Logging, Tracing, and Session Replay in:
 
 - .NET for Android
 - .NET for iOS
@@ -11,6 +11,7 @@ Official .NET bindings for the **Datadog Mobile SDKs** on **Android** and **iOS*
 These are **binding layers** that expose the native Datadog Android (Java/Kotlin) and iOS (Objective-C/Swift) SDK APIs directly to C#. They are **not wrapper SDKs** - they provide 1:1 API mappings to the native SDKs.
 
 For more information about the underlying SDKs:
+
 - [Datadog iOS SDK Repository](https://github.com/DataDog/dd-sdk-ios)
 - [Datadog Android SDK Repository](https://github.com/DataDog/dd-sdk-android)
 - [Datadog Documentation](https://docs.datadoghq.com/)
@@ -18,14 +19,17 @@ For more information about the underlying SDKs:
 ## Requirements
 
 ### .NET
+
 - **.NET 10** (required for Android due to 16KB page size and binding fixes)
 - .NET 8 or 9 may work for iOS
 
 ### Android
+
 - Android API Level **26+** (Android 8.0 Oreo)
 - Java SDK configured (`JAVA_HOME`)
 
 ### iOS
+
 - iOS **17.0+**
 - Xcode with command line tools
 - macOS development environment
@@ -198,16 +202,16 @@ public override bool FinishedLaunching(UIApplication application, NSDictionary l
 
 These bindings provide access to all major Datadog Mobile SDK features:
 
-| Feature | Android Package | iOS Package | Description |
-|---------|----------------|-------------|-------------|
-| **Core** | `Bcr.Datadog.Android.Sdk.Core` | `Bcr.Datadog.iOS.Sdk.ObjC` | Required base SDK |
-| **Logs** | `Bcr.Datadog.Android.Sdk.Logs` | `Bcr.Datadog.iOS.Sdk.DDLogs` | Log collection and forwarding |
-| **RUM** | `Bcr.Datadog.Android.Sdk.Rum` | `Bcr.Datadog.iOS.Sdk.Rum` | Real User Monitoring |
-| **Trace** | `Bcr.Datadog.Android.Sdk.Trace` | `Bcr.Datadog.iOS.Sdk.Trace` | APM and distributed tracing |
-| **Session Replay** | `Bcr.Datadog.Android.Sdk.SessionReplay` | `Bcr.Datadog.iOS.Sdk.SessionReplay` | User session recording |
-| **WebView Tracking** | `Bcr.Datadog.Android.Sdk.WebView` | `Bcr.Datadog.iOS.Sdk.WebViewTracking` | WebView instrumentation |
-| **Crash Reporting** | `Bcr.Datadog.Android.Sdk.Ndk` | `Bcr.Datadog.iOS.Sdk.CrashReporting` | Native crash detection |
-| **OpenTelemetry** | `Bcr.Datadog.Android.Sdk.Trace.Otel` | `Bcr.Datadog.iOS.Sdk.OpenTelemetryApi` | OTel integration |
+| Feature              | Android Package                         | iOS Package                            | Description                   |
+| -------------------- | --------------------------------------- | -------------------------------------- | ----------------------------- |
+| **Core**             | `Bcr.Datadog.Android.Sdk.Core`          | `Bcr.Datadog.iOS.Sdk.ObjC`             | Required base SDK             |
+| **Logs**             | `Bcr.Datadog.Android.Sdk.Logs`          | `Bcr.Datadog.iOS.Sdk.DDLogs`           | Log collection and forwarding |
+| **RUM**              | `Bcr.Datadog.Android.Sdk.Rum`           | `Bcr.Datadog.iOS.Sdk.Rum`              | Real User Monitoring          |
+| **Trace**            | `Bcr.Datadog.Android.Sdk.Trace`         | `Bcr.Datadog.iOS.Sdk.Trace`            | APM and distributed tracing   |
+| **Session Replay**   | `Bcr.Datadog.Android.Sdk.SessionReplay` | `Bcr.Datadog.iOS.Sdk.SessionReplay`    | User session recording        |
+| **WebView Tracking** | `Bcr.Datadog.Android.Sdk.WebView`       | `Bcr.Datadog.iOS.Sdk.WebViewTracking`  | WebView instrumentation       |
+| **Crash Reporting**  | `Bcr.Datadog.Android.Sdk.Ndk`           | `Bcr.Datadog.iOS.Sdk.CrashReporting`   | Native crash detection        |
+| **OpenTelemetry**    | `Bcr.Datadog.Android.Sdk.Trace.Otel`    | `Bcr.Datadog.iOS.Sdk.OpenTelemetryApi` | OTel integration              |
 
 ### Feature Documentation
 
@@ -241,6 +245,7 @@ These samples demonstrate real-world initialization and usage patterns.
 ## Versioning
 
 Binding versions mirror the native SDK versions:
+
 - Version `2.21.0-pre.1` binds version `2.21.0` of the native SDK
 - The revision number (`.1`) is incremented for binding-specific updates
 
@@ -264,6 +269,7 @@ Binding versions mirror the native SDK versions:
 ## Support
 
 This repository provides bindings only. For SDK usage, features, and troubleshooting:
+
 - Refer to [Official Datadog Documentation](https://docs.datadoghq.com/)
 - See [Datadog Support](https://www.datadoghq.com/support/)
 
