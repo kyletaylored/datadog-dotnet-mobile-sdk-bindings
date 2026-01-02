@@ -59,16 +59,18 @@ Install the NuGet packages you need for your platform and features:
 #### iOS Packages
 
 ```xml
-<!-- Core SDK (required) -->
-<PackageReference Include="Bcr.Datadog.iOS.Sdk.ObjC" Version="2.x.x" />
+<!-- Core SDK with Logs, RUM, and Trace (required) -->
+<PackageReference Include="Bcr.Datadog.iOS.ObjC" Version="2.26.0" />
 
-<!-- Feature packages (install as needed) -->
-<PackageReference Include="Bcr.Datadog.iOS.Sdk.DDLogs" Version="2.x.x" />
-<PackageReference Include="Bcr.Datadog.iOS.Sdk.Rum" Version="2.x.x" />
-<PackageReference Include="Bcr.Datadog.iOS.Sdk.Trace" Version="2.x.x" />
-<PackageReference Include="Bcr.Datadog.iOS.Sdk.SessionReplay" Version="2.x.x" />
-<PackageReference Include="Bcr.Datadog.iOS.Sdk.WebViewTracking" Version="2.x.x" />
-<PackageReference Include="Bcr.Datadog.iOS.Sdk.CrashReporting" Version="2.x.x" />
+<!-- Additional feature packages (install as needed) -->
+<PackageReference Include="Bcr.Datadog.iOS.CR" Version="2.26.0" />   <!-- Crash Reporting -->
+<PackageReference Include="Bcr.Datadog.iOS.SR" Version="2.26.0" />   <!-- Session Replay -->
+<PackageReference Include="Bcr.Datadog.iOS.Web" Version="2.26.0" />  <!-- WebView Tracking -->
+
+<!-- Low-level framework bindings (typically not needed directly) -->
+<PackageReference Include="Bcr.Datadog.iOS.Logs" Version="2.26.0" />  <!-- Used by ObjC -->
+<PackageReference Include="Bcr.Datadog.iOS.RUM" Version="2.26.0" />   <!-- Used by ObjC -->
+<PackageReference Include="Bcr.Datadog.iOS.Trace" Version="2.26.0" /> <!-- Used by ObjC -->
 ```
 
 ### Basic Initialization
@@ -202,16 +204,16 @@ public override bool FinishedLaunching(UIApplication application, NSDictionary l
 
 These bindings provide access to all major Datadog Mobile SDK features:
 
-| Feature              | Android Package                         | iOS Package                            | Description                   |
-| -------------------- | --------------------------------------- | -------------------------------------- | ----------------------------- |
-| **Core**             | `Bcr.Datadog.Android.Sdk.Core`          | `Bcr.Datadog.iOS.Sdk.ObjC`             | Required base SDK             |
-| **Logs**             | `Bcr.Datadog.Android.Sdk.Logs`          | `Bcr.Datadog.iOS.Sdk.DDLogs`           | Log collection and forwarding |
-| **RUM**              | `Bcr.Datadog.Android.Sdk.Rum`           | `Bcr.Datadog.iOS.Sdk.Rum`              | Real User Monitoring          |
-| **Trace**            | `Bcr.Datadog.Android.Sdk.Trace`         | `Bcr.Datadog.iOS.Sdk.Trace`            | APM and distributed tracing   |
-| **Session Replay**   | `Bcr.Datadog.Android.Sdk.SessionReplay` | `Bcr.Datadog.iOS.Sdk.SessionReplay`    | User session recording        |
-| **WebView Tracking** | `Bcr.Datadog.Android.Sdk.WebView`       | `Bcr.Datadog.iOS.Sdk.WebViewTracking`  | WebView instrumentation       |
-| **Crash Reporting**  | `Bcr.Datadog.Android.Sdk.Ndk`           | `Bcr.Datadog.iOS.Sdk.CrashReporting`   | Native crash detection        |
-| **OpenTelemetry**    | `Bcr.Datadog.Android.Sdk.Trace.Otel`    | `Bcr.Datadog.iOS.Sdk.OpenTelemetryApi` | OTel integration              |
+| Feature              | Android Package                         | iOS Package                | Description                          |
+| -------------------- | --------------------------------------- | -------------------------- | ------------------------------------ |
+| **Core**             | `Bcr.Datadog.Android.Sdk.Core`          | `Bcr.Datadog.iOS.ObjC`     | Required base SDK (iOS includes Logs, RUM, Trace) |
+| **Logs**             | `Bcr.Datadog.Android.Sdk.Logs`          | _(included in ObjC)_       | Log collection and forwarding        |
+| **RUM**              | `Bcr.Datadog.Android.Sdk.Rum`           | _(included in ObjC)_       | Real User Monitoring                 |
+| **Trace**            | `Bcr.Datadog.Android.Sdk.Trace`         | _(included in ObjC)_       | APM and distributed tracing          |
+| **Session Replay**   | `Bcr.Datadog.Android.Sdk.SessionReplay` | `Bcr.Datadog.iOS.SR`       | User session recording               |
+| **WebView Tracking** | `Bcr.Datadog.Android.Sdk.WebView`       | `Bcr.Datadog.iOS.Web`      | WebView instrumentation              |
+| **Crash Reporting**  | `Bcr.Datadog.Android.Sdk.Ndk`           | `Bcr.Datadog.iOS.CR`       | Native crash detection               |
+| **OpenTelemetry**    | `Bcr.Datadog.Android.Sdk.Trace.Otel`    | `Bcr.Otel.Api.iOS`         | OTel integration                     |
 
 ### Feature Documentation
 
