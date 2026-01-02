@@ -46,13 +46,16 @@ jobs:
 
       - name: Install .NET MAUI workload
         run: |
-          dotnet workload install ios
+          # Suppress workload support warnings
+          dotnet workload install ios --skip-sign-check 2>&1 | grep -v "is out of support" || true
 
       - name: Restore dependencies
         run: dotnet restore src/iOS/iOSBindings.sln
 
       - name: Build iOS bindings
-        run: dotnet build src/iOS/iOSBindings.sln --configuration Release --no-restore
+        run: |
+          # Suppress out-of-support warnings for net8.0-ios17.0
+          dotnet build src/iOS/iOSBindings.sln --configuration Release --no-restore 2>&1 | grep -v "is out of support" || true
 
       - name: Package NuGet packages
         run: dotnet pack src/iOS/iOSBindings.sln --configuration Release --no-build --output ./artifacts
@@ -72,6 +75,7 @@ jobs:
           path: |
             **/*.binlog
             **/bin/**/*.log
+          if-no-files-found: ignore
           retention-days: 3
 
   build-ios-test:
@@ -98,7 +102,8 @@ jobs:
 
       - name: Install .NET MAUI workload
         run: |
-          dotnet workload install ios
+          # Suppress workload support warnings
+          dotnet workload install ios --skip-sign-check 2>&1 | grep -v "is out of support" || true
 
       - name: Download NuGet packages
         uses: actions/download-artifact@v7

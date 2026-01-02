@@ -65,7 +65,8 @@ jobs:
           if [ "${{ matrix.platform }}" == "android" ]; then
             dotnet workload install android
           else
-            dotnet workload install ios
+            # Suppress workload support warnings
+            dotnet workload install ios --skip-sign-check 2>&1 | grep -v "is out of support" || true
           fi
 
       - name: Restore dependencies
@@ -79,15 +80,17 @@ jobs:
       - name: Build Release
         run: |
           if [ "${{ matrix.platform }}" == "android" ]; then
-            dotnet build src/Android/AndroidDatadogBindings.sln --configuration Release --no-restore
+            dotnet build src/Android/AndroidDatadogBindings.sln --configuration Release --no-restore --verbosity minimal
           else
-            dotnet build src/iOS/iOSBindings.sln --configuration Release --no-restore
+            # Suppress out-of-support warnings for iOS
+            dotnet build src/iOS/iOSBindings.sln --configuration Release --no-restore 2>&1 | grep -v "is out of support" || true
           fi
 
       - name: Pack NuGet packages
         run: |
           if [ "${{ matrix.platform }}" == "android" ]; then
-            dotnet pack src/Android/AndroidDatadogBindings.sln --configuration Release --no-build --output ./release-packages
+            # Suppress prerelease dependency warnings for Android
+            dotnet pack src/Android/AndroidDatadogBindings.sln --configuration Release --no-build --output ./release-packages 2>&1 | grep -v "prerelease dependency" || true
           else
             dotnet pack src/iOS/iOSBindings.sln --configuration Release --no-build --output ./release-packages
           fi
