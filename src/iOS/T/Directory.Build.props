@@ -4,6 +4,8 @@
     It suppresses the End-of-Life (EOL) check for net8.0-ios17.0 when building with .NET SDK 10+.
   -->
   <PropertyGroup>
-    <CheckEolTargetFramework>false</CheckEolTargetFramework>
+    <!-- Suppress NETSDK1202 by downgrading from error to warning, then suppressing the warning -->
+    <MSBuildWarningsAsMessages>$(MSBuildWarningsAsMessages);NETSDK1202</MSBuildWarningsAsMessages>
+    <NoWarn>$(NoWarn);NETSDK1202;NU1202</NoWarn>
   </PropertyGroup>
 </Project>
