@@ -2,6 +2,10 @@
   <!--
     This file applies properties to the test app project.
     It suppresses the End-of-Life (EOL) check for net8.0-ios17.0 when building with .NET SDK 10+.
+
+    Known issue: .NET SDK 10 has a bug where it incorrectly reports net8.0-ios17.0 as net8.0-ios1.0
+    during package restore, causing NU1202 errors. This is a known NuGet issue and does not affect
+    the actual build. See: https://github.com/nuget/home/issues/14600
   -->
   <PropertyGroup>
     <!-- Downgrade NETSDK1202 and NU1202 from errors to warnings, then suppress them -->
@@ -10,5 +14,7 @@
     <!-- Also treat NuGet warnings as messages -->
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
     <WarningsNotAsErrors>$(WarningsNotAsErrors);NU1202</WarningsNotAsErrors>
+    <!-- Additional NuGet error suppression -->
+    <MSBuildTreatWarningsAsErrors>false</MSBuildTreatWarningsAsErrors>
   </PropertyGroup>
 </Project>
