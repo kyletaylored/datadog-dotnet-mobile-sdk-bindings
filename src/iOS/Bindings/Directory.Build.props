@@ -9,12 +9,12 @@
     the actual build. See: https://github.com/nuget/home/issues/14600
   -->
   <PropertyGroup>
-    <!-- Downgrade NETSDK1202 and NU1202 from errors to warnings, then suppress them -->
-    <MSBuildWarningsAsMessages>$(MSBuildWarningsAsMessages);NETSDK1202;NU1202</MSBuildWarningsAsMessages>
-    <NoWarn>$(NoWarn);NETSDK1202;NU1202</NoWarn>
+    <!-- Downgrade NETSDK1202, NU1202, and NETSDK1135 from errors to warnings, then suppress them -->
+    <MSBuildWarningsAsMessages>$(MSBuildWarningsAsMessages);NETSDK1202;NU1202;NETSDK1135</MSBuildWarningsAsMessages>
+    <NoWarn>$(NoWarn);NETSDK1202;NU1202;NETSDK1135</NoWarn>
     <!-- Also treat NuGet warnings as messages -->
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
-    <WarningsNotAsErrors>$(WarningsNotAsErrors);NU1202</WarningsNotAsErrors>
+    <WarningsNotAsErrors>$(WarningsNotAsErrors);NU1202;NETSDK1135</WarningsNotAsErrors>
     <!-- Additional NuGet error suppression -->
     <MSBuildTreatWarningsAsErrors>false</MSBuildTreatWarningsAsErrors>
   </PropertyGroup>
