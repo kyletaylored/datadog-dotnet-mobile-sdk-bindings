@@ -1,20 +1,26 @@
+using System;
 using Foundation;
 using ObjCRuntime;
 using UIKit;
 
 namespace Datadog.iOS.SessionReplay
 {
-	// remove weird category attempt
+	// @interface DatadogSessionReplay_Swift_310
+	interface DatadogSessionReplay_Swift_310
+	{
+		// @property (readonly, nonatomic, strong) DDSessionReplayPrivacyOverrides * _Nonnull ddSessionReplayPrivacyOverrides;
+		[Export ("ddSessionReplayPrivacyOverrides", ArgumentSemantic.Strong)]
+		DDSessionReplayPrivacyOverrides DdSessionReplayPrivacyOverrides { get; }
+	}
 
-	// @interface DDSessionReplay : NSObject
-	[BaseType (typeof(NSObject))]
+	// @interface DDSessionReplay
 	[DisableDefaultCtor]
 	interface DDSessionReplay
 	{
 		// +(void)enableWith:(DDSessionReplayConfiguration * _Nonnull)configuration;
 		[Static]
 		[Export ("enableWith:")]
-		void Enable (DDSessionReplayConfiguration configuration);
+		void EnableWith (DDSessionReplayConfiguration configuration);
 
 		// +(void)startRecording;
 		[Static]
@@ -27,8 +33,7 @@ namespace Datadog.iOS.SessionReplay
 		void StopRecording ();
 	}
 
-	// @interface DDSessionReplayConfiguration : NSObject
-	[BaseType (typeof(NSObject))]
+	// @interface DDSessionReplayConfiguration
 	[DisableDefaultCtor]
 	interface DDSessionReplayConfiguration
 	{
@@ -36,7 +41,9 @@ namespace Datadog.iOS.SessionReplay
 		[Export ("replaySampleRate")]
 		float ReplaySampleRate { get; set; }
 
-		// remove deprecated property DefaultPrivacyLevel
+		// @property (nonatomic) enum DDSessionReplayConfigurationPrivacyLevel defaultPrivacyLevel __attribute__((deprecated("This will be removed in future versions of the SDK. Use the new privacy levels instead.")));
+		[Export ("defaultPrivacyLevel", ArgumentSemantic.Assign)]
+		DDSessionReplayConfigurationPrivacyLevel DefaultPrivacyLevel { get; set; }
 
 		// @property (nonatomic) enum DDTextAndInputPrivacyLevel textAndInputPrivacyLevel;
 		[Export ("textAndInputPrivacyLevel", ArgumentSemantic.Assign)]
@@ -50,39 +57,37 @@ namespace Datadog.iOS.SessionReplay
 		[Export ("touchPrivacyLevel", ArgumentSemantic.Assign)]
 		DDTouchPrivacyLevel TouchPrivacyLevel { get; set; }
 
-		// @property (nonatomic) BOOL startRecordingImmediately;
+		// @property (nonatomic) int startRecordingImmediately;
 		[Export ("startRecordingImmediately")]
-		bool StartRecordingImmediately { get; set; }
+		int StartRecordingImmediately { get; set; }
 
-		// @property (copy, nonatomic) NSURL * _Nullable customEndpoint;
+		// @property (copy, nonatomic) NSUrl * _Nullable customEndpoint;
 		[NullAllowed, Export ("customEndpoint", ArgumentSemantic.Copy)]
 		NSUrl CustomEndpoint { get; set; }
 
-		// @property (copy, nonatomic) NSDictionary<NSString *,NSNumber *> * _Nonnull featureFlags;
-		[Export ("featureFlags", ArgumentSemantic.Copy)]
-		NSDictionary<NSString, NSNumber> FeatureFlags { get; set; }
-
-		// -(instancetype _Nonnull)initWithReplaySampleRate:(float)replaySampleRate textAndInputPrivacyLevel:(enum DDTextAndInputPrivacyLevel)textAndInputPrivacyLevel imagePrivacyLevel:(enum DDImagePrivacyLevel)imagePrivacyLevel touchPrivacyLevel:(enum DDTouchPrivacyLevel)touchPrivacyLevel featureFlags:(NSDictionary<NSString *,NSNumber *> * _Nullable)featureFlags __attribute__((objc_designated_initializer));
+		// -(instancetype _Nonnull)initWithReplaySampleRate:(float)replaySampleRate textAndInputPrivacyLevel:(enum DDTextAndInputPrivacyLevel)textAndInputPrivacyLevel imagePrivacyLevel:(enum DDImagePrivacyLevel)imagePrivacyLevel touchPrivacyLevel:(enum DDTouchPrivacyLevel)touchPrivacyLevel featureFlags:(id)featureFlags __attribute__((objc_designated_initializer));
 		[Export ("initWithReplaySampleRate:textAndInputPrivacyLevel:imagePrivacyLevel:touchPrivacyLevel:featureFlags:")]
 		[DesignatedInitializer]
-		NativeHandle Constructor (float replaySampleRate, DDTextAndInputPrivacyLevel textAndInputPrivacyLevel, DDImagePrivacyLevel imagePrivacyLevel, DDTouchPrivacyLevel touchPrivacyLevel, [NullAllowed] NSDictionary<NSString, NSNumber> featureFlags);
+		NativeHandle Constructor (float replaySampleRate, DDTextAndInputPrivacyLevel textAndInputPrivacyLevel, DDImagePrivacyLevel imagePrivacyLevel, DDTouchPrivacyLevel touchPrivacyLevel, NSObject featureFlags);
 
 		// -(instancetype _Nonnull)initWithReplaySampleRate:(float)replaySampleRate textAndInputPrivacyLevel:(enum DDTextAndInputPrivacyLevel)textAndInputPrivacyLevel imagePrivacyLevel:(enum DDImagePrivacyLevel)imagePrivacyLevel touchPrivacyLevel:(enum DDTouchPrivacyLevel)touchPrivacyLevel;
 		[Export ("initWithReplaySampleRate:textAndInputPrivacyLevel:imagePrivacyLevel:touchPrivacyLevel:")]
 		NativeHandle Constructor (float replaySampleRate, DDTextAndInputPrivacyLevel textAndInputPrivacyLevel, DDImagePrivacyLevel imagePrivacyLevel, DDTouchPrivacyLevel touchPrivacyLevel);
 
-		// remove deprecated constructor
+		// -(instancetype _Nonnull)initWithReplaySampleRate:(float)replaySampleRate __attribute__((objc_designated_initializer)) __attribute__((deprecated("This will be removed in future versions of the SDK. Use `init(replaySampleRate:textAndInputPrivacyLevel:imagePrivacyLevel:touchPrivacyLevel:)` instead.")));
+		[Export ("initWithReplaySampleRate:")]
+		[DesignatedInitializer]
+		NativeHandle Constructor (float replaySampleRate);
 	}
 
-	// @interface DDSessionReplayPrivacyOverrides : NSObject
-	[BaseType (typeof(NSObject))]
+	// @interface DDSessionReplayPrivacyOverrides
 	[DisableDefaultCtor]
 	interface DDSessionReplayPrivacyOverrides
 	{
-		// -(instancetype _Nonnull)initWithView:(UIView * _Nonnull)view __attribute__((objc_designated_initializer));
+		// -(instancetype _Nonnull)initWithView:(id)view __attribute__((objc_designated_initializer));
 		[Export ("initWithView:")]
 		[DesignatedInitializer]
-		NativeHandle Constructor (UIView view);
+		NativeHandle Constructor (NSObject view);
 
 		// @property (nonatomic) enum DDTextAndInputPrivacyLevelOverride textAndInputPrivacy;
 		[Export ("textAndInputPrivacy", ArgumentSemantic.Assign)]

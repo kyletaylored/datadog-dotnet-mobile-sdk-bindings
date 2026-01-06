@@ -18,7 +18,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDConfiguration
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc15DDConfiguration")]
 	[DisableDefaultCtor]
 	interface DDConfiguration
 	{
@@ -52,15 +51,15 @@ namespace Datadog.iOS.ObjC
 
 		// @property (copy, nonatomic) int * _Nullable proxyConfiguration;
 		[NullAllowed, Export ("proxyConfiguration", ArgumentSemantic.Copy)]
-		IntPtr ProxyConfiguration { get; set; }
+		unsafe int* ProxyConfiguration { get; set; }
 
-		// -(void)setEncryption:(id<NSObject> _Nonnull)encryption;
+		// -(void)setEncryption:(id<DDDataEncryption> _Nonnull)encryption;
 		[Export ("setEncryption:")]
-		void SetEncryption (NSObject encryption);
+		void SetEncryption (DDDataEncryption encryption);
 
-		// -(void)setServerDateProvider:(id<NSObject> _Nonnull)serverDateProvider;
+		// -(void)setServerDateProvider:(id<DDServerDateProvider> _Nonnull)serverDateProvider;
 		[Export ("setServerDateProvider:")]
-		void SetServerDateProvider (NSObject serverDateProvider);
+		void SetServerDateProvider (DDServerDateProvider serverDateProvider);
 
 		// @property (nonatomic, strong) NSBundle * _Nonnull bundle;
 		[Export ("bundle", ArgumentSemantic.Strong)]
@@ -102,7 +101,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDDatadog
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc9DDDatadog")]
 	interface DDDatadog
 	{
 		// +(void)initializeWithConfiguration:(DDConfiguration * _Nonnull)configuration trackingConsent:(DDTrackingConsent * _Nonnull)trackingConsent;
@@ -223,7 +221,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDHTTPHeadersWriter
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc19DDHTTPHeadersWriter")]
 	[DisableDefaultCtor]
 	interface DDHTTPHeadersWriter
 	{
@@ -234,7 +231,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDInternalLogger
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc16DDInternalLogger")]
 	interface DDInternalLogger
 	{
 		// +(void)consolePrint:(NSString * _Nonnull)message :(enum DDCoreLoggerLevel)level;
@@ -254,7 +250,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDLogEvent
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc10DDLogEvent")]
 	[DisableDefaultCtor]
 	interface DDLogEvent
 	{
@@ -336,14 +331,12 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDLogEventAttributes
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc20DDLogEventAttributes")]
 	[DisableDefaultCtor]
 	interface DDLogEventAttributes
 	{
 	}
 
 	// @interface DDLogEventBinaryImage
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc21DDLogEventBinaryImage")]
 	[DisableDefaultCtor]
 	interface DDLogEventBinaryImage
 	{
@@ -373,7 +366,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDLogEventCarrierInfo
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc21DDLogEventCarrierInfo")]
 	[DisableDefaultCtor]
 	interface DDLogEventCarrierInfo
 	{
@@ -395,7 +387,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDLogEventDd
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc12DDLogEventDd")]
 	[DisableDefaultCtor]
 	interface DDLogEventDd
 	{
@@ -405,7 +396,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDLogEventDeviceInfo
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc20DDLogEventDeviceInfo")]
 	[DisableDefaultCtor]
 	interface DDLogEventDeviceInfo
 	{
@@ -427,7 +417,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDLogEventError
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc15DDLogEventError")]
 	[DisableDefaultCtor]
 	interface DDLogEventError
 	{
@@ -453,7 +442,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDLogEventNetworkConnectionInfo
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc31DDLogEventNetworkConnectionInfo")]
 	[DisableDefaultCtor]
 	interface DDLogEventNetworkConnectionInfo
 	{
@@ -479,7 +467,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDLogEventOperatingSystem
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc25DDLogEventOperatingSystem")]
 	[DisableDefaultCtor]
 	interface DDLogEventOperatingSystem
 	{
@@ -497,7 +484,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDLogEventUserInfo
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc18DDLogEventUserInfo")]
 	[DisableDefaultCtor]
 	interface DDLogEventUserInfo
 	{
@@ -515,7 +501,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDLogger
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc8DDLogger")]
 	[DisableDefaultCtor]
 	interface DDLogger
 	{
@@ -622,7 +607,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDLoggerConfiguration
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc21DDLoggerConfiguration")]
 	[DisableDefaultCtor]
 	interface DDLoggerConfiguration
 	{
@@ -665,7 +649,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDLogs
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc6DDLogs")]
 	interface DDLogs
 	{
 		// +(void)enableWith:(DDLogsConfiguration * _Nonnull)configuration;
@@ -685,7 +668,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDLogsConfiguration
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc19DDLogsConfiguration")]
 	[DisableDefaultCtor]
 	interface DDLogsConfiguration
 	{
@@ -704,7 +686,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDNSURLSessionDelegate
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc22DDNSURLSessionDelegate")]
 	interface DDNSURLSessionDelegate
 	{
 		// -(instancetype _Nonnull)initWithAdditionalFirstPartyHostsWithHeaderTypes:(id)additionalFirstPartyHostsWithHeaderTypes __attribute__((objc_designated_initializer));
@@ -729,7 +710,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUM
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc5DDRUM")]
 	interface DDRUM
 	{
 		// +(void)enableWith:(DDRUMConfiguration * _Nonnull)configuration;
@@ -754,7 +734,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMActionEvent
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc16DDRUMActionEvent")]
 	[DisableDefaultCtor]
 	interface DDRUMActionEvent
 	{
@@ -848,7 +827,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMActionEventAccount
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc23DDRUMActionEventAccount")]
 	[DisableDefaultCtor]
 	interface DDRUMActionEventAccount
 	{
@@ -862,7 +840,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMActionEventAction
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc22DDRUMActionEventAction")]
 	[DisableDefaultCtor]
 	interface DDRUMActionEventAction
 	{
@@ -904,7 +881,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMActionEventActionCrash
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc27DDRUMActionEventActionCrash")]
 	[DisableDefaultCtor]
 	interface DDRUMActionEventActionCrash
 	{
@@ -914,7 +890,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMActionEventActionError
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc27DDRUMActionEventActionError")]
 	[DisableDefaultCtor]
 	interface DDRUMActionEventActionError
 	{
@@ -924,14 +899,12 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMActionEventActionFrustration
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc33DDRUMActionEventActionFrustration")]
 	[DisableDefaultCtor]
 	interface DDRUMActionEventActionFrustration
 	{
 	}
 
 	// @interface DDRUMActionEventActionLongTask
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc30DDRUMActionEventActionLongTask")]
 	[DisableDefaultCtor]
 	interface DDRUMActionEventActionLongTask
 	{
@@ -941,7 +914,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMActionEventActionResource
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc30DDRUMActionEventActionResource")]
 	[DisableDefaultCtor]
 	interface DDRUMActionEventActionResource
 	{
@@ -951,7 +923,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMActionEventActionTarget
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc28DDRUMActionEventActionTarget")]
 	[DisableDefaultCtor]
 	interface DDRUMActionEventActionTarget
 	{
@@ -961,7 +932,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMActionEventApplication
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc27DDRUMActionEventApplication")]
 	[DisableDefaultCtor]
 	interface DDRUMActionEventApplication
 	{
@@ -971,7 +941,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMActionEventContainer
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc25DDRUMActionEventContainer")]
 	[DisableDefaultCtor]
 	interface DDRUMActionEventContainer
 	{
@@ -985,7 +954,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMActionEventContainerView
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc29DDRUMActionEventContainerView")]
 	[DisableDefaultCtor]
 	interface DDRUMActionEventContainerView
 	{
@@ -995,7 +963,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMActionEventDD
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc18DDRUMActionEventDD")]
 	[DisableDefaultCtor]
 	interface DDRUMActionEventDD
 	{
@@ -1021,7 +988,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMActionEventDDAction
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc24DDRUMActionEventDDAction")]
 	[DisableDefaultCtor]
 	interface DDRUMActionEventDDAction
 	{
@@ -1039,7 +1005,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMActionEventDDActionPosition
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc32DDRUMActionEventDDActionPosition")]
 	[DisableDefaultCtor]
 	interface DDRUMActionEventDDActionPosition
 	{
@@ -1053,7 +1018,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMActionEventDDActionTarget
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc30DDRUMActionEventDDActionTarget")]
 	[DisableDefaultCtor]
 	interface DDRUMActionEventDDActionTarget
 	{
@@ -1063,7 +1027,7 @@ namespace Datadog.iOS.ObjC
 
 		// @property (readonly, copy, nonatomic) NSString * _Nullable selector;
 		[NullAllowed, Export ("selector")]
-		string TargetSelector { get; }
+		string Selector { get; }
 
 		// @property (readonly, nonatomic, strong) NSNumber * _Nullable width;
 		[NullAllowed, Export ("width", ArgumentSemantic.Strong)]
@@ -1071,7 +1035,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMActionEventDDConfiguration
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc31DDRUMActionEventDDConfiguration")]
 	[DisableDefaultCtor]
 	interface DDRUMActionEventDDConfiguration
 	{
@@ -1085,7 +1048,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMActionEventDDSession
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc25DDRUMActionEventDDSession")]
 	[DisableDefaultCtor]
 	interface DDRUMActionEventDDSession
 	{
@@ -1099,7 +1061,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMActionEventDisplay
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc23DDRUMActionEventDisplay")]
 	[DisableDefaultCtor]
 	interface DDRUMActionEventDisplay
 	{
@@ -1109,7 +1070,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMActionEventDisplayViewport
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc31DDRUMActionEventDisplayViewport")]
 	[DisableDefaultCtor]
 	interface DDRUMActionEventDisplayViewport
 	{
@@ -1123,7 +1083,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMActionEventRUMCITest
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc25DDRUMActionEventRUMCITest")]
 	[DisableDefaultCtor]
 	interface DDRUMActionEventRUMCITest
 	{
@@ -1133,7 +1092,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMActionEventRUMConnectivity
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc31DDRUMActionEventRUMConnectivity")]
 	[DisableDefaultCtor]
 	interface DDRUMActionEventRUMConnectivity
 	{
@@ -1151,7 +1109,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMActionEventRUMConnectivityCellular
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc39DDRUMActionEventRUMConnectivityCellular")]
 	[DisableDefaultCtor]
 	interface DDRUMActionEventRUMConnectivityCellular
 	{
@@ -1165,7 +1122,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMActionEventRUMDevice
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc25DDRUMActionEventRUMDevice")]
 	[DisableDefaultCtor]
 	interface DDRUMActionEventRUMDevice
 	{
@@ -1191,14 +1147,12 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMActionEventRUMEventAttributes
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc34DDRUMActionEventRUMEventAttributes")]
 	[DisableDefaultCtor]
 	interface DDRUMActionEventRUMEventAttributes
 	{
 	}
 
 	// @interface DDRUMActionEventRUMOperatingSystem
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc34DDRUMActionEventRUMOperatingSystem")]
 	[DisableDefaultCtor]
 	interface DDRUMActionEventRUMOperatingSystem
 	{
@@ -1220,7 +1174,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMActionEventRUMSyntheticsTest
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc33DDRUMActionEventRUMSyntheticsTest")]
 	[DisableDefaultCtor]
 	interface DDRUMActionEventRUMSyntheticsTest
 	{
@@ -1238,7 +1191,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMActionEventRUMUser
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc23DDRUMActionEventRUMUser")]
 	[DisableDefaultCtor]
 	interface DDRUMActionEventRUMUser
 	{
@@ -1260,7 +1212,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMActionEventSession
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc23DDRUMActionEventSession")]
 	[DisableDefaultCtor]
 	interface DDRUMActionEventSession
 	{
@@ -1278,7 +1229,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMActionEventView
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc20DDRUMActionEventView")]
 	[DisableDefaultCtor]
 	interface DDRUMActionEventView
 	{
@@ -1304,7 +1254,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMConfiguration
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc18DDRUMConfiguration")]
 	[DisableDefaultCtor]
 	interface DDRUMConfiguration
 	{
@@ -1325,13 +1274,13 @@ namespace Datadog.iOS.ObjC
 		[Export ("telemetrySampleRate")]
 		float TelemetrySampleRate { get; set; }
 
-		// @property (nonatomic, strong) id<NSObject> _Nullable uiKitViewsPredicate;
+		// @property (nonatomic, strong) id<DDUIKitRUMViewsPredicate> _Nullable uiKitViewsPredicate;
 		[NullAllowed, Export ("uiKitViewsPredicate", ArgumentSemantic.Strong)]
-		NSObject UiKitViewsPredicate { get; set; }
+		DDUIKitRUMViewsPredicate UiKitViewsPredicate { get; set; }
 
-		// @property (nonatomic, strong) id<NSObject> _Nullable uiKitActionsPredicate;
+		// @property (nonatomic, strong) id<DDUIKitRUMActionsPredicate> _Nullable uiKitActionsPredicate;
 		[NullAllowed, Export ("uiKitActionsPredicate", ArgumentSemantic.Strong)]
-		NSObject UiKitActionsPredicate { get; set; }
+		DDUIKitRUMActionsPredicate UiKitActionsPredicate { get; set; }
 
 		// -(void)setURLSessionTracking:(DDRUMURLSessionTracking * _Nonnull)tracking;
 		[Export ("setURLSessionTracking:")]
@@ -1395,7 +1344,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMErrorEvent
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc15DDRUMErrorEvent")]
 	[DisableDefaultCtor]
 	interface DDRUMErrorEvent
 	{
@@ -1501,7 +1449,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMErrorEventAccount
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc22DDRUMErrorEventAccount")]
 	[DisableDefaultCtor]
 	interface DDRUMErrorEventAccount
 	{
@@ -1515,7 +1462,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMErrorEventAction
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc21DDRUMErrorEventAction")]
 	[DisableDefaultCtor]
 	interface DDRUMErrorEventAction
 	{
@@ -1525,7 +1471,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMErrorEventActionRUMActionID
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc32DDRUMErrorEventActionRUMActionID")]
 	[DisableDefaultCtor]
 	interface DDRUMErrorEventActionRUMActionID
 	{
@@ -1535,7 +1480,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMErrorEventApplication
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc26DDRUMErrorEventApplication")]
 	[DisableDefaultCtor]
 	interface DDRUMErrorEventApplication
 	{
@@ -1545,7 +1489,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMErrorEventContainer
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc24DDRUMErrorEventContainer")]
 	[DisableDefaultCtor]
 	interface DDRUMErrorEventContainer
 	{
@@ -1559,7 +1502,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMErrorEventContainerView
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc28DDRUMErrorEventContainerView")]
 	[DisableDefaultCtor]
 	interface DDRUMErrorEventContainerView
 	{
@@ -1569,7 +1511,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMErrorEventDD
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc17DDRUMErrorEventDD")]
 	[DisableDefaultCtor]
 	interface DDRUMErrorEventDD
 	{
@@ -1591,7 +1532,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMErrorEventDDConfiguration
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc30DDRUMErrorEventDDConfiguration")]
 	[DisableDefaultCtor]
 	interface DDRUMErrorEventDDConfiguration
 	{
@@ -1605,7 +1545,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMErrorEventDDSession
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc24DDRUMErrorEventDDSession")]
 	[DisableDefaultCtor]
 	interface DDRUMErrorEventDDSession
 	{
@@ -1619,7 +1558,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMErrorEventDisplay
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc22DDRUMErrorEventDisplay")]
 	[DisableDefaultCtor]
 	interface DDRUMErrorEventDisplay
 	{
@@ -1629,7 +1567,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMErrorEventDisplayViewport
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc30DDRUMErrorEventDisplayViewport")]
 	[DisableDefaultCtor]
 	interface DDRUMErrorEventDisplayViewport
 	{
@@ -1643,7 +1580,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMErrorEventError
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc20DDRUMErrorEventError")]
 	[DisableDefaultCtor]
 	interface DDRUMErrorEventError
 	{
@@ -1713,7 +1649,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMErrorEventErrorBinaryImages
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc32DDRUMErrorEventErrorBinaryImages")]
 	[DisableDefaultCtor]
 	interface DDRUMErrorEventErrorBinaryImages
 	{
@@ -1743,7 +1678,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMErrorEventErrorCSP
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc23DDRUMErrorEventErrorCSP")]
 	[DisableDefaultCtor]
 	interface DDRUMErrorEventErrorCSP
 	{
@@ -1753,7 +1687,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMErrorEventErrorCauses
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc26DDRUMErrorEventErrorCauses")]
 	[DisableDefaultCtor]
 	interface DDRUMErrorEventErrorCauses
 	{
@@ -1775,7 +1708,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMErrorEventErrorMeta
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc24DDRUMErrorEventErrorMeta")]
 	[DisableDefaultCtor]
 	interface DDRUMErrorEventErrorMeta
 	{
@@ -1809,7 +1741,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMErrorEventErrorResource
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc28DDRUMErrorEventErrorResource")]
 	[DisableDefaultCtor]
 	interface DDRUMErrorEventErrorResource
 	{
@@ -1831,7 +1762,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMErrorEventErrorResourceProvider
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc36DDRUMErrorEventErrorResourceProvider")]
 	[DisableDefaultCtor]
 	interface DDRUMErrorEventErrorResourceProvider
 	{
@@ -1849,7 +1779,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMErrorEventErrorThreads
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc27DDRUMErrorEventErrorThreads")]
 	[DisableDefaultCtor]
 	interface DDRUMErrorEventErrorThreads
 	{
@@ -1871,14 +1800,12 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMErrorEventFeatureFlags
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc27DDRUMErrorEventFeatureFlags")]
 	[DisableDefaultCtor]
 	interface DDRUMErrorEventFeatureFlags
 	{
 	}
 
 	// @interface DDRUMErrorEventFreeze
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc21DDRUMErrorEventFreeze")]
 	[DisableDefaultCtor]
 	interface DDRUMErrorEventFreeze
 	{
@@ -1888,7 +1815,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMErrorEventRUMCITest
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc24DDRUMErrorEventRUMCITest")]
 	[DisableDefaultCtor]
 	interface DDRUMErrorEventRUMCITest
 	{
@@ -1898,7 +1824,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMErrorEventRUMConnectivity
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc30DDRUMErrorEventRUMConnectivity")]
 	[DisableDefaultCtor]
 	interface DDRUMErrorEventRUMConnectivity
 	{
@@ -1916,7 +1841,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMErrorEventRUMConnectivityCellular
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc38DDRUMErrorEventRUMConnectivityCellular")]
 	[DisableDefaultCtor]
 	interface DDRUMErrorEventRUMConnectivityCellular
 	{
@@ -1930,7 +1854,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMErrorEventRUMDevice
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc24DDRUMErrorEventRUMDevice")]
 	[DisableDefaultCtor]
 	interface DDRUMErrorEventRUMDevice
 	{
@@ -1956,14 +1879,12 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMErrorEventRUMEventAttributes
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc33DDRUMErrorEventRUMEventAttributes")]
 	[DisableDefaultCtor]
 	interface DDRUMErrorEventRUMEventAttributes
 	{
 	}
 
 	// @interface DDRUMErrorEventRUMOperatingSystem
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc33DDRUMErrorEventRUMOperatingSystem")]
 	[DisableDefaultCtor]
 	interface DDRUMErrorEventRUMOperatingSystem
 	{
@@ -1985,7 +1906,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMErrorEventRUMSyntheticsTest
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc32DDRUMErrorEventRUMSyntheticsTest")]
 	[DisableDefaultCtor]
 	interface DDRUMErrorEventRUMSyntheticsTest
 	{
@@ -2003,7 +1923,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMErrorEventRUMUser
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc22DDRUMErrorEventRUMUser")]
 	[DisableDefaultCtor]
 	interface DDRUMErrorEventRUMUser
 	{
@@ -2025,7 +1944,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMErrorEventSession
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc22DDRUMErrorEventSession")]
 	[DisableDefaultCtor]
 	interface DDRUMErrorEventSession
 	{
@@ -2043,7 +1961,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMErrorEventView
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc19DDRUMErrorEventView")]
 	[DisableDefaultCtor]
 	interface DDRUMErrorEventView
 	{
@@ -2069,7 +1986,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMFirstPartyHostsTracing
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc27DDRUMFirstPartyHostsTracing")]
 	[DisableDefaultCtor]
 	interface DDRUMFirstPartyHostsTracing
 	{
@@ -2097,7 +2013,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMLongTaskEvent
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc18DDRUMLongTaskEvent")]
 	[DisableDefaultCtor]
 	interface DDRUMLongTaskEvent
 	{
@@ -2195,7 +2110,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMLongTaskEventAccount
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc25DDRUMLongTaskEventAccount")]
 	[DisableDefaultCtor]
 	interface DDRUMLongTaskEventAccount
 	{
@@ -2209,7 +2123,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMLongTaskEventAction
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc24DDRUMLongTaskEventAction")]
 	[DisableDefaultCtor]
 	interface DDRUMLongTaskEventAction
 	{
@@ -2219,7 +2132,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMLongTaskEventActionRUMActionID
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc35DDRUMLongTaskEventActionRUMActionID")]
 	[DisableDefaultCtor]
 	interface DDRUMLongTaskEventActionRUMActionID
 	{
@@ -2229,7 +2141,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMLongTaskEventApplication
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc29DDRUMLongTaskEventApplication")]
 	[DisableDefaultCtor]
 	interface DDRUMLongTaskEventApplication
 	{
@@ -2239,7 +2150,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMLongTaskEventContainer
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc27DDRUMLongTaskEventContainer")]
 	[DisableDefaultCtor]
 	interface DDRUMLongTaskEventContainer
 	{
@@ -2253,7 +2163,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMLongTaskEventContainerView
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc31DDRUMLongTaskEventContainerView")]
 	[DisableDefaultCtor]
 	interface DDRUMLongTaskEventContainerView
 	{
@@ -2263,7 +2172,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMLongTaskEventDD
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc20DDRUMLongTaskEventDD")]
 	[DisableDefaultCtor]
 	interface DDRUMLongTaskEventDD
 	{
@@ -2289,7 +2197,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMLongTaskEventDDConfiguration
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc33DDRUMLongTaskEventDDConfiguration")]
 	[DisableDefaultCtor]
 	interface DDRUMLongTaskEventDDConfiguration
 	{
@@ -2303,7 +2210,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMLongTaskEventDDSession
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc27DDRUMLongTaskEventDDSession")]
 	[DisableDefaultCtor]
 	interface DDRUMLongTaskEventDDSession
 	{
@@ -2317,7 +2223,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMLongTaskEventDisplay
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc25DDRUMLongTaskEventDisplay")]
 	[DisableDefaultCtor]
 	interface DDRUMLongTaskEventDisplay
 	{
@@ -2327,7 +2232,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMLongTaskEventDisplayViewport
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc33DDRUMLongTaskEventDisplayViewport")]
 	[DisableDefaultCtor]
 	interface DDRUMLongTaskEventDisplayViewport
 	{
@@ -2341,7 +2245,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMLongTaskEventLongTask
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc26DDRUMLongTaskEventLongTask")]
 	[DisableDefaultCtor]
 	interface DDRUMLongTaskEventLongTask
 	{
@@ -2383,7 +2286,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMLongTaskEventLongTaskScripts
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc33DDRUMLongTaskEventLongTaskScripts")]
 	[DisableDefaultCtor]
 	interface DDRUMLongTaskEventLongTaskScripts
 	{
@@ -2433,7 +2335,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMLongTaskEventRUMCITest
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc27DDRUMLongTaskEventRUMCITest")]
 	[DisableDefaultCtor]
 	interface DDRUMLongTaskEventRUMCITest
 	{
@@ -2443,7 +2344,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMLongTaskEventRUMConnectivity
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc33DDRUMLongTaskEventRUMConnectivity")]
 	[DisableDefaultCtor]
 	interface DDRUMLongTaskEventRUMConnectivity
 	{
@@ -2461,7 +2361,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMLongTaskEventRUMConnectivityCellular
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc41DDRUMLongTaskEventRUMConnectivityCellular")]
 	[DisableDefaultCtor]
 	interface DDRUMLongTaskEventRUMConnectivityCellular
 	{
@@ -2475,7 +2374,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMLongTaskEventRUMDevice
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc27DDRUMLongTaskEventRUMDevice")]
 	[DisableDefaultCtor]
 	interface DDRUMLongTaskEventRUMDevice
 	{
@@ -2501,14 +2399,12 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMLongTaskEventRUMEventAttributes
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc36DDRUMLongTaskEventRUMEventAttributes")]
 	[DisableDefaultCtor]
 	interface DDRUMLongTaskEventRUMEventAttributes
 	{
 	}
 
 	// @interface DDRUMLongTaskEventRUMOperatingSystem
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc36DDRUMLongTaskEventRUMOperatingSystem")]
 	[DisableDefaultCtor]
 	interface DDRUMLongTaskEventRUMOperatingSystem
 	{
@@ -2530,7 +2426,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMLongTaskEventRUMSyntheticsTest
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc35DDRUMLongTaskEventRUMSyntheticsTest")]
 	[DisableDefaultCtor]
 	interface DDRUMLongTaskEventRUMSyntheticsTest
 	{
@@ -2548,7 +2443,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMLongTaskEventRUMUser
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc25DDRUMLongTaskEventRUMUser")]
 	[DisableDefaultCtor]
 	interface DDRUMLongTaskEventRUMUser
 	{
@@ -2570,7 +2464,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMLongTaskEventSession
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc25DDRUMLongTaskEventSession")]
 	[DisableDefaultCtor]
 	interface DDRUMLongTaskEventSession
 	{
@@ -2588,7 +2481,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMLongTaskEventView
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc22DDRUMLongTaskEventView")]
 	[DisableDefaultCtor]
 	interface DDRUMLongTaskEventView
 	{
@@ -2610,7 +2502,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMMonitor
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc12DDRUMMonitor")]
 	[DisableDefaultCtor]
 	interface DDRUMMonitor
 	{
@@ -2725,7 +2616,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMResourceEvent
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc18DDRUMResourceEvent")]
 	[DisableDefaultCtor]
 	interface DDRUMResourceEvent
 	{
@@ -2823,7 +2713,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMResourceEventAccount
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc25DDRUMResourceEventAccount")]
 	[DisableDefaultCtor]
 	interface DDRUMResourceEventAccount
 	{
@@ -2837,7 +2726,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMResourceEventAction
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc24DDRUMResourceEventAction")]
 	[DisableDefaultCtor]
 	interface DDRUMResourceEventAction
 	{
@@ -2847,7 +2735,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMResourceEventActionRUMActionID
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc35DDRUMResourceEventActionRUMActionID")]
 	[DisableDefaultCtor]
 	interface DDRUMResourceEventActionRUMActionID
 	{
@@ -2857,7 +2744,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMResourceEventApplication
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc29DDRUMResourceEventApplication")]
 	[DisableDefaultCtor]
 	interface DDRUMResourceEventApplication
 	{
@@ -2867,7 +2753,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMResourceEventContainer
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc27DDRUMResourceEventContainer")]
 	[DisableDefaultCtor]
 	interface DDRUMResourceEventContainer
 	{
@@ -2881,7 +2766,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMResourceEventContainerView
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc31DDRUMResourceEventContainerView")]
 	[DisableDefaultCtor]
 	interface DDRUMResourceEventContainerView
 	{
@@ -2891,7 +2775,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMResourceEventDD
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc20DDRUMResourceEventDD")]
 	[DisableDefaultCtor]
 	interface DDRUMResourceEventDD
 	{
@@ -2929,7 +2812,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMResourceEventDDConfiguration
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc33DDRUMResourceEventDDConfiguration")]
 	[DisableDefaultCtor]
 	interface DDRUMResourceEventDDConfiguration
 	{
@@ -2943,7 +2825,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMResourceEventDDSession
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc27DDRUMResourceEventDDSession")]
 	[DisableDefaultCtor]
 	interface DDRUMResourceEventDDSession
 	{
@@ -2957,7 +2838,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMResourceEventDisplay
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc25DDRUMResourceEventDisplay")]
 	[DisableDefaultCtor]
 	interface DDRUMResourceEventDisplay
 	{
@@ -2967,7 +2847,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMResourceEventDisplayViewport
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc33DDRUMResourceEventDisplayViewport")]
 	[DisableDefaultCtor]
 	interface DDRUMResourceEventDisplayViewport
 	{
@@ -2981,7 +2860,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMResourceEventRUMCITest
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc27DDRUMResourceEventRUMCITest")]
 	[DisableDefaultCtor]
 	interface DDRUMResourceEventRUMCITest
 	{
@@ -2991,7 +2869,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMResourceEventRUMConnectivity
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc33DDRUMResourceEventRUMConnectivity")]
 	[DisableDefaultCtor]
 	interface DDRUMResourceEventRUMConnectivity
 	{
@@ -3009,7 +2886,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMResourceEventRUMConnectivityCellular
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc41DDRUMResourceEventRUMConnectivityCellular")]
 	[DisableDefaultCtor]
 	interface DDRUMResourceEventRUMConnectivityCellular
 	{
@@ -3023,7 +2899,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMResourceEventRUMDevice
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc27DDRUMResourceEventRUMDevice")]
 	[DisableDefaultCtor]
 	interface DDRUMResourceEventRUMDevice
 	{
@@ -3049,14 +2924,12 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMResourceEventRUMEventAttributes
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc36DDRUMResourceEventRUMEventAttributes")]
 	[DisableDefaultCtor]
 	interface DDRUMResourceEventRUMEventAttributes
 	{
 	}
 
 	// @interface DDRUMResourceEventRUMOperatingSystem
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc36DDRUMResourceEventRUMOperatingSystem")]
 	[DisableDefaultCtor]
 	interface DDRUMResourceEventRUMOperatingSystem
 	{
@@ -3078,7 +2951,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMResourceEventRUMSyntheticsTest
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc35DDRUMResourceEventRUMSyntheticsTest")]
 	[DisableDefaultCtor]
 	interface DDRUMResourceEventRUMSyntheticsTest
 	{
@@ -3096,7 +2968,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMResourceEventRUMUser
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc25DDRUMResourceEventRUMUser")]
 	[DisableDefaultCtor]
 	interface DDRUMResourceEventRUMUser
 	{
@@ -3118,7 +2989,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMResourceEventResource
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc26DDRUMResourceEventResource")]
 	[DisableDefaultCtor]
 	interface DDRUMResourceEventResource
 	{
@@ -3212,7 +3082,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMResourceEventResourceConnect
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc33DDRUMResourceEventResourceConnect")]
 	[DisableDefaultCtor]
 	interface DDRUMResourceEventResourceConnect
 	{
@@ -3226,7 +3095,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMResourceEventResourceDNS
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc29DDRUMResourceEventResourceDNS")]
 	[DisableDefaultCtor]
 	interface DDRUMResourceEventResourceDNS
 	{
@@ -3240,7 +3108,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMResourceEventResourceDownload
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc34DDRUMResourceEventResourceDownload")]
 	[DisableDefaultCtor]
 	interface DDRUMResourceEventResourceDownload
 	{
@@ -3254,7 +3121,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMResourceEventResourceFirstByte
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc35DDRUMResourceEventResourceFirstByte")]
 	[DisableDefaultCtor]
 	interface DDRUMResourceEventResourceFirstByte
 	{
@@ -3268,7 +3134,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMResourceEventResourceGraphql
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc33DDRUMResourceEventResourceGraphql")]
 	[DisableDefaultCtor]
 	interface DDRUMResourceEventResourceGraphql
 	{
@@ -3290,7 +3155,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMResourceEventResourceProvider
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc34DDRUMResourceEventResourceProvider")]
 	[DisableDefaultCtor]
 	interface DDRUMResourceEventResourceProvider
 	{
@@ -3308,7 +3172,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMResourceEventResourceRedirect
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc34DDRUMResourceEventResourceRedirect")]
 	[DisableDefaultCtor]
 	interface DDRUMResourceEventResourceRedirect
 	{
@@ -3322,7 +3185,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMResourceEventResourceSSL
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc29DDRUMResourceEventResourceSSL")]
 	[DisableDefaultCtor]
 	interface DDRUMResourceEventResourceSSL
 	{
@@ -3336,7 +3198,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMResourceEventResourceWorker
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc32DDRUMResourceEventResourceWorker")]
 	[DisableDefaultCtor]
 	interface DDRUMResourceEventResourceWorker
 	{
@@ -3350,7 +3211,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMResourceEventSession
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc25DDRUMResourceEventSession")]
 	[DisableDefaultCtor]
 	interface DDRUMResourceEventSession
 	{
@@ -3368,7 +3228,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMResourceEventView
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc22DDRUMResourceEventView")]
 	[DisableDefaultCtor]
 	interface DDRUMResourceEventView
 	{
@@ -3390,7 +3249,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMURLSessionTracking
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc23DDRUMURLSessionTracking")]
 	interface DDRUMURLSessionTracking
 	{
 		// -(void)setFirstPartyHostsTracing:(DDRUMFirstPartyHostsTracing * _Nonnull)firstPartyHostsTracing;
@@ -3403,7 +3261,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMView
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc9DDRUMView")]
 	[DisableDefaultCtor]
 	interface DDRUMView
 	{
@@ -3418,7 +3275,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMViewEvent
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc14DDRUMViewEvent")]
 	[DisableDefaultCtor]
 	interface DDRUMViewEvent
 	{
@@ -3516,7 +3372,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMViewEventAccount
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc21DDRUMViewEventAccount")]
 	[DisableDefaultCtor]
 	interface DDRUMViewEventAccount
 	{
@@ -3530,7 +3385,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMViewEventApplication
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc25DDRUMViewEventApplication")]
 	[DisableDefaultCtor]
 	interface DDRUMViewEventApplication
 	{
@@ -3540,7 +3394,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMViewEventContainer
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc23DDRUMViewEventContainer")]
 	[DisableDefaultCtor]
 	interface DDRUMViewEventContainer
 	{
@@ -3554,7 +3407,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMViewEventContainerView
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc27DDRUMViewEventContainerView")]
 	[DisableDefaultCtor]
 	interface DDRUMViewEventContainerView
 	{
@@ -3564,7 +3416,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMViewEventDD
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc16DDRUMViewEventDD")]
 	[DisableDefaultCtor]
 	interface DDRUMViewEventDD
 	{
@@ -3598,7 +3449,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMViewEventDDCLS
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc19DDRUMViewEventDDCLS")]
 	[DisableDefaultCtor]
 	interface DDRUMViewEventDDCLS
 	{
@@ -3608,7 +3458,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMViewEventDDConfiguration
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc29DDRUMViewEventDDConfiguration")]
 	[DisableDefaultCtor]
 	interface DDRUMViewEventDDConfiguration
 	{
@@ -3626,7 +3475,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMViewEventDDPageStates
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc26DDRUMViewEventDDPageStates")]
 	[DisableDefaultCtor]
 	interface DDRUMViewEventDDPageStates
 	{
@@ -3640,7 +3488,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMViewEventDDReplayStats
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc27DDRUMViewEventDDReplayStats")]
 	[DisableDefaultCtor]
 	interface DDRUMViewEventDDReplayStats
 	{
@@ -3658,7 +3505,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMViewEventDDSession
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc23DDRUMViewEventDDSession")]
 	[DisableDefaultCtor]
 	interface DDRUMViewEventDDSession
 	{
@@ -3672,7 +3518,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMViewEventDisplay
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc21DDRUMViewEventDisplay")]
 	[DisableDefaultCtor]
 	interface DDRUMViewEventDisplay
 	{
@@ -3686,7 +3531,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMViewEventDisplayScroll
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc27DDRUMViewEventDisplayScroll")]
 	[DisableDefaultCtor]
 	interface DDRUMViewEventDisplayScroll
 	{
@@ -3708,7 +3552,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMViewEventDisplayViewport
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc29DDRUMViewEventDisplayViewport")]
 	[DisableDefaultCtor]
 	interface DDRUMViewEventDisplayViewport
 	{
@@ -3722,14 +3565,12 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMViewEventFeatureFlags
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc26DDRUMViewEventFeatureFlags")]
 	[DisableDefaultCtor]
 	interface DDRUMViewEventFeatureFlags
 	{
 	}
 
 	// @interface DDRUMViewEventPrivacy
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc21DDRUMViewEventPrivacy")]
 	[DisableDefaultCtor]
 	interface DDRUMViewEventPrivacy
 	{
@@ -3739,7 +3580,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMViewEventRUMCITest
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc23DDRUMViewEventRUMCITest")]
 	[DisableDefaultCtor]
 	interface DDRUMViewEventRUMCITest
 	{
@@ -3749,7 +3589,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMViewEventRUMConnectivity
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc29DDRUMViewEventRUMConnectivity")]
 	[DisableDefaultCtor]
 	interface DDRUMViewEventRUMConnectivity
 	{
@@ -3767,7 +3606,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMViewEventRUMConnectivityCellular
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc37DDRUMViewEventRUMConnectivityCellular")]
 	[DisableDefaultCtor]
 	interface DDRUMViewEventRUMConnectivityCellular
 	{
@@ -3781,7 +3619,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMViewEventRUMDevice
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc23DDRUMViewEventRUMDevice")]
 	[DisableDefaultCtor]
 	interface DDRUMViewEventRUMDevice
 	{
@@ -3807,14 +3644,12 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMViewEventRUMEventAttributes
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc32DDRUMViewEventRUMEventAttributes")]
 	[DisableDefaultCtor]
 	interface DDRUMViewEventRUMEventAttributes
 	{
 	}
 
 	// @interface DDRUMViewEventRUMOperatingSystem
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc32DDRUMViewEventRUMOperatingSystem")]
 	[DisableDefaultCtor]
 	interface DDRUMViewEventRUMOperatingSystem
 	{
@@ -3836,7 +3671,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMViewEventRUMSyntheticsTest
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc31DDRUMViewEventRUMSyntheticsTest")]
 	[DisableDefaultCtor]
 	interface DDRUMViewEventRUMSyntheticsTest
 	{
@@ -3854,7 +3688,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMViewEventRUMUser
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc21DDRUMViewEventRUMUser")]
 	[DisableDefaultCtor]
 	interface DDRUMViewEventRUMUser
 	{
@@ -3876,7 +3709,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMViewEventSession
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc21DDRUMViewEventSession")]
 	[DisableDefaultCtor]
 	interface DDRUMViewEventSession
 	{
@@ -3902,7 +3734,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMViewEventView
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc18DDRUMViewEventView")]
 	[DisableDefaultCtor]
 	interface DDRUMViewEventView
 	{
@@ -4096,7 +3927,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMViewEventViewAction
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc24DDRUMViewEventViewAction")]
 	[DisableDefaultCtor]
 	interface DDRUMViewEventViewAction
 	{
@@ -4106,7 +3936,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMViewEventViewCrash
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc23DDRUMViewEventViewCrash")]
 	[DisableDefaultCtor]
 	interface DDRUMViewEventViewCrash
 	{
@@ -4116,7 +3945,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMViewEventViewError
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc23DDRUMViewEventViewError")]
 	[DisableDefaultCtor]
 	interface DDRUMViewEventViewError
 	{
@@ -4126,7 +3954,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMViewEventViewFlutterBuildTime
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc34DDRUMViewEventViewFlutterBuildTime")]
 	[DisableDefaultCtor]
 	interface DDRUMViewEventViewFlutterBuildTime
 	{
@@ -4148,7 +3975,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMViewEventViewFlutterRasterTime
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc35DDRUMViewEventViewFlutterRasterTime")]
 	[DisableDefaultCtor]
 	interface DDRUMViewEventViewFlutterRasterTime
 	{
@@ -4170,7 +3996,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMViewEventViewFrozenFrame
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc29DDRUMViewEventViewFrozenFrame")]
 	[DisableDefaultCtor]
 	interface DDRUMViewEventViewFrozenFrame
 	{
@@ -4180,7 +4005,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMViewEventViewFrustration
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc29DDRUMViewEventViewFrustration")]
 	[DisableDefaultCtor]
 	interface DDRUMViewEventViewFrustration
 	{
@@ -4190,7 +4014,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMViewEventViewInForegroundPeriods
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc37DDRUMViewEventViewInForegroundPeriods")]
 	[DisableDefaultCtor]
 	interface DDRUMViewEventViewInForegroundPeriods
 	{
@@ -4204,7 +4027,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMViewEventViewJsRefreshRate
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc31DDRUMViewEventViewJsRefreshRate")]
 	[DisableDefaultCtor]
 	interface DDRUMViewEventViewJsRefreshRate
 	{
@@ -4226,7 +4048,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMViewEventViewLongTask
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc26DDRUMViewEventViewLongTask")]
 	[DisableDefaultCtor]
 	interface DDRUMViewEventViewLongTask
 	{
@@ -4236,7 +4057,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMViewEventViewPerformance
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc29DDRUMViewEventViewPerformance")]
 	[DisableDefaultCtor]
 	interface DDRUMViewEventViewPerformance
 	{
@@ -4266,7 +4086,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMViewEventViewPerformanceCLS
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc32DDRUMViewEventViewPerformanceCLS")]
 	[DisableDefaultCtor]
 	interface DDRUMViewEventViewPerformanceCLS
 	{
@@ -4292,7 +4111,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMViewEventViewPerformanceCLSCurrentRect
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc43DDRUMViewEventViewPerformanceCLSCurrentRect")]
 	[DisableDefaultCtor]
 	interface DDRUMViewEventViewPerformanceCLSCurrentRect
 	{
@@ -4314,7 +4132,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMViewEventViewPerformanceCLSPreviousRect
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc44DDRUMViewEventViewPerformanceCLSPreviousRect")]
 	[DisableDefaultCtor]
 	interface DDRUMViewEventViewPerformanceCLSPreviousRect
 	{
@@ -4336,7 +4153,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMViewEventViewPerformanceFBC
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc32DDRUMViewEventViewPerformanceFBC")]
 	[DisableDefaultCtor]
 	interface DDRUMViewEventViewPerformanceFBC
 	{
@@ -4346,7 +4162,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMViewEventViewPerformanceFCP
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc32DDRUMViewEventViewPerformanceFCP")]
 	[DisableDefaultCtor]
 	interface DDRUMViewEventViewPerformanceFCP
 	{
@@ -4356,7 +4171,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMViewEventViewPerformanceFID
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc32DDRUMViewEventViewPerformanceFID")]
 	[DisableDefaultCtor]
 	interface DDRUMViewEventViewPerformanceFID
 	{
@@ -4374,7 +4188,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMViewEventViewPerformanceINP
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc32DDRUMViewEventViewPerformanceINP")]
 	[DisableDefaultCtor]
 	interface DDRUMViewEventViewPerformanceINP
 	{
@@ -4392,7 +4205,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMViewEventViewPerformanceLCP
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc32DDRUMViewEventViewPerformanceLCP")]
 	[DisableDefaultCtor]
 	interface DDRUMViewEventViewPerformanceLCP
 	{
@@ -4410,7 +4222,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMViewEventViewResource
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc26DDRUMViewEventViewResource")]
 	[DisableDefaultCtor]
 	interface DDRUMViewEventViewResource
 	{
@@ -4420,7 +4231,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMViewEventViewSlowFrames
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc28DDRUMViewEventViewSlowFrames")]
 	[DisableDefaultCtor]
 	interface DDRUMViewEventViewSlowFrames
 	{
@@ -4434,7 +4244,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMVitalEvent
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc15DDRUMVitalEvent")]
 	[DisableDefaultCtor]
 	interface DDRUMVitalEvent
 	{
@@ -4528,7 +4337,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMVitalEventAccount
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc22DDRUMVitalEventAccount")]
 	[DisableDefaultCtor]
 	interface DDRUMVitalEventAccount
 	{
@@ -4542,7 +4350,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMVitalEventApplication
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc26DDRUMVitalEventApplication")]
 	[DisableDefaultCtor]
 	interface DDRUMVitalEventApplication
 	{
@@ -4552,7 +4359,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMVitalEventContainer
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc24DDRUMVitalEventContainer")]
 	[DisableDefaultCtor]
 	interface DDRUMVitalEventContainer
 	{
@@ -4566,7 +4372,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMVitalEventContainerView
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc28DDRUMVitalEventContainerView")]
 	[DisableDefaultCtor]
 	interface DDRUMVitalEventContainerView
 	{
@@ -4576,7 +4381,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMVitalEventDD
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc17DDRUMVitalEventDD")]
 	[DisableDefaultCtor]
 	interface DDRUMVitalEventDD
 	{
@@ -4602,7 +4406,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMVitalEventDDConfiguration
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc30DDRUMVitalEventDDConfiguration")]
 	[DisableDefaultCtor]
 	interface DDRUMVitalEventDDConfiguration
 	{
@@ -4616,7 +4419,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMVitalEventDDSession
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc24DDRUMVitalEventDDSession")]
 	[DisableDefaultCtor]
 	interface DDRUMVitalEventDDSession
 	{
@@ -4630,7 +4432,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMVitalEventDDVital
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc22DDRUMVitalEventDDVital")]
 	[DisableDefaultCtor]
 	interface DDRUMVitalEventDDVital
 	{
@@ -4640,7 +4441,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMVitalEventDisplay
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc22DDRUMVitalEventDisplay")]
 	[DisableDefaultCtor]
 	interface DDRUMVitalEventDisplay
 	{
@@ -4650,7 +4450,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMVitalEventDisplayViewport
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc30DDRUMVitalEventDisplayViewport")]
 	[DisableDefaultCtor]
 	interface DDRUMVitalEventDisplayViewport
 	{
@@ -4664,7 +4463,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMVitalEventRUMCITest
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc24DDRUMVitalEventRUMCITest")]
 	[DisableDefaultCtor]
 	interface DDRUMVitalEventRUMCITest
 	{
@@ -4674,7 +4472,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMVitalEventRUMConnectivity
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc30DDRUMVitalEventRUMConnectivity")]
 	[DisableDefaultCtor]
 	interface DDRUMVitalEventRUMConnectivity
 	{
@@ -4692,7 +4489,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMVitalEventRUMConnectivityCellular
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc38DDRUMVitalEventRUMConnectivityCellular")]
 	[DisableDefaultCtor]
 	interface DDRUMVitalEventRUMConnectivityCellular
 	{
@@ -4706,7 +4502,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMVitalEventRUMDevice
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc24DDRUMVitalEventRUMDevice")]
 	[DisableDefaultCtor]
 	interface DDRUMVitalEventRUMDevice
 	{
@@ -4732,14 +4527,12 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMVitalEventRUMEventAttributes
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc33DDRUMVitalEventRUMEventAttributes")]
 	[DisableDefaultCtor]
 	interface DDRUMVitalEventRUMEventAttributes
 	{
 	}
 
 	// @interface DDRUMVitalEventRUMOperatingSystem
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc33DDRUMVitalEventRUMOperatingSystem")]
 	[DisableDefaultCtor]
 	interface DDRUMVitalEventRUMOperatingSystem
 	{
@@ -4761,7 +4554,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMVitalEventRUMSyntheticsTest
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc32DDRUMVitalEventRUMSyntheticsTest")]
 	[DisableDefaultCtor]
 	interface DDRUMVitalEventRUMSyntheticsTest
 	{
@@ -4779,7 +4571,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMVitalEventRUMUser
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc22DDRUMVitalEventRUMUser")]
 	[DisableDefaultCtor]
 	interface DDRUMVitalEventRUMUser
 	{
@@ -4801,7 +4592,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMVitalEventSession
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc22DDRUMVitalEventSession")]
 	[DisableDefaultCtor]
 	interface DDRUMVitalEventSession
 	{
@@ -4819,7 +4609,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMVitalEventView
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc19DDRUMVitalEventView")]
 	[DisableDefaultCtor]
 	interface DDRUMVitalEventView
 	{
@@ -4841,7 +4630,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDRUMVitalEventVital
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc20DDRUMVitalEventVital")]
 	[DisableDefaultCtor]
 	interface DDRUMVitalEventVital
 	{
@@ -4885,7 +4673,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDSite
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc6DDSite")]
 	[DisableDefaultCtor]
 	interface DDSite
 	{
@@ -4921,7 +4708,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDTelemetryConfigurationEvent
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc29DDTelemetryConfigurationEvent")]
 	[DisableDefaultCtor]
 	interface DDTelemetryConfigurationEvent
 	{
@@ -4975,7 +4761,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDTelemetryConfigurationEventAction
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc35DDTelemetryConfigurationEventAction")]
 	[DisableDefaultCtor]
 	interface DDTelemetryConfigurationEventAction
 	{
@@ -4985,7 +4770,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDTelemetryConfigurationEventApplication
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc40DDTelemetryConfigurationEventApplication")]
 	[DisableDefaultCtor]
 	interface DDTelemetryConfigurationEventApplication
 	{
@@ -4995,7 +4779,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDTelemetryConfigurationEventDD
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc31DDTelemetryConfigurationEventDD")]
 	[DisableDefaultCtor]
 	interface DDTelemetryConfigurationEventDD
 	{
@@ -5005,7 +4788,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDTelemetryConfigurationEventSession
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc36DDTelemetryConfigurationEventSession")]
 	[DisableDefaultCtor]
 	interface DDTelemetryConfigurationEventSession
 	{
@@ -5015,7 +4797,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDTelemetryConfigurationEventTelemetry
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc38DDTelemetryConfigurationEventTelemetry")]
 	[DisableDefaultCtor]
 	interface DDTelemetryConfigurationEventTelemetry
 	{
@@ -5037,7 +4818,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDTelemetryConfigurationEventTelemetryConfiguration
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc51DDTelemetryConfigurationEventTelemetryConfiguration")]
 	[DisableDefaultCtor]
 	interface DDTelemetryConfigurationEventTelemetryConfiguration
 	{
@@ -5339,7 +5119,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDTelemetryConfigurationEventTelemetryConfigurationForwardConsoleLogs
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc69DDTelemetryConfigurationEventTelemetryConfigurationForwardConsoleLogs")]
 	[DisableDefaultCtor]
 	interface DDTelemetryConfigurationEventTelemetryConfigurationForwardConsoleLogs
 	{
@@ -5349,7 +5128,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDTelemetryConfigurationEventTelemetryConfigurationForwardReports
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc65DDTelemetryConfigurationEventTelemetryConfigurationForwardReports")]
 	[DisableDefaultCtor]
 	interface DDTelemetryConfigurationEventTelemetryConfigurationForwardReports
 	{
@@ -5359,7 +5137,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDTelemetryConfigurationEventTelemetryConfigurationPlugins
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc58DDTelemetryConfigurationEventTelemetryConfigurationPlugins")]
 	[DisableDefaultCtor]
 	interface DDTelemetryConfigurationEventTelemetryConfigurationPlugins
 	{
@@ -5369,7 +5146,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDTelemetryConfigurationEventTelemetryRUMTelemetryDevice
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc56DDTelemetryConfigurationEventTelemetryRUMTelemetryDevice")]
 	[DisableDefaultCtor]
 	interface DDTelemetryConfigurationEventTelemetryRUMTelemetryDevice
 	{
@@ -5387,7 +5163,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDTelemetryConfigurationEventTelemetryRUMTelemetryOperatingSystem
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc65DDTelemetryConfigurationEventTelemetryRUMTelemetryOperatingSystem")]
 	[DisableDefaultCtor]
 	interface DDTelemetryConfigurationEventTelemetryRUMTelemetryOperatingSystem
 	{
@@ -5405,7 +5180,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDTelemetryConfigurationEventView
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc33DDTelemetryConfigurationEventView")]
 	[DisableDefaultCtor]
 	interface DDTelemetryConfigurationEventView
 	{
@@ -5415,7 +5189,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDTelemetryDebugEvent
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc21DDTelemetryDebugEvent")]
 	[DisableDefaultCtor]
 	interface DDTelemetryDebugEvent
 	{
@@ -5469,7 +5242,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDTelemetryDebugEventAction
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc27DDTelemetryDebugEventAction")]
 	[DisableDefaultCtor]
 	interface DDTelemetryDebugEventAction
 	{
@@ -5479,7 +5251,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDTelemetryDebugEventApplication
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc32DDTelemetryDebugEventApplication")]
 	[DisableDefaultCtor]
 	interface DDTelemetryDebugEventApplication
 	{
@@ -5489,7 +5260,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDTelemetryDebugEventDD
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc23DDTelemetryDebugEventDD")]
 	[DisableDefaultCtor]
 	interface DDTelemetryDebugEventDD
 	{
@@ -5499,7 +5269,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDTelemetryDebugEventSession
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc28DDTelemetryDebugEventSession")]
 	[DisableDefaultCtor]
 	interface DDTelemetryDebugEventSession
 	{
@@ -5509,7 +5278,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDTelemetryDebugEventTelemetry
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc30DDTelemetryDebugEventTelemetry")]
 	[DisableDefaultCtor]
 	interface DDTelemetryDebugEventTelemetry
 	{
@@ -5535,7 +5303,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDTelemetryDebugEventTelemetryRUMTelemetryDevice
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc48DDTelemetryDebugEventTelemetryRUMTelemetryDevice")]
 	[DisableDefaultCtor]
 	interface DDTelemetryDebugEventTelemetryRUMTelemetryDevice
 	{
@@ -5553,7 +5320,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDTelemetryDebugEventTelemetryRUMTelemetryOperatingSystem
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc57DDTelemetryDebugEventTelemetryRUMTelemetryOperatingSystem")]
 	[DisableDefaultCtor]
 	interface DDTelemetryDebugEventTelemetryRUMTelemetryOperatingSystem
 	{
@@ -5571,7 +5337,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDTelemetryDebugEventView
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc25DDTelemetryDebugEventView")]
 	[DisableDefaultCtor]
 	interface DDTelemetryDebugEventView
 	{
@@ -5581,7 +5346,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDTelemetryErrorEvent
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc21DDTelemetryErrorEvent")]
 	[DisableDefaultCtor]
 	interface DDTelemetryErrorEvent
 	{
@@ -5635,7 +5399,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDTelemetryErrorEventAction
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc27DDTelemetryErrorEventAction")]
 	[DisableDefaultCtor]
 	interface DDTelemetryErrorEventAction
 	{
@@ -5645,7 +5408,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDTelemetryErrorEventApplication
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc32DDTelemetryErrorEventApplication")]
 	[DisableDefaultCtor]
 	interface DDTelemetryErrorEventApplication
 	{
@@ -5655,7 +5417,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDTelemetryErrorEventDD
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc23DDTelemetryErrorEventDD")]
 	[DisableDefaultCtor]
 	interface DDTelemetryErrorEventDD
 	{
@@ -5665,7 +5426,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDTelemetryErrorEventSession
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc28DDTelemetryErrorEventSession")]
 	[DisableDefaultCtor]
 	interface DDTelemetryErrorEventSession
 	{
@@ -5675,7 +5435,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDTelemetryErrorEventTelemetry
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc30DDTelemetryErrorEventTelemetry")]
 	[DisableDefaultCtor]
 	interface DDTelemetryErrorEventTelemetry
 	{
@@ -5705,7 +5464,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDTelemetryErrorEventTelemetryError
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc35DDTelemetryErrorEventTelemetryError")]
 	[DisableDefaultCtor]
 	interface DDTelemetryErrorEventTelemetryError
 	{
@@ -5719,7 +5477,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDTelemetryErrorEventTelemetryRUMTelemetryDevice
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc48DDTelemetryErrorEventTelemetryRUMTelemetryDevice")]
 	[DisableDefaultCtor]
 	interface DDTelemetryErrorEventTelemetryRUMTelemetryDevice
 	{
@@ -5737,7 +5494,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDTelemetryErrorEventTelemetryRUMTelemetryOperatingSystem
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc57DDTelemetryErrorEventTelemetryRUMTelemetryOperatingSystem")]
 	[DisableDefaultCtor]
 	interface DDTelemetryErrorEventTelemetryRUMTelemetryOperatingSystem
 	{
@@ -5755,7 +5511,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDTelemetryErrorEventView
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc25DDTelemetryErrorEventView")]
 	[DisableDefaultCtor]
 	interface DDTelemetryErrorEventView
 	{
@@ -5765,7 +5520,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDTrace
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc7DDTrace")]
 	interface DDTrace
 	{
 		// +(void)enableWith:(DDTraceConfiguration * _Nonnull)configuration;
@@ -5775,7 +5529,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDTraceConfiguration
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc20DDTraceConfiguration")]
 	interface DDTraceConfiguration
 	{
 		// @property (nonatomic) float sampleRate;
@@ -5804,7 +5557,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDTraceFirstPartyHostsTracing
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc29DDTraceFirstPartyHostsTracing")]
 	[DisableDefaultCtor]
 	interface DDTraceFirstPartyHostsTracing
 	{
@@ -5848,7 +5600,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDTraceURLSessionTracking
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc25DDTraceURLSessionTracking")]
 	[DisableDefaultCtor]
 	interface DDTraceURLSessionTracking
 	{
@@ -5874,35 +5625,35 @@ namespace Datadog.iOS.ObjC
 */[Protocol (Name = "_TtP11DatadogObjc8OTTracer_")]
 	interface OTTracer
 	{
-		// @required -(id<NSObject> _Nonnull)startSpan:(NSString * _Nonnull)operationName __attribute__((warn_unused_result("")));
+		// @required -(id<OTSpan> _Nonnull)startSpan:(NSString * _Nonnull)operationName __attribute__((warn_unused_result("")));
 		[Abstract]
 		[Export ("startSpan:")]
-		NSObject StartSpan (string operationName);
+		OTSpan StartSpan (string operationName);
 
-		// @required -(id<NSObject> _Nonnull)startSpan:(NSString * _Nonnull)operationName tags:(id)tags __attribute__((warn_unused_result("")));
+		// @required -(id<OTSpan> _Nonnull)startSpan:(NSString * _Nonnull)operationName tags:(id)tags __attribute__((warn_unused_result("")));
 		[Abstract]
 		[Export ("startSpan:tags:")]
-		NSObject StartSpan (string operationName, NSObject tags);
+		OTSpan StartSpan (string operationName, NSObject tags);
 
-		// @required -(id<NSObject> _Nonnull)startSpan:(NSString * _Nonnull)operationName childOf:(id<NSObject> _Nullable)parent __attribute__((warn_unused_result("")));
+		// @required -(id<OTSpan> _Nonnull)startSpan:(NSString * _Nonnull)operationName childOf:(id<OTSpanContext> _Nullable)parent __attribute__((warn_unused_result("")));
 		[Abstract]
 		[Export ("startSpan:childOf:")]
-		NSObject StartSpanWithParent (string operationName, [NullAllowed] NSObject parent);
+		OTSpan StartSpan (string operationName, [NullAllowed] OTSpanContext parent);
 
-		// @required -(id<NSObject> _Nonnull)startSpan:(NSString * _Nonnull)operationName childOf:(id<NSObject> _Nullable)parent tags:(id)tags __attribute__((warn_unused_result("")));
+		// @required -(id<OTSpan> _Nonnull)startSpan:(NSString * _Nonnull)operationName childOf:(id<OTSpanContext> _Nullable)parent tags:(id)tags __attribute__((warn_unused_result("")));
 		[Abstract]
 		[Export ("startSpan:childOf:tags:")]
-		NSObject StartSpanWithParentAndTags (string operationName, [NullAllowed] NSObject parent, NSObject tags);
+		OTSpan StartSpan (string operationName, [NullAllowed] OTSpanContext parent, NSObject tags);
 
-		// @required -(id<NSObject> _Nonnull)startSpan:(NSString * _Nonnull)operationName childOf:(id<NSObject> _Nullable)parent tags:(id)tags startTime:(NSDate * _Nullable)startTime __attribute__((warn_unused_result("")));
+		// @required -(id<OTSpan> _Nonnull)startSpan:(NSString * _Nonnull)operationName childOf:(id<OTSpanContext> _Nullable)parent tags:(id)tags startTime:(NSDate * _Nullable)startTime __attribute__((warn_unused_result("")));
 		[Abstract]
 		[Export ("startSpan:childOf:tags:startTime:")]
-		NSObject StartSpan (string operationName, [NullAllowed] NSObject parent, NSObject tags, [NullAllowed] NSDate startTime);
+		OTSpan StartSpan (string operationName, [NullAllowed] OTSpanContext parent, NSObject tags, [NullAllowed] NSDate startTime);
 
-		// @required -(id)inject:(id<NSObject> _Nonnull)spanContext format:(NSString * _Nonnull)format carrier:(id _Nonnull)carrier error:(NSError * _Nullable * _Nullable)error;
+		// @required -(id)inject:(id<OTSpanContext> _Nonnull)spanContext format:(NSString * _Nonnull)format carrier:(id _Nonnull)carrier error:(NSError * _Nullable * _Nullable)error;
 		[Abstract]
 		[Export ("inject:format:carrier:error:")]
-		NSObject Inject (NSObject spanContext, string format, NSObject carrier, [NullAllowed] out NSError error);
+		NSObject Inject (OTSpanContext spanContext, string format, NSObject carrier, [NullAllowed] out NSError error);
 
 		// @required -(id)extractWithFormat:(NSString * _Nonnull)format carrier:(id _Nonnull)carrier error:(NSError * _Nullable * _Nullable)error;
 		[Abstract]
@@ -5914,34 +5665,34 @@ namespace Datadog.iOS.ObjC
 	[DisableDefaultCtor]
 	interface DDTracer : INSObjectProtocol
 	{
-		// +(id<NSObject> _Nonnull)shared __attribute__((warn_unused_result("")));
+		// +(id<OTTracer> _Nonnull)shared __attribute__((warn_unused_result("")));
 		[Static]
 		[Export ("shared")]
-		NSObject Shared { get; }
+		OTTracer Shared { get; }
 
-		// -(id<NSObject> _Nonnull)startSpan:(NSString * _Nonnull)operationName __attribute__((warn_unused_result("")));
+		// -(id<OTSpan> _Nonnull)startSpan:(NSString * _Nonnull)operationName __attribute__((warn_unused_result("")));
 		[Export ("startSpan:")]
-		NSObject StartSpan (string operationName);
+		OTSpan StartSpan (string operationName);
 
-		// -(id<NSObject> _Nonnull)startSpan:(NSString * _Nonnull)operationName tags:(id)tags __attribute__((warn_unused_result("")));
+		// -(id<OTSpan> _Nonnull)startSpan:(NSString * _Nonnull)operationName tags:(id)tags __attribute__((warn_unused_result("")));
 		[Export ("startSpan:tags:")]
-		NSObject StartSpan (string operationName, NSObject tags);
+		OTSpan StartSpan (string operationName, NSObject tags);
 
-		// -(id<NSObject> _Nonnull)startSpan:(NSString * _Nonnull)operationName childOf:(id<NSObject> _Nullable)parent __attribute__((warn_unused_result("")));
+		// -(id<OTSpan> _Nonnull)startSpan:(NSString * _Nonnull)operationName childOf:(id<OTSpanContext> _Nullable)parent __attribute__((warn_unused_result("")));
 		[Export ("startSpan:childOf:")]
-		NSObject StartSpanWithParent (string operationName, [NullAllowed] NSObject parent);
+		OTSpan StartSpan (string operationName, [NullAllowed] OTSpanContext parent);
 
-		// -(id<NSObject> _Nonnull)startSpan:(NSString * _Nonnull)operationName childOf:(id<NSObject> _Nullable)parent tags:(id)tags __attribute__((warn_unused_result("")));
+		// -(id<OTSpan> _Nonnull)startSpan:(NSString * _Nonnull)operationName childOf:(id<OTSpanContext> _Nullable)parent tags:(id)tags __attribute__((warn_unused_result("")));
 		[Export ("startSpan:childOf:tags:")]
-		NSObject StartSpanWithParentAndTags (string operationName, [NullAllowed] NSObject parent, NSObject tags);
+		OTSpan StartSpan (string operationName, [NullAllowed] OTSpanContext parent, NSObject tags);
 
-		// -(id<NSObject> _Nonnull)startSpan:(NSString * _Nonnull)operationName childOf:(id<NSObject> _Nullable)parent tags:(id)tags startTime:(NSDate * _Nullable)startTime __attribute__((warn_unused_result("")));
+		// -(id<OTSpan> _Nonnull)startSpan:(NSString * _Nonnull)operationName childOf:(id<OTSpanContext> _Nullable)parent tags:(id)tags startTime:(NSDate * _Nullable)startTime __attribute__((warn_unused_result("")));
 		[Export ("startSpan:childOf:tags:startTime:")]
-		NSObject StartSpan (string operationName, [NullAllowed] NSObject parent, NSObject tags, [NullAllowed] NSDate startTime);
+		OTSpan StartSpan (string operationName, [NullAllowed] OTSpanContext parent, NSObject tags, [NullAllowed] NSDate startTime);
 
-		// -(id)inject:(id<NSObject> _Nonnull)spanContext format:(NSString * _Nonnull)format carrier:(id _Nonnull)carrier error:(NSError * _Nullable * _Nullable)error;
+		// -(id)inject:(id<OTSpanContext> _Nonnull)spanContext format:(NSString * _Nonnull)format carrier:(id _Nonnull)carrier error:(NSError * _Nullable * _Nullable)error;
 		[Export ("inject:format:carrier:error:")]
-		NSObject Inject (NSObject spanContext, string format, NSObject carrier, [NullAllowed] out NSError error);
+		NSObject Inject (OTSpanContext spanContext, string format, NSObject carrier, [NullAllowed] out NSError error);
 
 		// -(id)extractWithFormat:(NSString * _Nonnull)format carrier:(id _Nonnull)carrier error:(NSError * _Nullable * _Nullable)error;
 		[Export ("extractWithFormat:carrier:error:")]
@@ -5949,7 +5700,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDTracingHeaderType
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc19DDTracingHeaderType")]
 	[DisableDefaultCtor]
 	interface DDTracingHeaderType
 	{
@@ -5975,7 +5725,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDTrackingConsent
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc17DDTrackingConsent")]
 	[DisableDefaultCtor]
 	interface DDTrackingConsent
 	{
@@ -6015,7 +5764,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDURLSessionInstrumentation
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc27DDURLSessionInstrumentation")]
 	interface DDURLSessionInstrumentation
 	{
 		// +(void)enableWithConfiguration:(DDURLSessionInstrumentationConfiguration * _Nonnull)configuration;
@@ -6030,7 +5778,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDURLSessionInstrumentationConfiguration
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc40DDURLSessionInstrumentationConfiguration")]
 	[DisableDefaultCtor]
 	interface DDURLSessionInstrumentationConfiguration
 	{
@@ -6049,7 +5796,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDURLSessionInstrumentationFirstPartyHostsTracing
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc49DDURLSessionInstrumentationFirstPartyHostsTracing")]
 	[DisableDefaultCtor]
 	interface DDURLSessionInstrumentationFirstPartyHostsTracing
 	{
@@ -6066,7 +5812,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface DDW3CHTTPHeadersWriter
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc22DDW3CHTTPHeadersWriter")]
 	[DisableDefaultCtor]
 	interface DDW3CHTTPHeadersWriter
 	{
@@ -6077,7 +5822,6 @@ namespace Datadog.iOS.ObjC
 	}
 
 	// @interface OT
-	[BaseType (typeof(NSObject), Name = "_TtC11DatadogObjc2OT")]
 	interface OT
 	{
 		// @property (readonly, copy, nonatomic, class) NSString * _Nonnull formatTextMap;
@@ -6098,15 +5842,15 @@ namespace Datadog.iOS.ObjC
 */[Protocol (Name = "_TtP11DatadogObjc6OTSpan_")]
 	interface OTSpan
 	{
-		// @required @property (readonly, nonatomic, strong) id<NSObject> _Nonnull context;
+		// @required @property (readonly, nonatomic, strong) id<OTSpanContext> _Nonnull context;
 		[Abstract]
 		[Export ("context", ArgumentSemantic.Strong)]
-		NSObject Context { get; }
+		OTSpanContext Context { get; }
 
-		// @required @property (readonly, nonatomic, strong) id<NSObject> _Nonnull tracer;
+		// @required @property (readonly, nonatomic, strong) id<OTTracer> _Nonnull tracer;
 		[Abstract]
 		[Export ("tracer", ArgumentSemantic.Strong)]
-		NSObject Tracer { get; }
+		OTTracer Tracer { get; }
 
 		// @required -(void)setOperationName:(NSString * _Nonnull)operationName;
 		[Abstract]
@@ -6138,10 +5882,10 @@ namespace Datadog.iOS.ObjC
 		[Export ("log:timestamp:")]
 		void Log (NSObject fields, [NullAllowed] NSDate timestamp);
 
-		// @required -(id<NSObject> _Nonnull)setBaggageItem:(NSString * _Nonnull)key value:(NSString * _Nonnull)value __attribute__((warn_unused_result("")));
+		// @required -(id<OTSpan> _Nonnull)setBaggageItem:(NSString * _Nonnull)key value:(NSString * _Nonnull)value __attribute__((warn_unused_result("")));
 		[Abstract]
 		[Export ("setBaggageItem:value:")]
-		NSObject SetBaggageItem (string key, string value);
+		OTSpan SetBaggageItem (string key, string value);
 
 		// @required -(NSString * _Nullable)getBaggageItem:(NSString * _Nonnull)key __attribute__((warn_unused_result("")));
 		[Abstract]
@@ -6169,10 +5913,10 @@ namespace Datadog.iOS.ObjC
 		[Export ("finishWithTime:")]
 		void FinishWithTime ([NullAllowed] NSDate finishTime);
 
-		// @required -(id<NSObject> _Nonnull)setActive;
+		// @required -(id<OTSpan> _Nonnull)setActive;
 		[Abstract]
 		[Export ("setActive")]
-		NSObject SetActive { get; }
+		OTSpan SetActive { get; }
 	}
 
 	// @protocol OTSpanContext

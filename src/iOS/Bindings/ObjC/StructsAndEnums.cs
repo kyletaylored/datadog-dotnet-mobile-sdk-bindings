@@ -1,69 +1,66 @@
-using ObjCRuntime;
-
 namespace Datadog.iOS.ObjC
 {
-	[Native]
-	public enum DDBatchProcessingLevel : long
+	public enum DDBatchProcessingLevel
 	{
 		Low = 0,
 		Medium = 1,
 		High = 2
 	}
 
-	[Native]
-	public enum DDBatchSize : long
+	public enum DDBatchSize
 	{
 		Small = 0,
 		Medium = 1,
 		Large = 2
 	}
 
-	// removed internal DDCoreLoggerLevel
+	public enum DDCoreLoggerLevel
+	{
+		Debug = 0,
+		Warn = 1,
+		Error = 2,
+		Critical = 3
+	}
 
-	[Native]
-	public enum DDInjectEncoding : long
+	public enum DDInjectEncoding
 	{
 		Multiple = 0,
 		Single = 1
 	}
 
-	[Native]
-	public enum DDLogEventInterface : long
+	public enum DDLogEventInterface
 	{
-		WiFi = 0,
+		Wifi = 0,
 		WiredEthernet = 1,
 		Cellular = 2,
 		Loopback = 3,
 		Other = 4
 	}
 
-	[Native]
-	public enum DDLogEventRadioAccessTechnology : long
+	public enum DDLogEventRadioAccessTechnology
 	{
-		GPRS = 0,
+		Gprs = 0,
 		Edge = 1,
-		WCDMA = 2,
-		HSDPA = 3,
-		HSUPA = 4,
+		Wcdma = 2,
+		Hsdpa = 3,
+		Hsupa = 4,
 		CDMA1x = 5,
 		CDMAEVDORev0 = 6,
 		CDMAEVDORevA = 7,
 		CDMAEVDORevB = 8,
-		EHRPD = 9,
-		LTE = 10,
+		Ehrpd = 9,
+		Lte = 10,
 		Unknown = 11
 	}
 
-	[Native]
-	public enum DDLogEventReachability : long
+	public enum DDLogEventReachability
 	{
 		Yes = 0,
 		Maybe = 1,
 		No = 2
 	}
 
-	[Native]
-	public enum DDLogEventStatus : long
+	public enum DDLogEventStatus
 	{
 		Debug = 0,
 		Info = 1,
@@ -74,8 +71,7 @@ namespace Datadog.iOS.ObjC
 		Emergency = 6
 	}
 
-	[Native]
-	public enum DDLogLevel : long
+	public enum DDLogLevel
 	{
 		Debug = 0,
 		Info = 1,
@@ -85,8 +81,7 @@ namespace Datadog.iOS.ObjC
 		Critical = 5
 	}
 
-	[Native]
-	public enum DDRUMActionEventActionActionType : long
+	public enum DDRUMActionEventActionActionType
 	{
 		Custom = 0,
 		Click = 1,
@@ -97,8 +92,7 @@ namespace Datadog.iOS.ObjC
 		Back = 6
 	}
 
-	[Native]
-	public enum DDRUMActionEventActionFrustrationFrustrationType : long
+	public enum DDRUMActionEventActionFrustrationFrustrationType
 	{
 		RageClick = 0,
 		DeadClick = 1,
@@ -107,11 +101,10 @@ namespace Datadog.iOS.ObjC
 		ErrorTap = 4
 	}
 
-	[Native]
-	public enum DDRUMActionEventContainerSource : long
+	public enum DDRUMActionEventContainerSource
 	{
 		Android = 0,
-		IOS = 1,
+		Ios = 1,
 		Browser = 2,
 		Flutter = 3,
 		ReactNative = 4,
@@ -120,8 +113,7 @@ namespace Datadog.iOS.ObjC
 		KotlinMultiplatform = 7
 	}
 
-	[Native]
-	public enum DDRUMActionEventDDActionNameSource : long
+	public enum DDRUMActionEventDDActionNameSource
 	{
 		None = 0,
 		CustomAttribute = 1,
@@ -132,16 +124,14 @@ namespace Datadog.iOS.ObjC
 		Blank = 6
 	}
 
-	[Native]
-	public enum DDRUMActionEventDDSessionPlan : long
+	public enum DDRUMActionEventDDSessionPlan
 	{
 		None = 0,
 		Plan1 = 1,
 		Plan2 = 2
 	}
 
-	[Native]
-	public enum DDRUMActionEventDDSessionRUMSessionPrecondition : long
+	public enum DDRUMActionEventDDSessionRUMSessionPrecondition
 	{
 		None = 0,
 		UserAppLaunch = 1,
@@ -153,65 +143,59 @@ namespace Datadog.iOS.ObjC
 		ExplicitStop = 7
 	}
 
-	[Native]
-	public enum DDRUMActionEventRUMConnectivityEffectiveType : long
+	public enum DDRUMActionEventRUMConnectivityEffectiveType
 	{
 		None = 0,
-		Slow2G = 1,
-		EffectiveType2G = 2,
-		EffectiveType3G = 3,
-		EffectiveType4G = 4
+		Slow2g = 1,
+		EffectiveType2g = 2,
+		EffectiveType3g = 3,
+		EffectiveType4g = 4
 	}
 
-	[Native]
-	public enum DDRUMActionEventRUMConnectivityInterfaces : long
+	public enum DDRUMActionEventRUMConnectivityInterfaces
 	{
 		None = 0,
 		Bluetooth = 1,
 		Cellular = 2,
 		Ethernet = 3,
-		WiFi = 4,
-		WiMax = 5,
+		Wifi = 4,
+		Wimax = 5,
 		Mixed = 6,
 		Other = 7,
 		Unknown = 8,
 		InterfacesNone = 9
 	}
 
-	[Native]
-	public enum DDRUMActionEventRUMConnectivityStatus : long
+	public enum DDRUMActionEventRUMConnectivityStatus
 	{
 		Connected = 0,
 		NotConnected = 1,
 		Maybe = 2
 	}
 
-	[Native]
-	public enum DDRUMActionEventRUMDeviceRUMDeviceType : long
+	public enum DDRUMActionEventRUMDeviceRUMDeviceType
 	{
 		Mobile = 0,
 		Desktop = 1,
 		Tablet = 2,
-		TV = 3,
+		Tv = 3,
 		GamingConsole = 4,
 		Bot = 5,
 		Other = 6
 	}
 
-	[Native]
-	public enum DDRUMActionEventSessionRUMSessionType : long
+	public enum DDRUMActionEventSessionRUMSessionType
 	{
 		User = 0,
 		Synthetics = 1,
-		CITest = 2
+		CiTest = 2
 	}
 
-	[Native]
-	public enum DDRUMActionEventSource : long
+	public enum DDRUMActionEventSource
 	{
 		None = 0,
 		Android = 1,
-		IOS = 2,
+		Ios = 2,
 		Browser = 3,
 		Flutter = 4,
 		ReactNative = 5,
@@ -220,8 +204,7 @@ namespace Datadog.iOS.ObjC
 		KotlinMultiplatform = 8
 	}
 
-	[Native]
-	public enum DDRUMActionType : long
+	public enum DDRUMActionType
 	{
 		Tap = 0,
 		Scroll = 1,
@@ -229,11 +212,10 @@ namespace Datadog.iOS.ObjC
 		Custom = 3
 	}
 
-	[Native]
-	public enum DDRUMErrorEventContainerSource : long
+	public enum DDRUMErrorEventContainerSource
 	{
 		Android = 0,
-		IOS = 1,
+		Ios = 1,
 		Browser = 2,
 		Flutter = 3,
 		ReactNative = 4,
@@ -242,16 +224,14 @@ namespace Datadog.iOS.ObjC
 		KotlinMultiplatform = 7
 	}
 
-	[Native]
-	public enum DDRUMErrorEventDDSessionPlan : long
+	public enum DDRUMErrorEventDDSessionPlan
 	{
 		None = 0,
 		Plan1 = 1,
 		Plan2 = 2
 	}
 
-	[Native]
-	public enum DDRUMErrorEventDDSessionRUMSessionPrecondition : long
+	public enum DDRUMErrorEventDDSessionRUMSessionPrecondition
 	{
 		None = 0,
 		UserAppLaunch = 1,
@@ -263,16 +243,14 @@ namespace Datadog.iOS.ObjC
 		ExplicitStop = 7
 	}
 
-	[Native]
-	public enum DDRUMErrorEventErrorCSPDisposition : long
+	public enum DDRUMErrorEventErrorCSPDisposition
 	{
 		None = 0,
 		Enforce = 1,
 		Report = 2
 	}
 
-	[Native]
-	public enum DDRUMErrorEventErrorCategory : long
+	public enum DDRUMErrorEventErrorCategory
 	{
 		None = 0,
 		Anr = 1,
@@ -282,8 +260,7 @@ namespace Datadog.iOS.ObjC
 		MemoryWarning = 5
 	}
 
-	[Native]
-	public enum DDRUMErrorEventErrorCausesSource : long
+	public enum DDRUMErrorEventErrorCausesSource
 	{
 		Network = 0,
 		Source = 1,
@@ -295,22 +272,20 @@ namespace Datadog.iOS.ObjC
 		Report = 7
 	}
 
-	[Native]
-	public enum DDRUMErrorEventErrorHandling : long
+	public enum DDRUMErrorEventErrorHandling
 	{
 		None = 0,
 		Handled = 1,
 		Unhandled = 2
 	}
 
-	[Native]
-	public enum DDRUMErrorEventErrorResourceProviderProviderType : long
+	public enum DDRUMErrorEventErrorResourceProviderProviderType
 	{
 		None = 0,
 		Ad = 1,
 		Advertising = 2,
 		Analytics = 3,
-		CDN = 4,
+		Cdn = 4,
 		Content = 5,
 		CustomerSuccess = 6,
 		FirstParty = 7,
@@ -323,8 +298,7 @@ namespace Datadog.iOS.ObjC
 		Video = 14
 	}
 
-	[Native]
-	public enum DDRUMErrorEventErrorResourceRUMMethod : long
+	public enum DDRUMErrorEventErrorResourceRUMMethod
 	{
 		Post = 0,
 		Get = 1,
@@ -337,8 +311,7 @@ namespace Datadog.iOS.ObjC
 		Connect = 8
 	}
 
-	[Native]
-	public enum DDRUMErrorEventErrorSource : long
+	public enum DDRUMErrorEventErrorSource
 	{
 		Network = 0,
 		Source = 1,
@@ -350,80 +323,73 @@ namespace Datadog.iOS.ObjC
 		Report = 7
 	}
 
-	[Native]
-	public enum DDRUMErrorEventErrorSourceType : long
+	public enum DDRUMErrorEventErrorSourceType
 	{
 		None = 0,
 		Android = 1,
 		Browser = 2,
-		IOS = 3,
+		Ios = 3,
 		ReactNative = 4,
 		Flutter = 5,
 		Roku = 6,
-		NDK = 7,
-		IOSIl2CPP = 8,
-		NDKIl2CPP = 9
+		Ndk = 7,
+		IosIl2cpp = 8,
+		NdkIl2cpp = 9
 	}
 
-	[Native]
-	public enum DDRUMErrorEventRUMConnectivityEffectiveType : long
+	public enum DDRUMErrorEventRUMConnectivityEffectiveType
 	{
 		None = 0,
-		Slow2G = 1,
-		EffectiveType2G = 2,
-		EffectiveType3G = 3,
-		EffectiveType4G = 4
+		Slow2g = 1,
+		EffectiveType2g = 2,
+		EffectiveType3g = 3,
+		EffectiveType4g = 4
 	}
 
-	[Native]
-	public enum DDRUMErrorEventRUMConnectivityInterfaces : long
+	public enum DDRUMErrorEventRUMConnectivityInterfaces
 	{
 		None = 0,
 		Bluetooth = 1,
 		Cellular = 2,
 		Ethernet = 3,
-		WiFi = 4,
-		WiMax = 5,
+		Wifi = 4,
+		Wimax = 5,
 		Mixed = 6,
 		Other = 7,
 		Unknown = 8,
 		InterfacesNone = 9
 	}
 
-	[Native]
-	public enum DDRUMErrorEventRUMConnectivityStatus : long
+	public enum DDRUMErrorEventRUMConnectivityStatus
 	{
 		Connected = 0,
 		NotConnected = 1,
 		Maybe = 2
 	}
 
-	[Native]
-	public enum DDRUMErrorEventRUMDeviceRUMDeviceType : long
+	public enum DDRUMErrorEventRUMDeviceRUMDeviceType
 	{
 		Mobile = 0,
 		Desktop = 1,
 		Tablet = 2,
-		TV = 3,
+		Tv = 3,
 		GamingConsole = 4,
 		Bot = 5,
 		Other = 6
 	}
 
-	[Native]
-	public enum DDRUMErrorEventSessionRUMSessionType : long
+	public enum DDRUMErrorEventSessionRUMSessionType
 	{
 		User = 0,
 		Synthetics = 1,
-		CITest = 2
+		CiTest = 2
 	}
 
-	[Native]
-	public enum DDRUMErrorEventSource : long
+	public enum DDRUMErrorEventSource
 	{
 		None = 0,
 		Android = 1,
-		IOS = 2,
+		Ios = 2,
 		Browser = 3,
 		Flutter = 4,
 		ReactNative = 5,
@@ -432,8 +398,7 @@ namespace Datadog.iOS.ObjC
 		KotlinMultiplatform = 8
 	}
 
-	[Native]
-	public enum DDRUMErrorSource : long
+	public enum DDRUMErrorSource
 	{
 		Source = 0,
 		Network = 1,
@@ -442,11 +407,10 @@ namespace Datadog.iOS.ObjC
 		Custom = 4
 	}
 
-	[Native]
-	public enum DDRUMLongTaskEventContainerSource : long
+	public enum DDRUMLongTaskEventContainerSource
 	{
 		Android = 0,
-		IOS = 1,
+		Ios = 1,
 		Browser = 2,
 		Flutter = 3,
 		ReactNative = 4,
@@ -455,16 +419,14 @@ namespace Datadog.iOS.ObjC
 		KotlinMultiplatform = 7
 	}
 
-	[Native]
-	public enum DDRUMLongTaskEventDDSessionPlan : long
+	public enum DDRUMLongTaskEventDDSessionPlan
 	{
 		None = 0,
 		Plan1 = 1,
 		Plan2 = 2
 	}
 
-	[Native]
-	public enum DDRUMLongTaskEventDDSessionRUMSessionPrecondition : long
+	public enum DDRUMLongTaskEventDDSessionRUMSessionPrecondition
 	{
 		None = 0,
 		UserAppLaunch = 1,
@@ -476,16 +438,14 @@ namespace Datadog.iOS.ObjC
 		ExplicitStop = 7
 	}
 
-	[Native]
-	public enum DDRUMLongTaskEventLongTaskEntryType : long
+	public enum DDRUMLongTaskEventLongTaskEntryType
 	{
 		None = 0,
 		LongTask = 1,
 		LongAnimationFrame = 2
 	}
 
-	[Native]
-	public enum DDRUMLongTaskEventLongTaskScriptsInvokerType : long
+	public enum DDRUMLongTaskEventLongTaskScriptsInvokerType
 	{
 		None = 0,
 		UserCallback = 1,
@@ -496,65 +456,59 @@ namespace Datadog.iOS.ObjC
 		ModuleScript = 6
 	}
 
-	[Native]
-	public enum DDRUMLongTaskEventRUMConnectivityEffectiveType : long
+	public enum DDRUMLongTaskEventRUMConnectivityEffectiveType
 	{
 		None = 0,
-		Slow2G = 1,
-		EffectiveType2G = 2,
-		EffectiveType3G = 3,
-		EffectiveType4G = 4
+		Slow2g = 1,
+		EffectiveType2g = 2,
+		EffectiveType3g = 3,
+		EffectiveType4g = 4
 	}
 
-	[Native]
-	public enum DDRUMLongTaskEventRUMConnectivityInterfaces : long
+	public enum DDRUMLongTaskEventRUMConnectivityInterfaces
 	{
 		None = 0,
 		Bluetooth = 1,
 		Cellular = 2,
 		Ethernet = 3,
-		WiFi = 4,
-		WiMax = 5,
+		Wifi = 4,
+		Wimax = 5,
 		Mixed = 6,
 		Other = 7,
 		Unknown = 8,
 		InterfacesNone = 9
 	}
 
-	[Native]
-	public enum DDRUMLongTaskEventRUMConnectivityStatus : long
+	public enum DDRUMLongTaskEventRUMConnectivityStatus
 	{
 		Connected = 0,
 		NotConnected = 1,
 		Maybe = 2
 	}
 
-	[Native]
-	public enum DDRUMLongTaskEventRUMDeviceRUMDeviceType : long
+	public enum DDRUMLongTaskEventRUMDeviceRUMDeviceType
 	{
 		Mobile = 0,
 		Desktop = 1,
 		Tablet = 2,
-		TV = 3,
+		Tv = 3,
 		GamingConsole = 4,
 		Bot = 5,
 		Other = 6
 	}
 
-	[Native]
-	public enum DDRUMLongTaskEventSessionRUMSessionType : long
+	public enum DDRUMLongTaskEventSessionRUMSessionType
 	{
 		User = 0,
 		Synthetics = 1,
-		CITest = 2
+		CiTest = 2
 	}
 
-	[Native]
-	public enum DDRUMLongTaskEventSource : long
+	public enum DDRUMLongTaskEventSource
 	{
 		None = 0,
 		Android = 1,
-		IOS = 2,
+		Ios = 2,
 		Browser = 3,
 		Flutter = 4,
 		ReactNative = 5,
@@ -563,8 +517,7 @@ namespace Datadog.iOS.ObjC
 		KotlinMultiplatform = 8
 	}
 
-	[Native]
-	public enum DDRUMMethod : long
+	public enum DDRUMMethod
 	{
 		Post = 0,
 		Get = 1,
@@ -577,11 +530,10 @@ namespace Datadog.iOS.ObjC
 		Options = 8
 	}
 
-	[Native]
-	public enum DDRUMResourceEventContainerSource : long
+	public enum DDRUMResourceEventContainerSource
 	{
 		Android = 0,
-		IOS = 1,
+		Ios = 1,
 		Browser = 2,
 		Flutter = 3,
 		ReactNative = 4,
@@ -590,16 +542,14 @@ namespace Datadog.iOS.ObjC
 		KotlinMultiplatform = 7
 	}
 
-	[Native]
-	public enum DDRUMResourceEventDDSessionPlan : long
+	public enum DDRUMResourceEventDDSessionPlan
 	{
 		None = 0,
 		Plan1 = 1,
 		Plan2 = 2
 	}
 
-	[Native]
-	public enum DDRUMResourceEventDDSessionRUMSessionPrecondition : long
+	public enum DDRUMResourceEventDDSessionRUMSessionPrecondition
 	{
 		None = 0,
 		UserAppLaunch = 1,
@@ -611,8 +561,7 @@ namespace Datadog.iOS.ObjC
 		ExplicitStop = 7
 	}
 
-	[Native]
-	public enum DDRUMResourceEventRUMConnectivityEffectiveType : long
+	public enum DDRUMResourceEventRUMConnectivityEffectiveType
 	{
 		None = 0,
 		Slow2g = 1,
@@ -621,43 +570,39 @@ namespace Datadog.iOS.ObjC
 		EffectiveType4g = 4
 	}
 
-	[Native]
-	public enum DDRUMResourceEventRUMConnectivityInterfaces : long
+	public enum DDRUMResourceEventRUMConnectivityInterfaces
 	{
 		None = 0,
 		Bluetooth = 1,
 		Cellular = 2,
 		Ethernet = 3,
-		WiFi = 4,
-		WiMax = 5,
+		Wifi = 4,
+		Wimax = 5,
 		Mixed = 6,
 		Other = 7,
 		Unknown = 8,
 		InterfacesNone = 9
 	}
 
-	[Native]
-	public enum DDRUMResourceEventRUMConnectivityStatus : long
+	public enum DDRUMResourceEventRUMConnectivityStatus
 	{
 		Connected = 0,
 		NotConnected = 1,
 		Maybe = 2
 	}
 
-	[Native]
-	public enum DDRUMResourceEventRUMDeviceRUMDeviceType : long
+	public enum DDRUMResourceEventRUMDeviceRUMDeviceType
 	{
 		Mobile = 0,
 		Desktop = 1,
 		Tablet = 2,
-		TV = 3,
+		Tv = 3,
 		GamingConsole = 4,
 		Bot = 5,
 		Other = 6
 	}
 
-	[Native]
-	public enum DDRUMResourceEventResourceDeliveryType : long
+	public enum DDRUMResourceEventResourceDeliveryType
 	{
 		None = 0,
 		Cache = 1,
@@ -665,22 +610,20 @@ namespace Datadog.iOS.ObjC
 		Other = 3
 	}
 
-	[Native]
-	public enum DDRUMResourceEventResourceGraphqlOperationType : long
+	public enum DDRUMResourceEventResourceGraphqlOperationType
 	{
 		Query = 0,
 		Mutation = 1,
 		Subscription = 2
 	}
 
-	[Native]
-	public enum DDRUMResourceEventResourceProviderProviderType : long
+	public enum DDRUMResourceEventResourceProviderProviderType
 	{
 		None = 0,
 		Ad = 1,
 		Advertising = 2,
 		Analytics = 3,
-		CDN = 4,
+		Cdn = 4,
 		Content = 5,
 		CustomerSuccess = 6,
 		FirstParty = 7,
@@ -693,8 +636,7 @@ namespace Datadog.iOS.ObjC
 		Video = 14
 	}
 
-	[Native]
-	public enum DDRUMResourceEventResourceRUMMethod : long
+	public enum DDRUMResourceEventResourceRUMMethod
 	{
 		None = 0,
 		Post = 1,
@@ -708,16 +650,14 @@ namespace Datadog.iOS.ObjC
 		Connect = 9
 	}
 
-	[Native]
-	public enum DDRUMResourceEventResourceRenderBlockingStatus : long
+	public enum DDRUMResourceEventResourceRenderBlockingStatus
 	{
 		None = 0,
 		Blocking = 1,
 		NonBlocking = 2
 	}
 
-	[Native]
-	public enum DDRUMResourceEventResourceResourceType : long
+	public enum DDRUMResourceEventResourceResourceType
 	{
 		Document = 0,
 		Xhr = 1,
@@ -732,20 +672,18 @@ namespace Datadog.iOS.ObjC
 		Native = 10
 	}
 
-	[Native]
-	public enum DDRUMResourceEventSessionRUMSessionType : long
+	public enum DDRUMResourceEventSessionRUMSessionType
 	{
 		User = 0,
 		Synthetics = 1,
-		CITest = 2
+		CiTest = 2
 	}
 
-	[Native]
-	public enum DDRUMResourceEventSource : long
+	public enum DDRUMResourceEventSource
 	{
 		None = 0,
 		Android = 1,
-		IOS = 2,
+		Ios = 2,
 		Browser = 3,
 		Flutter = 4,
 		ReactNative = 5,
@@ -754,8 +692,7 @@ namespace Datadog.iOS.ObjC
 		KotlinMultiplatform = 8
 	}
 
-	[Native]
-	public enum DDRUMResourceType : long
+	public enum DDRUMResourceType
 	{
 		Image = 0,
 		Xhr = 1,
@@ -770,11 +707,10 @@ namespace Datadog.iOS.ObjC
 		Native = 10
 	}
 
-	[Native]
-	public enum DDRUMViewEventContainerSource : long
+	public enum DDRUMViewEventContainerSource
 	{
 		Android = 0,
-		IOS = 1,
+		Ios = 1,
 		Browser = 2,
 		Flutter = 3,
 		ReactNative = 4,
@@ -783,8 +719,7 @@ namespace Datadog.iOS.ObjC
 		KotlinMultiplatform = 7
 	}
 
-	[Native]
-	public enum DDRUMViewEventDDPageStatesState : long
+	public enum DDRUMViewEventDDPageStatesState
 	{
 		Active = 0,
 		Passive = 1,
@@ -793,16 +728,14 @@ namespace Datadog.iOS.ObjC
 		Terminated = 4
 	}
 
-	[Native]
-	public enum DDRUMViewEventDDSessionPlan : long
+	public enum DDRUMViewEventDDSessionPlan
 	{
 		None = 0,
 		Plan1 = 1,
 		Plan2 = 2
 	}
 
-	[Native]
-	public enum DDRUMViewEventDDSessionRUMSessionPrecondition : long
+	public enum DDRUMViewEventDDSessionRUMSessionPrecondition
 	{
 		None = 0,
 		UserAppLaunch = 1,
@@ -814,16 +747,14 @@ namespace Datadog.iOS.ObjC
 		ExplicitStop = 7
 	}
 
-	[Native]
-	public enum DDRUMViewEventPrivacyReplayLevel : long
+	public enum DDRUMViewEventPrivacyReplayLevel
 	{
 		Allow = 0,
 		Mask = 1,
 		MaskUserInput = 2
 	}
 
-	[Native]
-	public enum DDRUMViewEventRUMConnectivityEffectiveType : long
+	public enum DDRUMViewEventRUMConnectivityEffectiveType
 	{
 		None = 0,
 		Slow2g = 1,
@@ -832,55 +763,50 @@ namespace Datadog.iOS.ObjC
 		EffectiveType4g = 4
 	}
 
-	[Native]
-	public enum DDRUMViewEventRUMConnectivityInterfaces : long
+	public enum DDRUMViewEventRUMConnectivityInterfaces
 	{
 		None = 0,
 		Bluetooth = 1,
 		Cellular = 2,
 		Ethernet = 3,
-		WiFi = 4,
-		WiMax = 5,
+		Wifi = 4,
+		Wimax = 5,
 		Mixed = 6,
 		Other = 7,
 		Unknown = 8,
 		InterfacesNone = 9
 	}
 
-	[Native]
-	public enum DDRUMViewEventRUMConnectivityStatus : long
+	public enum DDRUMViewEventRUMConnectivityStatus
 	{
 		Connected = 0,
 		NotConnected = 1,
 		Maybe = 2
 	}
 
-	[Native]
-	public enum DDRUMViewEventRUMDeviceRUMDeviceType : long
+	public enum DDRUMViewEventRUMDeviceRUMDeviceType
 	{
 		Mobile = 0,
 		Desktop = 1,
 		Tablet = 2,
-		TV = 3,
+		Tv = 3,
 		GamingConsole = 4,
 		Bot = 5,
 		Other = 6
 	}
 
-	[Native]
-	public enum DDRUMViewEventSessionRUMSessionType : long
+	public enum DDRUMViewEventSessionRUMSessionType
 	{
 		User = 0,
 		Synthetics = 1,
-		CITest = 2
+		CiTest = 2
 	}
 
-	[Native]
-	public enum DDRUMViewEventSource : long
+	public enum DDRUMViewEventSource
 	{
 		None = 0,
 		Android = 1,
-		IOS = 2,
+		Ios = 2,
 		Browser = 3,
 		Flutter = 4,
 		ReactNative = 5,
@@ -889,8 +815,7 @@ namespace Datadog.iOS.ObjC
 		KotlinMultiplatform = 8
 	}
 
-	[Native]
-	public enum DDRUMViewEventViewLoadingType : long
+	public enum DDRUMViewEventViewLoadingType
 	{
 		None = 0,
 		InitialLoad = 1,
@@ -903,11 +828,10 @@ namespace Datadog.iOS.ObjC
 		ViewControllerRedisplay = 8
 	}
 
-	[Native]
-	public enum DDRUMVitalEventContainerSource : long
+	public enum DDRUMVitalEventContainerSource
 	{
 		Android = 0,
-		IOS = 1,
+		Ios = 1,
 		Browser = 2,
 		Flutter = 3,
 		ReactNative = 4,
@@ -916,16 +840,14 @@ namespace Datadog.iOS.ObjC
 		KotlinMultiplatform = 7
 	}
 
-	[Native]
-	public enum DDRUMVitalEventDDSessionPlan : long
+	public enum DDRUMVitalEventDDSessionPlan
 	{
 		None = 0,
 		Plan1 = 1,
 		Plan2 = 2
 	}
 
-	[Native]
-	public enum DDRUMVitalEventDDSessionRUMSessionPrecondition : long
+	public enum DDRUMVitalEventDDSessionRUMSessionPrecondition
 	{
 		None = 0,
 		UserAppLaunch = 1,
@@ -937,65 +859,59 @@ namespace Datadog.iOS.ObjC
 		ExplicitStop = 7
 	}
 
-	[Native]
-	public enum DDRUMVitalEventRUMConnectivityEffectiveType : long
+	public enum DDRUMVitalEventRUMConnectivityEffectiveType
 	{
 		None = 0,
-		Slow2G = 1,
-		EffectiveType2G = 2,
-		EffectiveType3G = 3,
-		EffectiveType4G = 4
+		Slow2g = 1,
+		EffectiveType2g = 2,
+		EffectiveType3g = 3,
+		EffectiveType4g = 4
 	}
 
-	[Native]
-	public enum DDRUMVitalEventRUMConnectivityInterfaces : long
+	public enum DDRUMVitalEventRUMConnectivityInterfaces
 	{
 		None = 0,
 		Bluetooth = 1,
 		Cellular = 2,
 		Ethernet = 3,
-		WiFi = 4,
-		WiMax = 5,
+		Wifi = 4,
+		Wimax = 5,
 		Mixed = 6,
 		Other = 7,
 		Unknown = 8,
 		InterfacesNone = 9
 	}
 
-	[Native]
-	public enum DDRUMVitalEventRUMConnectivityStatus : long
+	public enum DDRUMVitalEventRUMConnectivityStatus
 	{
 		Connected = 0,
 		NotConnected = 1,
 		Maybe = 2
 	}
 
-	[Native]
-	public enum DDRUMVitalEventRUMDeviceRUMDeviceType : long
+	public enum DDRUMVitalEventRUMDeviceRUMDeviceType
 	{
 		Mobile = 0,
 		Desktop = 1,
 		Tablet = 2,
-		TV = 3,
+		Tv = 3,
 		GamingConsole = 4,
 		Bot = 5,
 		Other = 6
 	}
 
-	[Native]
-	public enum DDRUMVitalEventSessionRUMSessionType : long
+	public enum DDRUMVitalEventSessionRUMSessionType
 	{
 		User = 0,
 		Synthetics = 1,
-		CITest = 2
+		CiTest = 2
 	}
 
-	[Native]
-	public enum DDRUMVitalEventSource : long
+	public enum DDRUMVitalEventSource
 	{
 		None = 0,
 		Android = 1,
-		IOS = 2,
+		Ios = 2,
 		Browser = 3,
 		Flutter = 4,
 		ReactNative = 5,
@@ -1004,14 +920,12 @@ namespace Datadog.iOS.ObjC
 		KotlinMultiplatform = 8
 	}
 
-	[Native]
-	public enum DDRUMVitalEventVitalVitalType : long
+	public enum DDRUMVitalEventVitalVitalType
 	{
 		DDRUMVitalEventVitalVitalTypeDuration = 0
 	}
 
-	[Native]
-	public enum DDRUMVitalsFrequency : long
+	public enum DDRUMVitalsFrequency
 	{
 		Frequent = 0,
 		Average = 1,
@@ -1019,8 +933,7 @@ namespace Datadog.iOS.ObjC
 		Never = 3
 	}
 
-	[Native]
-	public enum DDSDKVerbosityLevel : long
+	public enum DDSDKVerbosityLevel
 	{
 		None = 0,
 		Debug = 1,
@@ -1029,11 +942,10 @@ namespace Datadog.iOS.ObjC
 		Critical = 4
 	}
 
-	[Native]
-	public enum DDTelemetryConfigurationEventSource : long
+	public enum DDTelemetryConfigurationEventSource
 	{
 		Android = 0,
-		IOS = 1,
+		Ios = 1,
 		Browser = 2,
 		Flutter = 3,
 		ReactNative = 4,
@@ -1041,34 +953,30 @@ namespace Datadog.iOS.ObjC
 		KotlinMultiplatform = 6
 	}
 
-	[Native]
-	public enum DDTelemetryConfigurationEventTelemetryConfigurationSelectedTracingPropagators : long
+	public enum DDTelemetryConfigurationEventTelemetryConfigurationSelectedTracingPropagators
 	{
 		None = 0,
 		Datadog = 1,
 		B3 = 2,
-		B3Multi = 3,
-		TraceContext = 4
+		B3multi = 3,
+		Tracecontext = 4
 	}
 
-	[Native]
-	public enum DDTelemetryConfigurationEventTelemetryConfigurationSessionPersistence : long
+	public enum DDTelemetryConfigurationEventTelemetryConfigurationSessionPersistence
 	{
 		None = 0,
 		LocalStorage = 1,
 		Cookie = 2
 	}
 
-	[Native]
-	public enum DDTelemetryConfigurationEventTelemetryConfigurationTraceContextInjection : long
+	public enum DDTelemetryConfigurationEventTelemetryConfigurationTraceContextInjection
 	{
 		None = 0,
 		All = 1,
 		Sampled = 2
 	}
 
-	[Native]
-	public enum DDTelemetryConfigurationEventTelemetryConfigurationTrackFeatureFlagsForEvents : long
+	public enum DDTelemetryConfigurationEventTelemetryConfigurationTrackFeatureFlagsForEvents
 	{
 		None = 0,
 		Vital = 1,
@@ -1077,8 +985,7 @@ namespace Datadog.iOS.ObjC
 		LongTask = 4
 	}
 
-	[Native]
-	public enum DDTelemetryConfigurationEventTelemetryConfigurationTrackingConsent : long
+	public enum DDTelemetryConfigurationEventTelemetryConfigurationTrackingConsent
 	{
 		None = 0,
 		Granted = 1,
@@ -1086,8 +993,7 @@ namespace Datadog.iOS.ObjC
 		Pending = 3
 	}
 
-	[Native]
-	public enum DDTelemetryConfigurationEventTelemetryConfigurationViewTrackingStrategy : long
+	public enum DDTelemetryConfigurationEventTelemetryConfigurationViewTrackingStrategy
 	{
 		None = 0,
 		ActivityViewTrackingStrategy = 1,
@@ -1096,11 +1002,10 @@ namespace Datadog.iOS.ObjC
 		NavigationViewTrackingStrategy = 4
 	}
 
-	[Native]
-	public enum DDTelemetryDebugEventSource : long
+	public enum DDTelemetryDebugEventSource
 	{
 		Android = 0,
-		IOS = 1,
+		Ios = 1,
 		Browser = 2,
 		Flutter = 3,
 		ReactNative = 4,
@@ -1108,11 +1013,10 @@ namespace Datadog.iOS.ObjC
 		KotlinMultiplatform = 6
 	}
 
-	[Native]
-	public enum DDTelemetryErrorEventSource : long
+	public enum DDTelemetryErrorEventSource
 	{
 		Android = 0,
-		IOS = 1,
+		Ios = 1,
 		Browser = 2,
 		Flutter = 3,
 		ReactNative = 4,
@@ -1120,15 +1024,13 @@ namespace Datadog.iOS.ObjC
 		KotlinMultiplatform = 6
 	}
 
-	[Native]
-	public enum DDTraceContextInjection : long
+	public enum DDTraceContextInjection
 	{
 		All = 0,
 		Sampled = 1
 	}
 
-	[Native]
-	public enum DDUploadFrequency : long
+	public enum DDUploadFrequency
 	{
 		Frequent = 0,
 		Average = 1,

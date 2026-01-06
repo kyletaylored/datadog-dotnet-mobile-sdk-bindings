@@ -9,6 +9,6 @@ public partial class DDWebViewTracking
 
     public static void Enable(WKWebView webView)
     {
-        Enable(webView, new NSSet<NSString>(), MaxSampleRate);
+        EnableWithWebView(webView, new NSSet<NSString>(), MaxSampleRate);
     }
 }
