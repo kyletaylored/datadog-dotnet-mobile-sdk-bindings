@@ -27,8 +27,15 @@ jobs:
 
       - name: Setup .NET SDK 8
         uses: actions/setup-dotnet@v5
+        id: setup-dotnet-8
         with:
           dotnet-version: 8.0.x
+
+      - name: Create temporary global.json for SDK 8
+        run: echo '{"sdk":{"version":"${{ steps.setup-dotnet-8.outputs.dotnet-version }}","rollForward":"latestPatch"}}' > ./global.json
+
+      - name: Verify SDK version
+        run: dotnet --version
 
       - name: Install .NET MAUI iOS workload for SDK 8
         run: dotnet workload install ios

@@ -528,3 +528,6 @@ iOSInjectionProject/
 .DS_Store
 ._.DS_Store
 .claude
+
+# Ignore global.json - created dynamically by CI
+global.json
