@@ -8,7 +8,7 @@ This package provides the core Datadog iOS SDK functionality through Objective-C
 
 **Package Information:**
 - **NuGet Package**: `Bcr.Datadog.iOS.ObjC`
-- **Target Frameworks**: `net8.0-ios17.0`, `net9.0-ios18.0`
+- **Target Frameworks**: `net9.0-ios17.0`, `net10.0-ios17.0`
 - **Namespace**: `Datadog.iOS.ObjC`
 
 **Included Features:**
@@ -25,7 +25,7 @@ This package provides the core Datadog iOS SDK functionality through Objective-C
 ## Requirements
 
 - iOS 17.0+
-- .NET 8 or higher
+- .NET 9 or 10
 - macOS development environment with Xcode
 
 ## Installation

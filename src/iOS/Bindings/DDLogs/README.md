@@ -8,7 +8,7 @@ This package provides direct bindings to the DatadogLogs.xcframework, exposing t
 
 **Package Information:**
 - **NuGet Package**: `Bcr.Datadog.iOS.Logs`
-- **Target Frameworks**: `net8.0-ios17.0`, `net9.0-ios18.0`
+- **Target Frameworks**: `net9.0-ios17.0`, `net10.0-ios17.0`
 - **XCFramework**: `DDL.xcframework`
 
 > **⚠️ Important**: This is a low-level binding package. For most use cases, you should use [Bcr.Datadog.iOS.ObjC](../ObjC/README.md) instead, which includes Logs, RUM, and Trace in a single integrated package with easier-to-use APIs.

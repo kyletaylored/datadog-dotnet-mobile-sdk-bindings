@@ -149,7 +149,7 @@ dotnet test
 ### Prerequisites
 
 - macOS with Xcode
-- .NET 8+ SDK
+- .NET 9+ SDK
 - Objective Sharpie (`brew install objectivesharpie`)
 - Carthage (`brew install carthage`)
 - Git (for submodules)
@@ -259,7 +259,7 @@ Edit each `.csproj` file:
 ```xml
 <!-- src/iOS/Bindings/ObjC/ObjC.csproj -->
 <PropertyGroup>
-  <TargetFrameworks>net8.0-ios17.0;net9.0-ios18.0</TargetFrameworks>
+  <TargetFrameworks>net9.0-ios17.0;net10.0-ios17.0</TargetFrameworks>
   <PackageVersion>2.26.0</PackageVersion>
 </PropertyGroup>
 ```
@@ -328,26 +328,23 @@ dotnet build -t:Run src/iOS/T/T.csproj
 #### iOS: Multi-Target
 
 ```xml
-<TargetFrameworks>net8.0-ios17.0;net9.0-ios18.0</TargetFrameworks>
+<TargetFrameworks>net9.0-ios17.0;net10.0-ios17.0</TargetFrameworks>
 ```
 
 **Why multiple targets?**
-- Provides backwards compatibility with .NET 8 and 9
+- Provides backwards compatibility with .NET 9 and 10
 - Allows gradual migration
-- No iOS-specific binding issues in .NET 8/9
+- No iOS-specific binding issues in .NET 9/10
 
 **Compatibility:**
-- ✅ .NET 8 apps use `net8.0-ios17.0` target
-- ✅ .NET 9 apps use `net9.0-ios18.0` target
-- ✅ .NET 10 apps use `net9.0-ios18.0` target (forward compatible)
-
-**Future:** Add `net10.0-ios18.0` when .NET 10 is GA
+- ✅ .NET 9 apps use `net9.0-ios17.0` target
+- ✅ .NET 10 apps use `net10.0-ios17.0` target
 
 ### Version Compatibility Matrix
 
 | .NET Version | Android Support | iOS Support | Notes |
 |--------------|-----------------|-------------|-------|
-| .NET 8 | ❌ Not supported | ✅ Supported | Android requires .NET 10 |
+| .NET 8 | ❌ Not supported | ❌ Not supported | Dropped support |
 | .NET 9 | ❌ Not supported | ✅ Supported | Android binding bugs |
 | .NET 10 | ✅ Required | ✅ Supported | Only version for Android |
 | .NET 11+ | 🔜 Future | 🔜 Future | Add when available |
@@ -391,9 +388,9 @@ Reason: Fixed Metadata.xml, added Additions code, etc.
 <TargetFramework>net11.0-android</TargetFramework>
 ```
 
-**iOS - Add .NET 10/11 Support:**
+**iOS - Add .NET 11 Support:**
 ```xml
-<TargetFrameworks>net8.0-ios17.0;net9.0-ios18.0;net10.0-ios18.0</TargetFrameworks>
+<TargetFrameworks>net9.0-ios17.0;net10.0-ios17.0;net11.0-ios17.0</TargetFrameworks>
 ```
 
 **When:** After new .NET version is GA and tested
@@ -406,6 +403,7 @@ Reason: Fixed Metadata.xml, added Additions code, etc.
 
 <!-- If Datadog SDK requires iOS 18 -->
 <TargetFrameworks>net9.0-ios18.0;net10.0-ios18.0</TargetFrameworks>
+<!-- Note: Currently supporting iOS 17.0+ -->
 ```
 
 **When:** Native Datadog SDK drops support for older OS versions
@@ -571,7 +569,7 @@ If your app crashes immediately on Android 15+ with a native crash, it's likely 
 - [ ] Swift headers extracted correctly
 - [ ] Objective Sharpie bindings reviewed
 - [ ] `[Verify]` attributes addressed
-- [ ] Multi-targeting works for .NET 8 and 9
+- [ ] Multi-targeting works for .NET 9 and 10
 - [ ] Test app builds and runs
 - [ ] Documentation generated (optional)
 

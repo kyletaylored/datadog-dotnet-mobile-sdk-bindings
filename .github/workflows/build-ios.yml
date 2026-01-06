@@ -7,9 +7,6 @@ on:
 env:
   DOTNET_VERSION: '10.0.x'
   XCODE_VERSION: '16.1'
-  # Suppress EOL warnings and version parsing errors for net8.0-ios17.0
-  MSBUILDTREATALLERRORS: false
-  MSBUILDWARNINGSASMESSAGES: NETSDK1202;NU1202;NETSDK1135
 
 jobs:
   build-ios:
@@ -32,7 +29,6 @@ jobs:
         uses: actions/setup-dotnet@v5
         with:
           dotnet-version: |
-            8.0.x
             9.0.x
             10.0.x
 
@@ -40,10 +36,7 @@ jobs:
         run: dotnet workload install ios
 
       - name: Restore dependencies
-        run: |
-          # Known issue: .NET SDK 10 reports NU1202 errors for net8.0-ios17.0 (shows as net8.0-ios1.0)
-          # This is a NuGet bug and does not affect the build. See: https://github.com/nuget/home/issues/14600
-          dotnet restore src/iOS/iOSBindings.sln 2>&1 | grep -v "error NU1202" || true
+        run: dotnet restore src/iOS/iOSBindings.sln
 
       - name: Build iOS bindings
         run: dotnet build src/iOS/iOSBindings.sln --configuration Release --no-restore
@@ -87,7 +80,6 @@ jobs:
         uses: actions/setup-dotnet@v5
         with:
           dotnet-version: |
-            8.0.x
             9.0.x
             10.0.x
 
@@ -101,13 +93,10 @@ jobs:
           path: ./artifacts
 
       - name: Add local NuGet source
-        run: |
-          dotnet nuget add source ./artifacts --name local
+        run: dotnet nuget add source ./artifacts --name local
 
       - name: Restore test app dependencies
-        run: |
-          # Suppress NU1202 errors (known NuGet bug with .NET SDK 10)
-          dotnet restore src/iOS/T/Test.sln 2>&1 | grep -v "error NU1202" || true
+        run: dotnet restore src/iOS/T/Test.sln
 
       - name: Build test app
         run: dotnet build src/iOS/T/Test.sln --configuration Release --no-restore -p:BuildIpa=true

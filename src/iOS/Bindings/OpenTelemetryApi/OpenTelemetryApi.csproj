@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net8.0-ios17.0;net9.0-ios18.0</TargetFrameworks>
+    <TargetFrameworks>net9.0-ios17.0;net10.0-ios17.0</TargetFrameworks>
     <Nullable>enable</Nullable>
     <ImplicitUsings>true</ImplicitUsings>
     <IsBindingProject>true</IsBindingProject>
@@ -42,7 +42,16 @@
     </NativeReference>
   </ItemGroup>
 
-  <ItemGroup Condition="'$(TargetFramework)' == 'net9.0-ios18.0'">
+  <ItemGroup Condition="'$(TargetFramework)' == 'net9.0-ios17.0'">
+    <NativeReference Include="$(XCFrameworkPath)">
+      <Kind>Framework</Kind>
+      <Frameworks></Frameworks>
+      <SmartLink>True</SmartLink>
+      <ForceLoad>True</ForceLoad>
+    </NativeReference>
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'net10.0-ios17.0'">
     <NativeReference Include="$(XCFrameworkPath)">
       <Kind>Framework</Kind>
       <Frameworks></Frameworks>

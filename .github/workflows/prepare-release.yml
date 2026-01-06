@@ -18,9 +18,6 @@ on:
 
 env:
   DOTNET_VERSION: '10.0.x'
-  # Suppress EOL warnings and version parsing errors for net8.0-ios17.0
-  MSBUILDTREATALLERRORS: false
-  MSBUILDWARNINGSASMESSAGES: NETSDK1202;NU1202;NETSDK1135
 
 jobs:
   prepare-android-release:
@@ -151,10 +148,7 @@ jobs:
         run: dotnet workload install ios
 
       - name: Restore dependencies
-        run: |
-          # Known issue: .NET SDK 10 reports NU1202 errors for net8.0-ios17.0 (shows as net8.0-ios1.0)
-          # This is a NuGet bug and does not affect the build. See: https://github.com/nuget/home/issues/14600
-          dotnet restore src/iOS/iOSBindings.sln 2>&1 | grep -v "error NU1202" || true
+        run: dotnet restore src/iOS/iOSBindings.sln
 
       - name: Build Release
         run: dotnet build src/iOS/iOSBindings.sln --configuration Release --no-restore
