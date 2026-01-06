@@ -48,10 +48,7 @@ jobs:
         run: brew install carthage
 
       - name: Build XCFrameworks
-        run: |
-          cd src/iOS
-          chmod +x buildxcframework.sh
-          ./buildxcframework.sh
+        run: ./src/iOS/buildxcframework.sh
         env:
           GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
 
@@ -123,10 +120,7 @@ jobs:
         run: brew install carthage
 
       - name: Build XCFrameworks
-        run: |
-          cd src/iOS
-          chmod +x buildxcframework.sh
-          ./buildxcframework.sh
+        run: ./src/iOS/buildxcframework.sh
         env:
           GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
 
