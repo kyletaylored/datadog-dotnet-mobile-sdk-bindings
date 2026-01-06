@@ -35,6 +35,7 @@ jobs:
       - name: Install iOS platform
         run: | 
           xcodebuild -version
+          xcrun simctl list > /dev/null 
           xcodebuild -downloadPlatform iOS
 
       - name: Setup .NET SDK 8
