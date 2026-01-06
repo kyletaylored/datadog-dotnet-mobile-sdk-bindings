@@ -19,12 +19,16 @@ jobs:
         with:
           submodules: recursive
 
-      - name: Verify submodules
+      - name: Initialize and verify submodules
         run: |
+          echo "Initializing submodules..."
+          git submodule update --init --recursive
           echo "Checking submodule status..."
           git submodule status
           echo "Verifying dd-sdk-ios exists..."
-          ls -la dd-sdk-ios/ || echo "dd-sdk-ios not found"
+          ls -la dd-sdk-ios/
+          echo "Verifying Cartfile exists..."
+          ls -la dd-sdk-ios/Cartfile
 
       - name: Select Xcode version
         run: sudo xcode-select -s /Applications/Xcode_${{ env.XCODE_VERSION }}.app
@@ -99,12 +103,16 @@ jobs:
         with:
           submodules: recursive
 
-      - name: Verify submodules
+      - name: Initialize and verify submodules
         run: |
+          echo "Initializing submodules..."
+          git submodule update --init --recursive
           echo "Checking submodule status..."
           git submodule status
           echo "Verifying dd-sdk-ios exists..."
-          ls -la dd-sdk-ios/ || echo "dd-sdk-ios not found"
+          ls -la dd-sdk-ios/
+          echo "Verifying Cartfile exists..."
+          ls -la dd-sdk-ios/Cartfile
 
       - name: Select Xcode version
         run: sudo xcode-select -s /Applications/Xcode_${{ env.XCODE_VERSION }}.app
