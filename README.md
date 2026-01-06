@@ -56,7 +56,9 @@ Install via NuGet Package Manager or add to your `.csproj`:
 <PackageReference Include="Bcr.Datadog.iOS.Web" Version="2.26.0" />  <!-- WebView Tracking -->
 ```
 
-> 💡 **Note**: iOS packages support **net8.0-ios**, **net9.0-ios**, and **net10.0-ios** target frameworks
+> 💡 **Note**: Both platforms support multiple target frameworks:
+> - **Android**: `net9.0-android`, `net10.0-android` (⭐ `net10.0-android` recommended for 16KB page size support)
+> - **iOS**: `net8.0-ios`, `net9.0-ios`, `net10.0-ios`
 
 See [GETTING_STARTED.md](GETTING_STARTED.md) for complete initialization examples and API usage.
 
@@ -90,7 +92,8 @@ See [GETTING_STARTED.md](GETTING_STARTED.md) for complete initialization example
 ### .NET SDK
 
 - **.NET 8, 9, or 10**
-  - **Android**: .NET 10 required (16KB page size support and binding fixes)
+  - **Android**: .NET 9 or 10 (supports `net9.0-android`, `net10.0-android`)
+    - ⚠️ **Note**: `net10.0-android` recommended for 16KB page size support (Google Play requirement as of November 2025)
   - **iOS**: .NET 8, 9, or 10 (supports `net8.0-ios`, `net9.0-ios`, `net10.0-ios`)
 
 ### Android
@@ -188,15 +191,22 @@ See [BUILDING_AND_VERSIONING.md](BUILDING_AND_VERSIONING.md) for the complete ve
   - Android: Initialize in `MainActivity.OnCreate`
   - iOS: Initialize in `AppDelegate.FinishedLaunching`
 
-### Multi-Framework Support (iOS)
+### Multi-Framework Support
 
-iOS packages now support multiple .NET versions:
+Both Android and iOS packages support multiple .NET versions:
 
+**iOS Packages:**
 - `net8.0-ios` - For .NET 8 projects
 - `net9.0-ios` - For .NET 9 projects
 - `net10.0-ios` - For .NET 10 projects
 
 All frameworks target iOS 17.0+ and are included in a single NuGet package.
+
+**Android Packages:**
+- `net9.0-android` - For .NET 9 projects
+- `net10.0-android` - For .NET 10 projects (⭐ **Recommended**)
+
+All frameworks target Android API 26+ and are included in a single NuGet package. `net10.0-android` is recommended for 16KB page size support (Google Play requirement as of November 2025).
 
 ---
 

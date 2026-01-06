@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 #
-# Build Android NuGet packages locally
+# Build Android NuGet packages locally with all target frameworks (net9.0-android, net10.0-android)
 #
 # Usage:
 #   ./build-local-android-packages.sh [output-directory]
 #
 # Requirements:
-#   - .NET SDK 10.0.x (or 9.0.x) installed
+#   - .NET SDK 9.0.x and 10.0.x installed
 #   - Java 17+ installed
 #   - Android SDK installed
 #
@@ -26,7 +26,7 @@ echo ""
 # Check prerequisites
 echo "Checking prerequisites..."
 if ! command -v dotnet &> /dev/null; then
-    echo "❌ .NET SDK not found. Please install .NET SDK 9.0+ or 10.0+"
+    echo "❌ .NET SDK not found. Please install .NET SDK 9.0 and 10.0"
     exit 1
 fi
 
@@ -42,44 +42,111 @@ if [ "$JAVA_VERSION" -lt 17 ]; then
     exit 1
 fi
 
+# Check for multiple SDK versions
+DOTNET_SDKS=$(dotnet --list-sdks)
+echo "Found .NET SDKs:"
+echo "$DOTNET_SDKS"
+echo ""
+
+if ! echo "$DOTNET_SDKS" | grep -q "^9\."; then
+    echo "❌ .NET SDK 9.0.x not found. Please install it from https://dotnet.microsoft.com/download"
+    exit 1
+fi
+
+if ! echo "$DOTNET_SDKS" | grep -q "^10\."; then
+    echo "❌ .NET SDK 10.0.x not found. Please install it from https://dotnet.microsoft.com/download"
+    exit 1
+fi
+
 echo "✅ All prerequisites met"
 echo ""
 
 # Initialize submodules
-echo "Step 1/5: Initializing submodules..."
+echo "Step 1/7: Initializing submodules..."
 git submodule update --init --recursive
 
-# Remove global.json if it exists (Android doesn't need SDK 8)
-rm -f global.json
-
-# Install Android workload
+# Get SDK 9 version and build with it
+DOTNET_9_VERSION=$(dotnet --list-sdks | grep "^9\." | tail -1 | awk '{print $1}')
 echo ""
-echo "Step 2/5: Installing Android workload..."
+echo "Step 2/7: Using .NET SDK 9: $DOTNET_9_VERSION"
+
+# Create temporary global.json for SDK 9
+cat > global.json <<EOF
+{
+  "sdk": {
+    "version": "$DOTNET_9_VERSION",
+    "rollForward": "latestPatch"
+  }
+}
+EOF
+
+echo ""
+echo "Step 3/7: Installing Android workload for .NET SDK 9..."
 dotnet workload install android
 
-# Restore dependencies
 echo ""
-echo "Step 3/5: Restoring dependencies..."
+echo "Step 4/7: Building with .NET SDK 9 (net9.0-android)..."
 dotnet restore src/Android/AndroidDatadogBindings.sln
-
-# Build
-echo ""
-echo "Step 4/5: Building Android bindings..."
 dotnet build src/Android/AndroidDatadogBindings.sln --configuration Release --no-restore --verbosity minimal
+dotnet pack src/Android/AndroidDatadogBindings.sln --configuration Release --no-build --output ./temp-packages-net9 2>&1 | grep -v "prerelease dependency" || true
 
-# Pack
+# Remove global.json and build with SDK 10
+rm -f global.json
+
 echo ""
-echo "Step 5/5: Creating NuGet packages..."
-mkdir -p "$OUTPUT_DIR"
+echo "Step 5/7: Building with .NET SDK 10 (net10.0-android)..."
+dotnet workload install android
+dotnet restore src/Android/AndroidDatadogBindings.sln
+dotnet build src/Android/AndroidDatadogBindings.sln --configuration Release --no-restore --verbosity minimal
+dotnet pack src/Android/AndroidDatadogBindings.sln --configuration Release --no-build --output ./temp-packages-net10 2>&1 | grep -v "prerelease dependency" || true
 
-# Suppress prerelease dependency warnings
-dotnet pack src/Android/AndroidDatadogBindings.sln --configuration Release --no-build --output "$OUTPUT_DIR" 2>&1 | grep -v "prerelease dependency" || true
+# Combine packages
+echo ""
+echo "Step 6/7: Combining packages with all target frameworks..."
+mkdir -p "$OUTPUT_DIR"
+mkdir -p ./temp-extract
+
+for net9_pkg in ./temp-packages-net9/*.nupkg; do
+    pkg_name=$(basename "$net9_pkg" | sed 's/\.[0-9]\+\.[0-9]\+\.[0-9]\+.*\.nupkg$//')
+    version=$(basename "$net9_pkg" | sed -n 's/.*\.\([0-9]\+\.[0-9]\+\.[0-9]\+[^.]*\)\.nupkg$/\1/p')
+    net10_pkg="./temp-packages-net10/${pkg_name}.${version}.nupkg"
+
+    echo "  Processing $pkg_name version $version"
+
+    if [ -f "$net10_pkg" ]; then
+        # Extract both packages
+        unzip -q "$net9_pkg" -d "./temp-extract/net9"
+        unzip -q "$net10_pkg" -d "./temp-extract/net10"
+
+        # Copy net10.0-android lib to net9 package structure
+        if [ -d "./temp-extract/net10/lib/net10.0-android" ]; then
+            cp -r "./temp-extract/net10/lib/net10.0-android" "./temp-extract/net9/lib/"
+        fi
+
+        # Repackage the combined content
+        (cd "./temp-extract/net9" && zip -q -r "../../${OUTPUT_DIR}/${pkg_name}.${version}.nupkg" *)
+
+        # Clean up temp directory
+        rm -rf "./temp-extract/net9" "./temp-extract/net10"
+
+        echo "    ✅ Created combined package: ${pkg_name}.${version}.nupkg"
+    else
+        echo "    ⚠️  No matching net10 package found, using net9 only"
+        cp "$net9_pkg" "$OUTPUT_DIR/"
+    fi
+done
+
+# Clean up
+echo ""
+echo "Step 7/7: Cleaning up temporary files..."
+rm -rf ./temp-packages-net9 ./temp-packages-net10 ./temp-extract
+rm -f global.json
 
 # Summary
 echo ""
-echo "========================================"
+echo "=========================================="
 echo "✅ Build Complete!"
-echo "========================================"
+echo "=========================================="
 echo ""
 echo "Packages created in: $OUTPUT_DIR"
 echo ""

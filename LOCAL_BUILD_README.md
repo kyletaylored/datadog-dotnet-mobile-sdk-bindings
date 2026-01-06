@@ -14,7 +14,7 @@ This guide explains how to build the Datadog .NET iOS and Android binding NuGet 
 ### For Android Packages
 
 - **Linux, macOS, or Windows**
-- **.NET SDK 9.0.x or 10.0.x** - [Download](https://dotnet.microsoft.com/download/dotnet)
+- **.NET SDK 9.0.x and 10.0.x** - [Download](https://dotnet.microsoft.com/download/dotnet)
 - **Java 17+** - [Download](https://adoptium.net/)
 - **Android SDK** - Usually installed with Visual Studio or Android Studio
 
@@ -59,9 +59,9 @@ Each package contains binaries for:
 
 The Android build script will:
 1. Initialize git submodules
-2. Install Android workload
-3. Build Android bindings
-4. Create NuGet packages
+2. Build with .NET SDK 9 for net9.0-android
+3. Build with .NET SDK 10 for net10.0-android
+4. Combine all target frameworks into unified packages
 
 ### Usage
 
@@ -82,6 +82,10 @@ The Android build script will:
 - `Bcr.Datadog.Android.SR.{version}.nupkg` (Session Replay)
 - `Bcr.Datadog.Android.Web.{version}.nupkg` (WebView Tracking)
 - `Bcr.Datadog.Android.OTel.{version}.nupkg` (OpenTelemetry)
+
+Each package contains binaries for:
+- `net9.0-android` (Android API 26+)
+- `net10.0-android` (Android API 26+, ⭐ recommended for 16KB page size support)
 
 ## Using Locally Built Packages
 
@@ -147,6 +151,14 @@ rm -rf dd-sdk-ios/Carthage
 ```
 
 ### Android Build Issues
+
+**Multiple .NET SDK versions required:**
+```bash
+# Check installed SDKs
+dotnet --list-sdks
+
+# You need both 9.0.x AND 10.0.x
+```
 
 **Java version:**
 ```bash

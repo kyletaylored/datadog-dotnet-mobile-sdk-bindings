@@ -31,30 +31,91 @@ jobs:
         with:
           submodules: recursive
 
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v5
-        with:
-          dotnet-version: ${{ env.DOTNET_VERSION }}
-
       - name: Setup Java
         uses: actions/setup-java@v5
         with:
           distribution: 'microsoft'
           java-version: '17'
 
-      - name: Install Android workload
+      # Build with SDK 9 for net9.0-android
+      - name: Setup .NET SDK 9
+        uses: actions/setup-dotnet@v5
+        id: setup-dotnet-9
+        with:
+          dotnet-version: 9.0.x
+
+      - name: Create temporary global.json for SDK 9
+        run: echo '{"sdk":{"version":"${{ steps.setup-dotnet-9.outputs.dotnet-version }}","rollForward":"latestPatch"}}' > ./global.json
+
+      - name: Install Android workload (SDK 9)
         run: dotnet workload install android
 
-      - name: Restore dependencies
+      - name: Restore dependencies (SDK 9)
         run: dotnet restore src/Android/AndroidDatadogBindings.sln
 
-      - name: Build Release
+      - name: Build Release (net9.0-android)
         run: dotnet build src/Android/AndroidDatadogBindings.sln --configuration Release --no-restore --verbosity minimal
 
-      - name: Pack NuGet packages
+      - name: Pack NuGet packages (net9.0-android)
+        run: dotnet pack src/Android/AndroidDatadogBindings.sln --configuration Release --no-build --output ./release-packages-net9 2>&1 | grep -v "prerelease dependency" || true
+
+      # Build with SDK 10 for net10.0-android
+      - name: Remove global.json to allow SDK 10
+        run: rm -f global.json
+
+      - name: Setup .NET SDK 10
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Install Android workload (SDK 10)
+        run: dotnet workload install android
+
+      - name: Restore dependencies (SDK 10)
+        run: dotnet restore src/Android/AndroidDatadogBindings.sln
+
+      - name: Build Release (net10.0-android)
+        run: dotnet build src/Android/AndroidDatadogBindings.sln --configuration Release --no-restore --verbosity minimal
+
+      - name: Pack NuGet packages (net10.0-android)
+        run: dotnet pack src/Android/AndroidDatadogBindings.sln --configuration Release --no-build --output ./release-packages-net10 2>&1 | grep -v "prerelease dependency" || true
+
+      # Combine both builds into unified packages
+      - name: Combine packages for all target frameworks
         run: |
-          # Suppress prerelease dependency warnings for Android
-          dotnet pack src/Android/AndroidDatadogBindings.sln --configuration Release --no-build --output ./release-packages 2>&1 | grep -v "prerelease dependency" || true
+          mkdir -p ./release-packages
+          mkdir -p ./temp-extract
+
+          # Process each package
+          for net9_pkg in ./release-packages-net9/*.nupkg; do
+            pkg_name=$(basename "$net9_pkg" | sed 's/\.[0-9]\+\.[0-9]\+\.[0-9]\+.*\.nupkg$//')
+            version=$(basename "$net9_pkg" | sed -n 's/.*\.\([0-9]\+\.[0-9]\+\.[0-9]\+[^.]*\)\.nupkg$/\1/p')
+            net10_pkg="./release-packages-net10/${pkg_name}.${version}.nupkg"
+
+            echo "Processing $pkg_name version $version"
+
+            if [ -f "$net10_pkg" ]; then
+              # Extract both packages
+              unzip -q "$net9_pkg" -d "./temp-extract/net9"
+              unzip -q "$net10_pkg" -d "./temp-extract/net10"
+
+              # Copy net10.0-android lib to net9 package structure
+              if [ -d "./temp-extract/net10/lib/net10.0-android" ]; then
+                cp -r "./temp-extract/net10/lib/net10.0-android" "./temp-extract/net9/lib/"
+              fi
+
+              # Repackage the combined content
+              (cd "./temp-extract/net9" && zip -q -r "../../release-packages/${pkg_name}.${version}.nupkg" *)
+
+              # Clean up temp directory
+              rm -rf "./temp-extract/net9" "./temp-extract/net10"
+
+              echo "Created combined package: ${pkg_name}.${version}.nupkg"
+            else
+              echo "Warning: Missing net10 package, using net9 only"
+              cp "$net9_pkg" "./release-packages/"
+            fi
+          done
 
       - name: List packages
         run: |

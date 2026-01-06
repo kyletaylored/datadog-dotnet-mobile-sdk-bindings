@@ -1,6 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<TargetFramework>net10.0-android</TargetFramework>
+		<!-- When building with .NET 9 SDK, only build net9.0-android -->
+		<TargetFrameworks Condition="'$(NETCoreSdkVersion)' &lt; '10.0'">net9.0-android</TargetFrameworks>
+		<!-- When building with .NET 10+ SDK, build net10.0-android -->
+		<TargetFrameworks Condition="'$(NETCoreSdkVersion)' &gt;= '10.0'">net10.0-android</TargetFrameworks>
 		<SupportedOSPlatformVersion>26</SupportedOSPlatformVersion>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
