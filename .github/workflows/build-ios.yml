@@ -19,6 +19,13 @@ jobs:
         with:
           submodules: recursive
 
+      - name: Verify submodules
+        run: |
+          echo "Checking submodule status..."
+          git submodule status
+          echo "Verifying dd-sdk-ios exists..."
+          ls -la dd-sdk-ios/ || echo "dd-sdk-ios not found"
+
       - name: Select Xcode version
         run: sudo xcode-select -s /Applications/Xcode_${{ env.XCODE_VERSION }}.app
 
@@ -88,6 +95,13 @@ jobs:
         uses: actions/checkout@v6
         with:
           submodules: recursive
+
+      - name: Verify submodules
+        run: |
+          echo "Checking submodule status..."
+          git submodule status
+          echo "Verifying dd-sdk-ios exists..."
+          ls -la dd-sdk-ios/ || echo "dd-sdk-ios not found"
 
       - name: Select Xcode version
         run: sudo xcode-select -s /Applications/Xcode_${{ env.XCODE_VERSION }}.app
