@@ -9,7 +9,7 @@
     <ImplicitUsings>true</ImplicitUsings>
     <IsBindingProject>true</IsBindingProject>
     <AssemblyName>cr</AssemblyName>
-    <NoWarn>$(NoWarn);NETSDK1202;NU5123</NoWarn>
+    <NoWarn>$(NoWarn);NETSDK1202;NU5123;CS8767</NoWarn>
 
     <!-- NuGet package properties-->
     <PackageId>Bcr.Datadog.iOS.CR</PackageId>
