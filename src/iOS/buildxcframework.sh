@@ -31,10 +31,10 @@ echo
 # Check if GITHUB_PAT is set and use it if available
 if [ -n "${GITHUB_PAT}" ]; then
   echo "Using Github token for Carthage."
-  GITHUB_ACCESS_TOKEN=${GITHUB_PAT} carthage bootstrap --platform iOS --use-xcframeworks --project-directory "${CARTFILE_DIRECTORY}"
+  GITHUB_ACCESS_TOKEN=${GITHUB_PAT} carthage bootstrap --platform iOS --use-xcframeworks --cache-builds --project-directory "${CARTFILE_DIRECTORY}"
 else
   echo "Github token not set. Running Carthage without authentication."
-  carthage bootstrap --platform iOS --use-xcframeworks --project-directory "${CARTFILE_DIRECTORY}"
+  carthage bootstrap --platform iOS --use-xcframeworks --cache-builds --project-directory "${CARTFILE_DIRECTORY}"
 fi
 
 if [ $? -ne 0 ]; then

@@ -8,9 +8,9 @@ env:
   XCODE_VERSION: '26.1'
 
 jobs:
-  # Build with .NET SDK 8 for net8.0-ios support
-  build-ios-net8:
-    name: Build iOS Bindings (net8.0-ios)
+  # Build XCFrameworks once and share across all builds
+  build-xcframeworks:
+    name: Build XCFrameworks
     runs-on: macos-15
 
     steps:
@@ -37,10 +37,65 @@ jobs:
         run: xcodebuild -version
 
       - name: Install iOS platform
-        run: | 
+        run: |
           xcodebuild -version
-          xcrun simctl list > /dev/null 
+          xcrun simctl list > /dev/null
           xcodebuild -downloadPlatform iOS
+
+      - name: Cache Carthage dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            dd-sdk-ios/Carthage
+            ~/Library/Caches/org.carthage.CarthageKit
+          key: ${{ runner.os }}-carthage-${{ hashFiles('dd-sdk-ios/Cartfile.resolved') }}
+          restore-keys: |
+            ${{ runner.os }}-carthage-
+
+      - name: Install Carthage
+        run: brew install carthage
+
+      - name: Build XCFrameworks
+        run: ./src/iOS/buildxcframework.sh
+        env:
+          GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload XCFrameworks
+        uses: actions/upload-artifact@v6
+        with:
+          name: ios-xcframeworks
+          path: src/iOS/Bindings/Libs/*.xcframework
+          retention-days: 1
+
+      - name: Upload build logs on failure
+        if: failure()
+        uses: actions/upload-artifact@v6
+        with:
+          name: xcframework-build-logs
+          path: |
+            **/*.binlog
+            **/bin/**/*.log
+          if-no-files-found: ignore
+          retention-days: 3
+
+  # Build with .NET SDK 8 for net8.0-ios support
+  build-ios-net8:
+    needs: build-xcframeworks
+    name: Build iOS Bindings (net8.0-ios)
+    runs-on: macos-15
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Download XCFrameworks
+        uses: actions/download-artifact@v7
+        with:
+          name: ios-xcframeworks
+          path: src/iOS/Bindings/Libs
+
+      - name: Verify XCFrameworks
+        run: ls -la src/iOS/Bindings/Libs/
 
       - name: Setup .NET SDK 8
         uses: actions/setup-dotnet@v5
@@ -54,13 +109,17 @@ jobs:
       - name: Verify SDK version
         run: dotnet --version
 
-      - name: Install Carthage
-        run: brew install carthage
-
-      - name: Build XCFrameworks
-        run: ./src/iOS/buildxcframework.sh
-        env:
-          GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      - name: Cache .NET workloads
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.dotnet/sdk-manifests
+            ~/.dotnet/metadata
+            ~/.dotnet/workloadsets
+            ~/Library/Caches/NuGet
+          key: ${{ runner.os }}-dotnet-workload-ios-${{ steps.setup-dotnet-8.outputs.dotnet-version }}
+          restore-keys: |
+            ${{ runner.os }}-dotnet-workload-ios-
 
       - name: Install .NET MAUI iOS workload for SDK 8
         run: dotnet workload install ios
@@ -94,49 +153,45 @@ jobs:
 
   # Build with .NET SDK 9+ for net9.0-ios and net10.0-ios support
   build-ios-net9plus:
+    needs: build-xcframeworks
     name: Build iOS Bindings (net9.0-ios, net10.0-ios)
     runs-on: macos-15
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
+
+      - name: Download XCFrameworks
+        uses: actions/download-artifact@v7
         with:
-          submodules: recursive
+          name: ios-xcframeworks
+          path: src/iOS/Bindings/Libs
 
-      - name: Initialize and verify submodules
-        run: |
-          echo "Initializing submodules..."
-          git submodule update --init --recursive
-          echo "Checking submodule status..."
-          git submodule status
-          echo "Verifying dd-sdk-ios exists..."
-          ls -la dd-sdk-ios/
-          echo "Verifying Cartfile exists..."
-          ls -la dd-sdk-ios/Cartfile
-
-      - name: Select Xcode version
-        run: sudo xcode-select -s /Applications/Xcode_${{ env.XCODE_VERSION }}.app
-
-      - name: Show Xcode version
-        run: xcodebuild -version
+      - name: Verify XCFrameworks
+        run: ls -la src/iOS/Bindings/Libs/
 
       - name: Remove global.json to allow SDK 9+
         run: rm -f global.json
 
       - name: Setup .NET SDK 9 and 10
         uses: actions/setup-dotnet@v5
+        id: setup-dotnet-9
         with:
           dotnet-version: |
             9.0.x
             10.0.x
 
-      - name: Install Carthage
-        run: brew install carthage
-
-      - name: Build XCFrameworks
-        run: ./src/iOS/buildxcframework.sh
-        env:
-          GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      - name: Cache .NET workloads
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.dotnet/sdk-manifests
+            ~/.dotnet/metadata
+            ~/.dotnet/workloadsets
+            ~/Library/Caches/NuGet
+          key: ${{ runner.os }}-dotnet-workload-ios-${{ steps.setup-dotnet-9.outputs.dotnet-version }}
+          restore-keys: |
+            ${{ runner.os }}-dotnet-workload-ios-
 
       - name: Install .NET MAUI iOS workload for SDK 9+
         run: dotnet workload install ios
