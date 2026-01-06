@@ -6,56 +6,42 @@ Unofficial .NET bindings for the **Datadog Mobile SDKs** on **Android** and **iO
 - .NET for iOS
 - .NET MAUI (via platform-specific initialization)
 
-## What Are These Bindings?
+---
 
-These are **binding layers** that expose the native Datadog Android (Java/Kotlin) and iOS (Objective-C/Swift) SDK APIs directly to C#. They are **not wrapper SDKs** - they provide 1:1 API mappings to the native SDKs.
+## Documentation
 
-For more information about the underlying SDKs:
+- **[Getting Started Guide](GETTING_STARTED.md)** - Detailed setup, examples, and API usage
+- **[Building & Versioning Guide](BUILDING_AND_VERSIONING.md)** - Build from source and version updates
+- **[Local Package Building](LOCAL_BUILD_README.md)** - Generate NuGet packages locally for development
+- **[Release Process Guide](RELEASE_PROCESS.md)** - Publishing new versions to NuGet.org
 
-- [Datadog iOS SDK Repository](https://github.com/DataDog/dd-sdk-ios)
-- [Datadog Android SDK Repository](https://github.com/DataDog/dd-sdk-android)
-- [Datadog Documentation](https://docs.datadoghq.com/)
+### Platform-Specific Documentation
 
-## Requirements
+- **[iOS Documentation](src/iOS/)** - iOS-specific implementation details
+- **[Android Documentation](src/Android/)** - Android-specific implementation details
 
-### .NET
-
-- **.NET 9 or 10**
-  - Android: .NET 10 required (16KB page size support and binding fixes)
-  - iOS: .NET 9 or 10 (multi-targets `net9.0-ios` and `net10.0-ios` with minimum iOS 17.0`)
-
-### Android
-
-- Android API Level **26+** (Android 8.0 Oreo)
-- Java SDK configured (`JAVA_HOME`)
-
-### iOS
-
-- iOS **17.0+**
-- Xcode 16.1 or later
-- macOS development environment
-- .NET 9 or 10
+---
 
 ## Quick Start
 
 ### Installation
 
-Install the NuGet packages you need for your platform and features:
+Install via NuGet Package Manager or add to your `.csproj`:
 
 #### Android Packages
 
 ```xml
 <!-- Core SDK (required) -->
-<PackageReference Include="Bcr.Datadog.Android.Sdk.Core" Version="2.21.0-pre.1" />
+<PackageReference Include="Bcr.Datadog.Android.Core" Version="2.21.0-pre.1" />
 
 <!-- Feature packages (install as needed) -->
-<PackageReference Include="Bcr.Datadog.Android.Sdk.Logs" Version="2.21.0-pre.1" />
-<PackageReference Include="Bcr.Datadog.Android.Sdk.Rum" Version="2.21.0-pre.1" />
-<PackageReference Include="Bcr.Datadog.Android.Sdk.Trace" Version="2.21.0-pre.1" />
-<PackageReference Include="Bcr.Datadog.Android.Sdk.SessionReplay" Version="2.21.0-pre.1" />
-<PackageReference Include="Bcr.Datadog.Android.Sdk.WebView" Version="2.21.0-pre.1" />
-<PackageReference Include="Bcr.Datadog.Android.Sdk.Ndk" Version="2.21.0-pre.1" />
-<PackageReference Include="Bcr.Datadog.Android.Sdk.Trace.Otel" Version="2.21.0-pre.1" />
+<PackageReference Include="Bcr.Datadog.Android.Logs" Version="2.21.0-pre.1" />
+<PackageReference Include="Bcr.Datadog.Android.Rum" Version="2.21.0-pre.1" />
+<PackageReference Include="Bcr.Datadog.Android.Trace" Version="2.21.0-pre.1" />
+<PackageReference Include="Bcr.Datadog.Android.SessionReplay" Version="2.21.0-pre.1" />
+<PackageReference Include="Bcr.Datadog.Android.WebView" Version="2.21.0-pre.1" />
+<PackageReference Include="Bcr.Datadog.Android.Ndk" Version="2.21.0-pre.1" />
+<PackageReference Include="Bcr.Datadog.Android.Trace.Otel" Version="2.21.0-pre.1" />
 ```
 
 #### iOS Packages
@@ -68,190 +54,129 @@ Install the NuGet packages you need for your platform and features:
 <PackageReference Include="Bcr.Datadog.iOS.CR" Version="2.26.0" />   <!-- Crash Reporting -->
 <PackageReference Include="Bcr.Datadog.iOS.SR" Version="2.26.0" />   <!-- Session Replay -->
 <PackageReference Include="Bcr.Datadog.iOS.Web" Version="2.26.0" />  <!-- WebView Tracking -->
-
-<!-- Low-level framework bindings (typically not needed directly) -->
-<PackageReference Include="Bcr.Datadog.iOS.Logs" Version="2.26.0" />  <!-- Used by ObjC -->
-<PackageReference Include="Bcr.Datadog.iOS.RUM" Version="2.26.0" />   <!-- Used by ObjC -->
-<PackageReference Include="Bcr.Datadog.iOS.Trace" Version="2.26.0" /> <!-- Used by ObjC -->
 ```
 
-### Basic Initialization
+> 💡 **Note**: iOS packages support **net8.0-ios**, **net9.0-ios**, and **net10.0-ios** target frameworks
 
-#### Android (MainActivity.cs)
+See [GETTING_STARTED.md](GETTING_STARTED.md) for complete initialization examples and API usage.
 
-```csharp
-using Datadog.Android.Core.Configuration;
-using Datadog.Android.Log;
-using Datadog.Android.Rum;
-using Datadog.Android.Privacy;
-
-[Activity(Label = "@string/app_name", MainLauncher = true)]
-public class MainActivity : Activity
-{
-    protected override void OnCreate(Bundle? savedInstanceState)
-    {
-        base.OnCreate(savedInstanceState);
-
-        // 1. Configure Datadog SDK
-        var config = new DDConfiguration.Builder(
-            clientToken: "<YOUR_CLIENT_TOKEN>",
-            env: "prod",
-            variantName: string.Empty,
-            serviceName: "my-android-app"
-        )
-        .UseSite(DatadogSite.Us1) // US1, US3, US5, EU1, AP1, US1Fed, etc.
-        .Build();
-
-        // 2. Initialize Datadog (required before enabling features)
-        Datadog.Android.Datadog.Initialize(this, config, TrackingConsent.Granted);
-        Datadog.Android.Datadog.Verbosity = (int)Android.Util.LogPriority.Verbose;
-
-        // 3. Enable Logs
-        var logsConfig = new LogsConfiguration.Builder().Build();
-        Logs.Enable(logsConfig);
-
-        // 4. Enable RUM
-        var rumConfig = new RumConfiguration.Builder("<YOUR_APPLICATION_ID>")
-            .TrackLongTasks()
-            .TrackFrustrations(true)
-            .TrackBackgroundEvents(true)
-            .Build();
-        Datadog.Android.Rum.Rum.Enable(rumConfig);
-
-        // 5. Create and use a logger
-        var logger = new Logger.Builder()
-            .SetName("MyLogger")
-            .Build();
-
-        logger.D("Application started", null, null);
-
-        SetContentView(Resource.Layout.activity_main);
-    }
-}
-```
-
-#### iOS (AppDelegate.cs)
-
-```csharp
-using Datadog.iOS.ObjC;
-using Datadog.iOS.CrashReporting;
-using Datadog.iOS.SessionReplay;
-
-[Register("AppDelegate")]
-public class AppDelegate : UIApplicationDelegate
-{
-    public override bool FinishedLaunching(UIApplication application, NSDictionary launchOptions)
-    {
-        // 1. Configure Datadog SDK
-        var config = new DDConfiguration(
-            clientToken: "<YOUR_CLIENT_TOKEN>",
-            env: "prod"
-        );
-        config.Service = "my-ios-app";
-        config.Site = DDDatadogSite.Us1; // US1, US3, US5, EU1, AP1, etc.
-
-        // 2. Initialize Datadog (required before enabling features)
-        DDDatadog.Initialize(config, DDTrackingConsent.Granted);
-        DDDatadog.VerbosityLevel = DDSDKVerbosityLevel.Debug;
-
-        // 3. Enable Logs
-        DDLogs.Enable(new DDLogsConfiguration(null));
-
-        // 4. Enable RUM
-        var rumConfig = new DDRUMConfiguration("<YOUR_APPLICATION_ID>");
-        rumConfig.SessionSampleRate = 100f;
-        DDRUM.Enable(rumConfig);
-
-        // 5. Enable Crash Reporting (optional)
-        DDCrashReporter.Enable();
-
-        // 6. Create and use a logger
-        var logConfig = new DDLoggerConfiguration();
-        logConfig.Service = "my-ios-app";
-        logConfig.PrintLogsToConsole = true;
-
-        var logger = DDLogger.Create(logConfig);
-        logger.Debug("Application started.");
-
-        return true;
-    }
-}
-```
-
-#### .NET MAUI Usage
-
-For MAUI apps, initialize in platform-specific entry points:
-
-```csharp
-// In Platforms/Android/MainActivity.cs
-protected override void OnCreate(Bundle? savedInstanceState)
-{
-    #if ANDROID
-    // Android initialization code here
-    #endif
-    base.OnCreate(savedInstanceState);
-}
-
-// In Platforms/iOS/AppDelegate.cs
-public override bool FinishedLaunching(UIApplication application, NSDictionary launchOptions)
-{
-    #if IOS
-    // iOS initialization code here
-    #endif
-    return base.FinishedLaunching(application, launchOptions);
-}
-```
+---
 
 ## Features
 
-These bindings provide access to all major Datadog Mobile SDK features:
+| Feature              | Android Package                     | iOS Package            | Description                                       |
+| -------------------- | ----------------------------------- | ---------------------- | ------------------------------------------------- |
+| **Core**             | `Bcr.Datadog.Android.Core`          | `Bcr.Datadog.iOS.ObjC` | Required base SDK (iOS includes Logs, RUM, Trace) |
+| **Logs**             | `Bcr.Datadog.Android.Logs`          | _(included in ObjC)_   | Log collection and forwarding                     |
+| **RUM**              | `Bcr.Datadog.Android.Rum`           | _(included in ObjC)_   | Real User Monitoring                              |
+| **Trace**            | `Bcr.Datadog.Android.Trace`         | _(included in ObjC)_   | APM and distributed tracing                       |
+| **Session Replay**   | `Bcr.Datadog.Android.SessionReplay` | `Bcr.Datadog.iOS.SR`   | User session recording                            |
+| **WebView Tracking** | `Bcr.Datadog.Android.WebView`       | `Bcr.Datadog.iOS.Web`  | WebView instrumentation                           |
+| **Crash Reporting**  | `Bcr.Datadog.Android.Ndk`           | `Bcr.Datadog.iOS.CR`   | Native crash detection                            |
+| **OpenTelemetry**    | `Bcr.Datadog.Android.Trace.Otel`    | `Bcr.Otel.Api.iOS`     | OTel integration                                  |
 
-| Feature              | Android Package                         | iOS Package                | Description                          |
-| -------------------- | --------------------------------------- | -------------------------- | ------------------------------------ |
-| **Core**             | `Bcr.Datadog.Android.Sdk.Core`          | `Bcr.Datadog.iOS.ObjC`     | Required base SDK (iOS includes Logs, RUM, Trace) |
-| **Logs**             | `Bcr.Datadog.Android.Sdk.Logs`          | _(included in ObjC)_       | Log collection and forwarding        |
-| **RUM**              | `Bcr.Datadog.Android.Sdk.Rum`           | _(included in ObjC)_       | Real User Monitoring                 |
-| **Trace**            | `Bcr.Datadog.Android.Sdk.Trace`         | _(included in ObjC)_       | APM and distributed tracing          |
-| **Session Replay**   | `Bcr.Datadog.Android.Sdk.SessionReplay` | `Bcr.Datadog.iOS.SR`       | User session recording               |
-| **WebView Tracking** | `Bcr.Datadog.Android.Sdk.WebView`       | `Bcr.Datadog.iOS.Web`      | WebView instrumentation              |
-| **Crash Reporting**  | `Bcr.Datadog.Android.Sdk.Ndk`           | `Bcr.Datadog.iOS.CR`       | Native crash detection               |
-| **OpenTelemetry**    | `Bcr.Datadog.Android.Sdk.Trace.Otel`    | `Bcr.Otel.Api.iOS`         | OTel integration                     |
+### Official Feature Documentation
 
-### Feature Documentation
+- **Logs**: [Android](https://docs.datadoghq.com/logs/log_collection/android/) | [iOS](https://docs.datadoghq.com/logs/log_collection/ios/)
+- **RUM**: [Android](https://docs.datadoghq.com/real_user_monitoring/android/) | [iOS](https://docs.datadoghq.com/real_user_monitoring/ios/)
+- **Trace**: [Android](https://docs.datadoghq.com/tracing/trace_collection/automatic_instrumentation/dd_libraries/android/) | [iOS](https://docs.datadoghq.com/tracing/trace_collection/automatic_instrumentation/dd_libraries/ios/)
+- **Session Replay**: [Mobile Setup](https://docs.datadoghq.com/real_user_monitoring/session_replay/mobile/setup_and_configuration/)
+- **WebView Tracking**: [Mobile WebView](https://docs.datadoghq.com/real_user_monitoring/mobile_and_tv_monitoring/web_view_tracking/)
 
-- **Logs**: [Android Docs](https://docs.datadoghq.com/logs/log_collection/android/) | [iOS Docs](https://docs.datadoghq.com/logs/log_collection/ios/)
-- **RUM**: [Android Docs](https://docs.datadoghq.com/real_user_monitoring/android/) | [iOS Docs](https://docs.datadoghq.com/real_user_monitoring/ios/)
-- **Trace**: [Android Docs](https://docs.datadoghq.com/tracing/trace_collection/automatic_instrumentation/dd_libraries/android/) | [iOS Docs](https://docs.datadoghq.com/tracing/trace_collection/automatic_instrumentation/dd_libraries/ios/)
-- **Session Replay**: [Mobile Setup Docs](https://docs.datadoghq.com/real_user_monitoring/session_replay/mobile/setup_and_configuration/)
-- **WebView Tracking**: [Mobile WebView Docs](https://docs.datadoghq.com/real_user_monitoring/mobile_and_tv_monitoring/web_view_tracking/)
+---
 
-## Samples
+## Requirements
 
-Working examples are available:
+### .NET SDK
 
-- **Android**: [src/Android/Bindings/Test/TestBindings/](src/Android/Bindings/Test/TestBindings/)
-- **iOS**: [src/iOS/T/](src/iOS/T/)
+- **.NET 8, 9, or 10**
+  - **Android**: .NET 10 required (16KB page size support and binding fixes)
+  - **iOS**: .NET 8, 9, or 10 (supports `net8.0-ios`, `net9.0-ios`, `net10.0-ios`)
 
-These samples demonstrate real-world initialization and usage patterns.
+### Android
 
-## Documentation
+- **Android API Level 26+** (Android 8.0 Oreo)
+- Java SDK configured (`JAVA_HOME`)
+- Android SDK
 
-- **[Getting Started Guide](GETTING_STARTED.md)** - Detailed setup and usage examples
-- **Platform-specific docs**:
-  - [Android Documentation](src/Android/)
-  - [iOS Documentation](src/iOS/)
+### iOS
+
+- **iOS 17.0+**
+- **Xcode 16.1** or later
+- macOS development environment
+
+---
+
+## Development & Building
+
+### Building Packages Locally
+
+To build NuGet packages locally for development or testing:
+
+```bash
+# Build iOS packages (macOS only)
+./build-local-ios-packages.sh [output-directory]
+
+# Build Android packages (any platform)
+./build-local-android-packages.sh [output-directory]
+```
+
+See **[LOCAL_BUILD_README.md](LOCAL_BUILD_README.md)** for detailed instructions, prerequisites, and troubleshooting.
+
+### Building from Source
+
+For contributors or those updating to new Datadog SDK versions:
+
+**[BUILDING_AND_VERSIONING.md](BUILDING_AND_VERSIONING.md)**
+
+This comprehensive guide covers:
+
+- Building native Android AARs
+- Building iOS XCFrameworks
+- Generating C# bindings
+- Version update procedures
+- Publishing workflows
+
+---
+
+## Working Examples
+
+Real-world sample applications demonstrating initialization and usage:
+
+- **Android Sample**: [src/Android/Bindings/Test/TestBindings/](src/Android/Bindings/Test/TestBindings/)
+- **iOS Sample**: [src/iOS/T/](src/iOS/T/)
+
+---
+
+## What Are These Bindings?
+
+These are **binding layers** that expose the native Datadog Android (Java/Kotlin) and iOS (Objective-C/Swift) SDK APIs directly to C#. They are **not wrapper SDKs** - they provide 1:1 API mappings to the native SDKs.
 
 ### IntelliSense Support
 
-- **iOS**: Full IntelliSense documentation available
-- **Android**: Limited IntelliSense; refer to [Android SDK documentation](https://github.com/DataDog/dd-sdk-android)
+- **iOS**: ✅ Full IntelliSense documentation available
+- **Android**: ⚠️ Limited IntelliSense; refer to [Android SDK documentation](https://github.com/DataDog/dd-sdk-android)
+
+### Binding Layer Constraints
+
+- These are **bindings, not wrappers**
+- APIs closely mirror native SDK naming and structure
+- Platform-specific types remain exposed (`Context`, `Activity`, `UIApplication`, etc.)
+- Refer to official Datadog documentation for detailed API behavior
+
+---
 
 ## Versioning
 
 Binding versions mirror the native SDK versions:
 
-- Version `2.21.0-pre.1` binds version `2.21.0` of the native SDK
-- The revision number (`.1`) is incremented for binding-specific updates
+- Version `2.26.0` binds version `2.26.0` of the native SDK
+- Pre-release tags like `2.21.0-pre.1` indicate preview versions
+- The revision number is incremented for binding-specific updates
+
+See [BUILDING_AND_VERSIONING.md](BUILDING_AND_VERSIONING.md) for the complete versioning strategy.
+
+---
 
 ## Important Notes
 
@@ -263,12 +188,32 @@ Binding versions mirror the native SDK versions:
   - Android: Initialize in `MainActivity.OnCreate`
   - iOS: Initialize in `AppDelegate.FinishedLaunching`
 
-### Binding Layer Constraints
+### Multi-Framework Support (iOS)
 
-- These are **bindings, not wrappers**
-- APIs closely mirror native SDK naming and structure
-- Platform-specific types remain exposed (Context, Activity, UIApplication, etc.)
-- Refer to official Datadog documentation for detailed API behavior
+iOS packages now support multiple .NET versions:
+
+- `net8.0-ios` - For .NET 8 projects
+- `net9.0-ios` - For .NET 9 projects
+- `net10.0-ios` - For .NET 10 projects
+
+All frameworks target iOS 17.0+ and are included in a single NuGet package.
+
+---
+
+## Related Resources
+
+### Native SDK Repositories
+
+- [Datadog iOS SDK](https://github.com/DataDog/dd-sdk-ios)
+- [Datadog Android SDK](https://github.com/DataDog/dd-sdk-android)
+
+### Official Documentation
+
+- [Datadog Documentation](https://docs.datadoghq.com/)
+- [Mobile RUM Overview](https://docs.datadoghq.com/real_user_monitoring/mobile_and_tv_monitoring/)
+- [Datadog Support](https://www.datadoghq.com/support/)
+
+---
 
 ## Support
 
@@ -277,11 +222,9 @@ This repository provides bindings only. For SDK usage, features, and troubleshoo
 - Refer to [Official Datadog Documentation](https://docs.datadoghq.com/)
 - See [Datadog Support](https://www.datadoghq.com/support/)
 
-For binding-specific issues (compilation, missing APIs, etc.), please open an issue in this repository.
+For binding-specific issues (compilation errors, missing APIs, platform-specific problems), please open an issue in this repository.
 
-## Contributing
-
-Not accepting contributions at this time.
+---
 
 ## License
 
