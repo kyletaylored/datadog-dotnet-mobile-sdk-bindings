@@ -37,6 +37,17 @@ jobs:
       - name: Verify SDK version
         run: dotnet --version
 
+      - name: Install Carthage
+        run: brew install carthage
+
+      - name: Build XCFrameworks
+        run: |
+          cd src/iOS
+          chmod +x buildxcframework.sh
+          ./buildxcframework.sh
+        env:
+          GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Install .NET MAUI iOS workload for SDK 8
         run: dotnet workload install ios
 
@@ -93,6 +104,17 @@ jobs:
           dotnet-version: |
             9.0.x
             10.0.x
+
+      - name: Install Carthage
+        run: brew install carthage
+
+      - name: Build XCFrameworks
+        run: |
+          cd src/iOS
+          chmod +x buildxcframework.sh
+          ./buildxcframework.sh
+        env:
+          GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Install .NET MAUI iOS workload for SDK 9+
         run: dotnet workload install ios
