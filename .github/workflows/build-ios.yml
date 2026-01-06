@@ -5,7 +5,7 @@ on:
   workflow_dispatch:  # Allow manual triggering
 
 env:
-  XCODE_VERSION: '16.1'
+  XCODE_VERSION: '26.1'
 
 jobs:
   # Build with .NET SDK 8 for net8.0-ios support
@@ -31,6 +31,11 @@ jobs:
 
       - name: Show Xcode version
         run: xcodebuild -version
+
+      - name: Install iOS platform
+        run: | 
+          xcodebuild -version
+          xcodebuild -downloadPlatform iOS
 
       - name: Setup .NET SDK 8
         uses: actions/setup-dotnet@v5
