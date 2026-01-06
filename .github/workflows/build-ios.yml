@@ -242,11 +242,6 @@ jobs:
           name: ios-nuget-packages-net9plus
           path: ./artifacts-net9plus
 
-      - name: Install NuGet CLI
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y nuget
-
       - name: Combine packages for all target frameworks
         run: |
           mkdir -p ./artifacts-combined
