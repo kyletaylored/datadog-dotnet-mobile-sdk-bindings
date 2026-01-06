@@ -54,29 +54,70 @@ else
   echo "No existing .xcframework files to remove."
 fi
 
-function archive {
-  echo "▸ Start archiving the scheme: $1 sdk: $2 for destination: $3;\n▸ Archive path: $4"
-  if ! xcodebuild -workspace "${WORKSPACE}" archive \
-    -scheme "$1" \
-    -sdk "$2" \
-    -destination "$3" \
-    -archivePath "$4" \
+function build_framework {
+  local SCHEME="$1"
+  local SDK="$2"
+  local ARCHIVE_PATH="$3"
+  local FRAMEWORK_NAME="$4"
+
+  echo "▸ Building framework: $SCHEME for sdk: $SDK"
+  echo "▸ Archive path: $ARCHIVE_PATH"
+
+  # Determine architectures and destination based on SDK type
+  if [[ "$SDK" == "iphonesimulator" ]]; then
+    ARCHS="x86_64 arm64"
+    # Get the first available iPhone simulator and extract its UUID
+    # The format is: "    iPhone 15 Pro (5A1AB396-285D-464E-B00C-267CEE8F9F8D) (Shutdown)"
+    # We need to extract the UUID which is the first parentheses group
+    SIMULATOR_ID=$(xcrun simctl list devices available | grep -m 1 "iPhone" | sed -E 's/.*\(([A-F0-9-]+)\).*/\1/')
+    if [ -z "$SIMULATOR_ID" ]; then
+      echo "Error: No simulator found"
+      exit 1
+    fi
+    echo "Using simulator: $SIMULATOR_ID"
+    DESTINATION="id=$SIMULATOR_ID"
+  else
+    ARCHS="arm64"
+    DESTINATION="generic/platform=iOS"
+  fi
+
+  # Build the framework
+  if ! xcodebuild build \
+    -workspace "${WORKSPACE}" \
+    -scheme "$SCHEME" \
+    -destination "$DESTINATION" \
     -configuration "${CONFIGURATION}" \
-    -quiet \
     -derivedDataPath "${DERIVED_DATA_PATH}" \
-    -IDECustomBuildProductsPath="" -IDECustomBuildIntermediatesPath="" \
     ONLY_ACTIVE_ARCH=NO \
+    ARCHS="${ARCHS}" \
     IPHONEOS_DEPLOYMENT_TARGET=17.0 \
     ENABLE_BITCODE=NO \
     SKIP_INSTALL=NO \
     BUILD_LIBRARY_FOR_DISTRIBUTION=YES \
     DEBUG_INFORMATION_FORMAT="dwarf-with-dsym" \
-    STRIP_DEBUG_SYMBOLS=YES \
+    SYMROOT="${ARCHIVE_PATH}/Products" \
+    OBJROOT="${ARCHIVE_PATH}/Intermediates" \
     OTHER_LDFLAGS="-lc++"; then
-      echo "Build for $5 failed. Exiting."
+      echo "Build for $FRAMEWORK_NAME failed. Exiting."
       echo
       exit 1
   fi
+
+  # Create archive structure similar to what xcodebuild archive creates
+  # The output directory will be named based on the SDK version used
+  mkdir -p "${ARCHIVE_PATH}/Products/Library/Frameworks"
+
+  # Find the built framework (could be in Release-iphoneos18.0 or similar)
+  BUILT_FRAMEWORK=$(find "${ARCHIVE_PATH}/Products" -name "${FRAMEWORK_NAME}.framework" -type d | head -n 1)
+
+  if [ -z "$BUILT_FRAMEWORK" ]; then
+    echo "Error: Could not find built framework at ${ARCHIVE_PATH}/Products"
+    echo "Contents:"
+    ls -la "${ARCHIVE_PATH}/Products" || true
+    exit 1
+  fi
+
+  cp -R "$BUILT_FRAMEWORK" "${ARCHIVE_PATH}/Products/Library/Frameworks/"
 }
 
 for INDEX in "${!FRAMEWORK_NAMES[@]}"; do
@@ -87,22 +128,22 @@ for INDEX in "${!FRAMEWORK_NAMES[@]}"; do
   DEVICE_ARCHIVE_PATH="${BUILD_DIR}/${FRAMEWORK_NAME}-iphoneos.xcarchive"
   xcoptions=()
 
-  ### Build archives
+  ### Build frameworks
   # Simulator
-  echo 
-  echo "Creating Simulator archive for ${FRAMEWORK_NAME}."
+  echo
+  echo "Creating Simulator build for ${FRAMEWORK_NAME}."
   echo
 
-  archive "${SCHEME}" iphonesimulator "generic/platform=iOS Simulator" "${SIMULATOR_ARCHIVE_PATH}" "${FRAMEWORK_NAME}"
-  xcoptions+=(-archive "${SIMULATOR_ARCHIVE_PATH}" -framework "${FRAMEWORK_NAME}.framework")
+  build_framework "${SCHEME}" iphonesimulator "${SIMULATOR_ARCHIVE_PATH}" "${FRAMEWORK_NAME}"
+  xcoptions+=(-framework "${SIMULATOR_ARCHIVE_PATH}/Products/Library/Frameworks/${FRAMEWORK_NAME}.framework")
 
   # Device
   echo
-  echo "Creating Device archive for ${FRAMEWORK_NAME}."
+  echo "Creating Device build for ${FRAMEWORK_NAME}."
   echo
 
-  archive "${SCHEME}" iphoneos "generic/platform=iOS" "${DEVICE_ARCHIVE_PATH}" "${FRAMEWORK_NAME}"
-  xcoptions+=(-archive "${DEVICE_ARCHIVE_PATH}" -framework "${FRAMEWORK_NAME}.framework")
+  build_framework "${SCHEME}" iphoneos "${DEVICE_ARCHIVE_PATH}" "${FRAMEWORK_NAME}"
+  xcoptions+=(-framework "${DEVICE_ARCHIVE_PATH}/Products/Library/Frameworks/${FRAMEWORK_NAME}.framework")
 
   # Create XCFramework by combining all frameworks
   echo "Creating XCFramework ${XCFRAMEWORK_NAME} for ${FRAMEWORK_NAME} framework."
