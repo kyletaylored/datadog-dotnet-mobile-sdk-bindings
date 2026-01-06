@@ -8,13 +8,34 @@ Using the Objective-C layer requires you to import the entire SDK (Logs, RUM, an
 
 ## Prerequisites
 
-Before using the iOS SDK bindings, make sure you have the following prerequisites:
+### For Using the Bindings
+
+Before using the iOS SDK bindings, make sure you have the following:
 
 - iOS 17.0+
 - .NET 9 or 10
 - macOS development environment with Xcode 16.1 or later
 
-**Note:** These bindings multi-target `net9.0-ios17.0` and `net10.0-ios17.0` to support both .NET 9 and .NET 10.
+**Note:** These bindings multi-target `net9.0-ios` and `net10.0-ios`, with a minimum supported iOS version of 17.0 to support both .NET 9 and .NET 10.
+
+### For Building from Source
+
+If you need to build the bindings from source, you'll also need:
+
+- **Carthage** - iOS dependency manager
+  ```bash
+  brew install carthage
+  ```
+- **Objective Sharpie** - C# binding generator
+  ```bash
+  brew install objectivesharpie
+  ```
+- Git submodules initialized
+  ```bash
+  git submodule update --init --recursive
+  ```
+
+See [BUILDING_AND_VERSIONING.md](../../BUILDING_AND_VERSIONING.md) for detailed build instructions.
 
 ## Available Packages
 

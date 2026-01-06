@@ -8,7 +8,7 @@ WebView Tracking enables you to forward logs and RUM events captured in a WKWebV
 
 **Package Information:**
 - **NuGet Package**: `Bcr.Datadog.iOS.WebViewTracking`
-- **Target Frameworks**: `net9.0-ios17.0`, `net10.0-ios17.0`
+- **Target Frameworks**: `net9.0-ios`, `net10.0-ios`
 - **Namespace**: `Datadog.iOS.WebViewTracking`
 
 ## Requirements

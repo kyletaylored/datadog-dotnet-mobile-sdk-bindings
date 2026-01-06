@@ -8,7 +8,7 @@ This package provides direct bindings to the DatadogTrace.xcframework, exposing 
 
 **Package Information:**
 - **NuGet Package**: `Bcr.Datadog.iOS.Trace`
-- **Target Frameworks**: `net9.0-ios17.0`, `net10.0-ios17.0`
+- **Target Frameworks**: `net9.0-ios`, `net10.0-ios`
 - **XCFramework**: `DDT.xcframework`
 
 > **⚠️ Important**: This is a low-level binding package. For most use cases, you should use [Bcr.Datadog.iOS.ObjC](../ObjC/README.md) instead, which includes Logs, RUM, and Trace in a single integrated package with easier-to-use APIs.

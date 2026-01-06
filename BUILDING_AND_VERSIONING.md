@@ -148,12 +148,21 @@ dotnet test
 
 ### Prerequisites
 
-- macOS with Xcode
-- .NET 9+ SDK
-- Objective Sharpie (`brew install objectivesharpie`)
-- Carthage (`brew install carthage`)
+- macOS with Xcode 16.1 or later
+- .NET 9 or 10 SDK
+- **Carthage** - iOS dependency manager (required for building XCFrameworks)
+  ```bash
+  brew install carthage
+  ```
+- **Objective Sharpie** - C# binding generator (required for generating bindings)
+  ```bash
+  brew install objectivesharpie
+  ```
 - Git (for submodules)
-- Optional: `GITHUB_PAT` environment variable for Carthage authentication
+  ```bash
+  git submodule update --init --recursive
+  ```
+- Optional: `GITHUB_PAT` environment variable for Carthage authentication to avoid rate limiting
 
 ### Step-by-Step Build
 
@@ -337,8 +346,8 @@ dotnet build -t:Run src/iOS/T/T.csproj
 - No iOS-specific binding issues in .NET 9/10
 
 **Compatibility:**
-- ✅ .NET 9 apps use `net9.0-ios17.0` target
-- ✅ .NET 10 apps use `net10.0-ios17.0` target
+- ✅ .NET 9 apps use `net9.0-ios` target (minimum iOS 17.0)
+- ✅ .NET 10 apps use `net10.0-ios` target (minimum iOS 17.0)
 
 ### Version Compatibility Matrix
 
@@ -390,7 +399,7 @@ Reason: Fixed Metadata.xml, added Additions code, etc.
 
 **iOS - Add .NET 11 Support:**
 ```xml
-<TargetFrameworks>net9.0-ios17.0;net10.0-ios17.0;net11.0-ios17.0</TargetFrameworks>
+<TargetFrameworks>net9.0-ios17.0;net10.0-ios17.0;net11.0-ios</TargetFrameworks>
 ```
 
 **When:** After new .NET version is GA and tested

@@ -8,7 +8,7 @@ This package provides direct bindings to the DatadogRUM.xcframework, exposing th
 
 **Package Information:**
 - **NuGet Package**: `Bcr.Datadog.iOS.RUM`
-- **Target Frameworks**: `net9.0-ios17.0`, `net10.0-ios17.0`
+- **Target Frameworks**: `net9.0-ios`, `net10.0-ios`
 - **XCFramework**: `DDR.xcframework`
 
 > **⚠️ Important**: This is a low-level binding package. For most use cases, you should use [Bcr.Datadog.iOS.ObjC](../ObjC/README.md) instead, which includes Logs, RUM, and Trace in a single integrated package with easier-to-use APIs.

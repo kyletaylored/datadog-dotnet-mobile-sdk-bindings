@@ -22,7 +22,7 @@ For more information about the underlying SDKs:
 
 - **.NET 9 or 10**
   - Android: .NET 10 required (16KB page size support and binding fixes)
-  - iOS: .NET 9 or 10 (multi-targets `net9.0-ios17.0` and `net10.0-ios17.0`)
+  - iOS: .NET 9 or 10 (multi-targets `net9.0-ios` and `net10.0-ios` with minimum iOS 17.0`)
 
 ### Android
 

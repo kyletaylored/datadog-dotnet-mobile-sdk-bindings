@@ -8,7 +8,7 @@ Session Replay allows you to record and replay user sessions, providing visual i
 
 **Package Information:**
 - **NuGet Package**: `Bcr.Datadog.iOS.SessionReplay`
-- **Target Frameworks**: `net9.0-ios17.0`, `net10.0-ios17.0`
+- **Target Frameworks**: `net9.0-ios`, `net10.0-ios`
 - **Namespace**: `Datadog.iOS.SessionReplay`
 
 ## Requirements
