@@ -8,9 +8,12 @@
     <ProvisioningType>manual</ProvisioningType>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Bcr.Datadog.iOS.ObjC" Version="2.26.0" />
-    <PackageReference Include="Bcr.Datadog.iOS.CR" Version="2.26.0" />
-    <PackageReference Include="Bcr.Datadog.iOS.SR" Version="2.26.0" />
-    <PackageReference Include="Bcr.Datadog.iOS.Web" Version="2.26.0" />
+    <ProjectReference Include="..\Bindings\Core\Core.csproj" />
+    <ProjectReference Include="..\Bindings\DDLogs\DDLogs.csproj" />
+    <ProjectReference Include="..\Bindings\Rum\Rum.csproj" />
+    <ProjectReference Include="..\Bindings\Trace\Trace.csproj" />
+    <ProjectReference Include="..\Bindings\CrashReporting\CrashReporting.csproj" />
+    <ProjectReference Include="..\Bindings\SessionReplay\SessionReplay.csproj" />
+    <ProjectReference Include="..\Bindings\WebViewTracking\WebViewTracking.csproj" />
   </ItemGroup>
 </Project>
