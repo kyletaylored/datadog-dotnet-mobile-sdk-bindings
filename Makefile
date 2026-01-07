@@ -191,7 +191,13 @@ ci-android: ## Simulate GitHub Actions Android build workflow locally
 	@echo ""
 	@echo "$(YELLOW)Step 4/5: Restoring and building bindings...$(NC)"
 	@dotnet restore src/Android/AndroidDatadogBindings.sln
-	@dotnet build src/Android/AndroidDatadogBindings.sln --configuration Release --no-restore
+	@dotnet build src/Android/AndroidDatadogBindings.sln --configuration Release --no-restore > /tmp/dotnet-build.log 2>&1 || { \
+		echo "$(RED)Build failed! Errors:$(NC)"; \
+		grep -E "error (CS|NU)[0-9]+:" /tmp/dotnet-build.log | head -30; \
+		echo ""; \
+		echo "$(YELLOW)Full log saved to: /tmp/dotnet-build.log$(NC)"; \
+		exit 1; \
+	}
 	@echo "$(GREEN)✓ Bindings built$(NC)"
 	@echo ""
 	@echo "$(YELLOW)Step 5/5: Creating NuGet packages...$(NC)"
