@@ -36,8 +36,38 @@ while [[ $# -gt 0 ]]; do
       IOS_VERSION="$2"
       shift 2
       ;;
+    --list-versions)
+      echo "Fetching available SDK versions..."
+      echo ""
+      echo "Android SDK versions:"
+      cd dd-sdk-android
+      git fetch --tags --quiet 2>/dev/null
+      git tag --sort=-v:refname | grep -E "^[0-9]+\.[0-9]+\.[0-9]+$" | head -10
+      cd - > /dev/null
+      echo ""
+      echo "iOS SDK versions:"
+      cd dd-sdk-ios
+      git fetch --tags --quiet 2>/dev/null
+      git tag --sort=-v:refname | grep -E "^[0-9]+\.[0-9]+\.[0-9]+$" | head -10
+      cd - > /dev/null
+      exit 0
+      ;;
     --help)
-      echo "Usage: $0 [--android-version X.Y.Z] [--ios-version X.Y.Z]"
+      echo "Usage: $0 [OPTIONS]"
+      echo ""
+      echo "Update Datadog SDK versions in the repository."
+      echo ""
+      echo "Options:"
+      echo "  --android-version X.Y.Z    Update to specific Android SDK version"
+      echo "  --ios-version X.Y.Z        Update to specific iOS SDK version"
+      echo "  --list-versions            List available SDK versions (10 most recent)"
+      echo "  --help                     Show this help message"
+      echo ""
+      echo "Examples:"
+      echo "  $0                                    # Update both to latest"
+      echo "  $0 --android-version 3.2.0            # Update Android to 3.2.0, iOS to latest"
+      echo "  $0 --android-version 3.2.0 --ios-version 3.1.0  # Specific versions"
+      echo "  $0 --list-versions                    # Show available versions"
       echo ""
       echo "If versions are not specified, the latest stable release will be used."
       exit 0

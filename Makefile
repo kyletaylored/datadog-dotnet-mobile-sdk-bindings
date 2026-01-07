@@ -1,4 +1,4 @@
-.PHONY: help update-sdks update-android update-ios build-android build-android-aars build-android-quick build-ios build-all test-android test-ios clean status check-prereqs
+.PHONY: help update-sdks update-android update-ios list-versions build-android build-android-aars build-android-quick build-ios build-all test-android test-ios clean status check-prereqs
 
 # Default target
 .DEFAULT_GOAL := help
@@ -50,21 +50,21 @@ check-prereqs: ## Check if all prerequisites are installed
 
 update-sdks: ## Update both Android and iOS SDKs to latest versions
 	@echo "$(BLUE)Updating SDKs to latest versions...$(NC)"
-	@./update-sdk-versions.sh
+	@./scripts/update-sdk-versions.sh
 
 update-android: ## Update Android SDK to latest version
 	@echo "$(BLUE)Fetching latest Android SDK version...$(NC)"
 	@cd dd-sdk-android && git fetch --tags
 	@LATEST=$$(cd dd-sdk-android && git tag --sort=-v:refname | grep -E "^[0-9]+\.[0-9]+\.[0-9]+$$" | head -1); \
 	echo "$(GREEN)Latest version: $$LATEST$(NC)"; \
-	./update-sdk-versions.sh --android-version $$LATEST
+	./scripts/update-sdk-versions.sh --android-version $$LATEST
 
 update-ios: ## Update iOS SDK to latest version
 	@echo "$(BLUE)Fetching latest iOS SDK version...$(NC)"
 	@cd dd-sdk-ios && git fetch --tags
 	@LATEST=$$(cd dd-sdk-ios && git tag --sort=-v:refname | grep -E "^[0-9]+\.[0-9]+\.[0-9]+$$" | head -1); \
 	echo "$(GREEN)Latest version: $$LATEST$(NC)"; \
-	./update-sdk-versions.sh --ios-version $$LATEST
+	./scripts/update-sdk-versions.sh --ios-version $$LATEST
 
 check-updates: ## Check for new SDK releases without updating
 	@echo "$(BLUE)Checking for SDK updates...$(NC)"
@@ -94,6 +94,9 @@ check-updates: ## Check for new SDK releases without updating
 	fi
 	@echo ""
 
+list-versions: ## List available SDK versions (10 most recent)
+	@./scripts/update-sdk-versions.sh --list-versions
+
 ##@ iOS Build
 
 build-ios-frameworks: ## Build iOS XCFrameworks from SDK source (requires macOS)
@@ -106,7 +109,7 @@ build-ios-frameworks: ## Build iOS XCFrameworks from SDK source (requires macOS)
 
 build-ios: build-ios-frameworks ## Build iOS NuGet packages (full build with frameworks)
 	@echo "$(BLUE)Building iOS NuGet packages...$(NC)"
-	@./build-local-ios-packages.sh
+	@./scripts/build-local-ios-packages.sh
 
 build-ios-quick: ## Build iOS packages without rebuilding frameworks
 	@echo "$(BLUE)Building iOS NuGet packages (using existing frameworks)...$(NC)"
@@ -114,7 +117,7 @@ build-ios-quick: ## Build iOS packages without rebuilding frameworks
 		echo "$(YELLOW)Warning: No XCFrameworks found. Running full build...$(NC)"; \
 		$(MAKE) build-ios; \
 	else \
-		./build-local-ios-packages.sh; \
+		./scripts/build-local-ios-packages.sh; \
 	fi
 
 ##@ Android Build
@@ -128,7 +131,7 @@ build-android-aars: ## Build Android AAR files from SDK source
 
 build-android: build-android-aars ## Build Android NuGet packages
 	@echo "$(BLUE)Building Android NuGet packages...$(NC)"
-	@./build-local-android-packages.sh
+	@./scripts/build-local-android-packages.sh
 
 build-android-quick: ## Build Android packages without rebuilding AARs
 	@echo "$(BLUE)Building Android NuGet packages (using existing AARs)...$(NC)"
@@ -136,7 +139,7 @@ build-android-quick: ## Build Android packages without rebuilding AARs
 		echo "$(YELLOW)Warning: No AAR files found. Running full build...$(NC)"; \
 		$(MAKE) build-android; \
 	else \
-		./build-local-android-packages.sh; \
+		./scripts/build-local-android-packages.sh; \
 	fi
 
 build-android-sdk9: ## Build Android packages with .NET SDK 9 only

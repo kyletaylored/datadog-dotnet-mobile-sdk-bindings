@@ -11,14 +11,14 @@ Unofficial .NET bindings for the **Datadog Mobile SDKs** on **Android** and **iO
 ## Documentation
 
 ### For Users
-- **[Getting Started Guide](GETTING_STARTED.md)** - Detailed setup, examples, and API usage
+- **[Getting Started Guide](docs/GETTING_STARTED.md)** - Detailed setup, examples, and API usage
 
 ### For Contributors
-- **[Quick Start](QUICK_START.md)** - Quick reference for common development tasks
-- **[SDK Update Guide](SDK_UPDATE_GUIDE.md)** - How to update Datadog SDK versions
-- **[Building & Versioning Guide](BUILDING_AND_VERSIONING.md)** - Build from source and version updates
-- **[Local Package Building](LOCAL_BUILD_README.md)** - Generate NuGet packages locally for development
-- **[Release Process Guide](RELEASE_PROCESS.md)** - Publishing new versions to NuGet.org
+- **[Quick Start](docs/QUICK_START.md)** - Quick reference for common development tasks
+- **[SDK Update Guide](docs/SDK_UPDATE_GUIDE.md)** - How to update Datadog SDK versions
+- **[Building & Versioning Guide](docs/BUILDING_AND_VERSIONING.md)** - Build from source and version updates
+- **[Local Package Building](docs/LOCAL_BUILD_README.md)** - Generate NuGet packages locally for development
+- **[Release Process Guide](docs/RELEASE_PROCESS.md)** - Publishing new versions to NuGet.org
 
 > 💡 **Tip**: Use `make help` to see all available build commands
 
@@ -67,7 +67,7 @@ Install via NuGet Package Manager or add to your `.csproj`:
 > - **Android**: `net9.0-android`, `net10.0-android` (⭐ `net10.0-android` recommended for 16KB page size support)
 > - **iOS**: `net8.0-ios`, `net9.0-ios`, `net10.0-ios`
 
-See [GETTING_STARTED.md](GETTING_STARTED.md) for complete initialization examples and API usage.
+See [GETTING_STARTED.md](docs/GETTING_STARTED.md) for complete initialization examples and API usage.
 
 ---
 
@@ -131,13 +131,13 @@ To build NuGet packages locally for development or testing:
 ./build-local-android-packages.sh [output-directory]
 ```
 
-See **[LOCAL_BUILD_README.md](LOCAL_BUILD_README.md)** for detailed instructions, prerequisites, and troubleshooting.
+See **[LOCAL_BUILD_README.md](docs/LOCAL_BUILD_README.md)** for detailed instructions, prerequisites, and troubleshooting.
 
 ### Building from Source
 
 For contributors or those updating to new Datadog SDK versions:
 
-**[BUILDING_AND_VERSIONING.md](BUILDING_AND_VERSIONING.md)**
+**[BUILDING_AND_VERSIONING.md](docs/BUILDING_AND_VERSIONING.md)**
 
 This comprehensive guide covers:
 
@@ -184,7 +184,7 @@ Binding versions mirror the native SDK versions:
 - Pre-release tags like `2.21.0` indicate preview versions
 - The revision number is incremented for binding-specific updates
 
-See [BUILDING_AND_VERSIONING.md](BUILDING_AND_VERSIONING.md) for the complete versioning strategy.
+See [BUILDING_AND_VERSIONING.md](docs/BUILDING_AND_VERSIONING.md) for the complete versioning strategy.
 
 ---
 

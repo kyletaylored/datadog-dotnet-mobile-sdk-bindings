@@ -417,6 +417,9 @@ captures/
 *.apk
 output.json
 
+# Android AAR files (build artifacts - regenerated from dd-sdk-android submodule)
+**/aars/*.aar
+
 # IntelliJ
 *.iml
 .idea/

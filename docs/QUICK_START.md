@@ -52,11 +52,17 @@ make build-ios-quick
 ### 🔄 Updating SDK Versions
 
 ```bash
+# List available versions (10 most recent)
+make list-versions
+
 # Check for updates
 make check-updates
 
 # Update to latest versions
 make update-sdks
+
+# Update to specific versions (for historical packages)
+./update-sdk-versions.sh --android-version 3.2.0 --ios-version 3.2.0
 
 # Update Android only
 make update-android
@@ -275,7 +281,7 @@ dotnet nuget remove source local-datadog
 
 ## Documentation
 
-- **[README.md](README.md)** - Main project documentation
+- **[README.md](../README.md)** - Main project documentation
 - **[GETTING_STARTED.md](GETTING_STARTED.md)** - Usage guide for consumers
 - **[SDK_UPDATE_GUIDE.md](SDK_UPDATE_GUIDE.md)** - Detailed SDK update process
 - **[LOCAL_BUILD_README.md](LOCAL_BUILD_README.md)** - Local build instructions

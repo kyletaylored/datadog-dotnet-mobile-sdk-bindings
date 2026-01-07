@@ -8,9 +8,23 @@ The repository includes an automated script to update SDK versions: `update-sdk-
 
 ### Usage
 
+**List available SDK versions:**
+
+```bash
+# Via Makefile (recommended)
+make list-versions
+
+# Or directly via script
+./update-sdk-versions.sh --list-versions
+```
+
 **Update to the latest stable release (recommended):**
 
 ```bash
+# Via Makefile (recommended)
+make update-sdks
+
+# Or directly via script
 ./update-sdk-versions.sh
 ```
 
@@ -20,10 +34,17 @@ This will:
 3. Update all version references in `.csproj` files
 4. Update documentation (`README.md`, `GETTING_STARTED.md`)
 
-**Update to specific versions:**
+**Update to specific versions (e.g., for generating historical packages):**
 
 ```bash
-./update-sdk-versions.sh --android-version 3.4.0 --ios-version 3.4.0
+# Update both to specific versions
+./update-sdk-versions.sh --android-version 3.2.0 --ios-version 3.2.0
+
+# Update only Android (iOS will use latest)
+./update-sdk-versions.sh --android-version 2.26.0
+
+# Update only iOS (Android will use latest)
+./update-sdk-versions.sh --ios-version 2.30.0
 ```
 
 **Get help:**

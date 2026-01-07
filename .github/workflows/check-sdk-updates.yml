@@ -78,13 +78,13 @@ jobs:
             body += `## Update Instructions\n\n`;
             body += `To update to the latest versions, run:\n\n`;
             body += `\`\`\`bash\n`;
-            body += `./update-sdk-versions.sh\n`;
+            body += `./scripts/update-sdk-versions.sh\n`;
             body += `\`\`\`\n\n`;
             body += `Or update to specific versions:\n\n`;
             body += `\`\`\`bash\n`;
 
             if (latestAndroid !== currentAndroid) {
-              body += `./update-sdk-versions.sh --android-version ${latestAndroid}`;
+              body += `./scripts/update-sdk-versions.sh --android-version ${latestAndroid}`;
             }
             if (latestIos !== currentIos) {
               if (latestAndroid !== currentAndroid) {
