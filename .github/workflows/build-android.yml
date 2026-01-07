@@ -52,7 +52,31 @@ jobs:
       - name: Install .NET Android workload for SDK 9
         run: dotnet workload install android
 
+      - name: Get dd-sdk-android commit hash
+        id: sdk-version
+        run: echo "commit=$(git -C dd-sdk-android rev-parse HEAD)" >> $GITHUB_OUTPUT
+
+      - name: Cache AAR files
+        id: cache-aars
+        uses: actions/cache@v5
+        with:
+          path: |
+            src/Android/Bindings/Core/aars/*.aar
+            src/Android/Bindings/Internal/aars/*.aar
+            src/Android/Bindings/DatadogLogs/aars/*.aar
+            src/Android/Bindings/Ndk/aars/*.aar
+            src/Android/Bindings/Rum/aars/*.aar
+            src/Android/Bindings/SessionReplay/aars/*.aar
+            src/Android/Bindings/SessionReplay.Material/aars/*.aar
+            src/Android/Bindings/Trace/aars/*.aar
+            src/Android/Bindings/Trace.Otel/aars/*.aar
+            src/Android/Bindings/WebView/aars/*.aar
+          key: ${{ runner.os }}-aars-${{ steps.sdk-version.outputs.commit }}
+          restore-keys: |
+            ${{ runner.os }}-aars-
+
       - name: Build Android AAR files
+        if: steps.cache-aars.outputs.cache-hit != 'true'
         run: |
           chmod +x src/Android/build-aars.sh
           chmod +x src/Android/copy-aars.sh
