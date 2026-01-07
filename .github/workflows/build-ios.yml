@@ -388,10 +388,12 @@ jobs:
       - name: Get package version from artifacts
         id: package-version
         run: |
-          # Extract version from first package filename
-          VERSION=$(ls ./artifacts/*.nupkg | head -1 | grep -oP '\d+\.\d+\.\d+' | head -1)
+          # Extract version from first package filename (macOS compatible)
+          PACKAGE=$(ls ./artifacts/*.nupkg | head -1 | xargs basename)
+          VERSION=$(echo "$PACKAGE" | sed -E 's/.*\.([0-9]+\.[0-9]+\.[0-9]+)\.nupkg/\1/')
           echo "version=$VERSION" >> $GITHUB_OUTPUT
-          echo "Detected package version: $VERSION"
+          echo "Detected package: $PACKAGE"
+          echo "Extracted version: $VERSION"
 
       - name: Replace ProjectReferences with PackageReferences
         run: |
