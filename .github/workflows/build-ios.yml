@@ -10,7 +10,7 @@ env:
 jobs:
   # Build XCFrameworks once and share across all builds
   build-xcframeworks:
-    name: Build XCFrameworks
+    name: XCFrameworks
     runs-on: macos-15
 
     steps:
@@ -96,7 +96,7 @@ jobs:
   # Build with .NET SDK 8 for net8.0-ios support
   build-ios-net8:
     needs: build-xcframeworks
-    name: Build iOS Bindings (net8.0-ios)
+    name: net8.0-ios
     runs-on: macos-15
 
     steps:
@@ -185,7 +185,7 @@ jobs:
   # Build with .NET SDK 9+ for net9.0-ios and net10.0-ios support
   build-ios-net9plus:
     needs: build-xcframeworks
-    name: Build iOS Bindings (net9.0-ios, net10.0-ios)
+    name: net9.0-ios, net10.0-ios
     runs-on: macos-15
 
     steps:
@@ -272,7 +272,7 @@ jobs:
 
   # Combine the net8 and net9+ packages into unified NuGet packages
   combine-ios-packages:
-    name: Combine iOS Packages
+    name: Bundle iOS NuGets
     runs-on: ubuntu-latest
     needs: [build-ios-net8, build-ios-net9plus]
 
