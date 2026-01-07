@@ -41,7 +41,7 @@
 		<AndroidNamespaceReplacement Include="com." Replacement="" />
 	</ItemGroup>
 	<ItemGroup>
-	  <PackageReference Include="Bcr.Datadog.Android.Sdk.Trace" Version="3.4.0" />
+	  <ProjectReference Include="..\Trace\Trace.csproj" />
 	  <PackageReference Include="bcr.io.opentelemetry.api" Version="1.4.1" />
 	</ItemGroup>
 </Project>

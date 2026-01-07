@@ -32,7 +32,7 @@
 		<None Include="LICENSE" Pack="true" PackagePath="/" />
 	</ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="Bcr.Datadog.Android.Sdk.Core" Version="3.4.0" />
+		<ProjectReference Include="..\Core\Core.csproj" />
 		<PackageReference Include="Xamarin.AndroidX.MultiDex" Version="2.0.1.23" />
 	</ItemGroup>
 	<ItemGroup>

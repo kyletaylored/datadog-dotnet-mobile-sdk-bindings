@@ -52,6 +52,13 @@ jobs:
       - name: Install .NET Android workload for SDK 9
         run: dotnet workload install android
 
+      - name: Build Android AAR files
+        run: |
+          chmod +x src/Android/build-aars.sh
+          chmod +x src/Android/copy-aars.sh
+          src/Android/build-aars.sh
+          src/Android/copy-aars.sh
+
       - name: Restore dependencies (SDK 9)
         run: dotnet restore src/Android/AndroidDatadogBindings.sln
 
@@ -122,6 +129,13 @@ jobs:
 
       - name: Install .NET Android workload for SDK 10
         run: dotnet workload install android
+
+      - name: Build Android AAR files
+        run: |
+          chmod +x src/Android/build-aars.sh
+          chmod +x src/Android/copy-aars.sh
+          src/Android/build-aars.sh
+          src/Android/copy-aars.sh
 
       - name: Restore dependencies (SDK 10)
         run: dotnet restore src/Android/AndroidDatadogBindings.sln

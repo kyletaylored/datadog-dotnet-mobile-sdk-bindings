@@ -32,7 +32,7 @@
 		<None Include="LICENSE" Pack="true" PackagePath="/" />
 	</ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="Bcr.Datadog.Android.Sdk.SessionReplay" Version="3.4.0" />
+		<ProjectReference Include="..\SessionReplay\SessionReplay.csproj" />
 		<PackageReference Include="Xamarin.Google.Android.Material" Version="1.4.0.6" />
 	</ItemGroup>
 	<ItemGroup>
