@@ -5,7 +5,7 @@ on:
   workflow_dispatch:  # Allow manual triggering
 
 env:
-  XCODE_VERSION: '26.0' # Must be one of https://github.com/actions/runner-images/blob/main/images/macos/macos-15-Readme.md#xcode
+  XCODE_VERSION: '26.1' # Must be one of https://github.com/actions/runner-images/blob/main/images/macos/macos-15-Readme.md#xcode
 
 jobs:
   # Build XCFrameworks once and share across all builds
