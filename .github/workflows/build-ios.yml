@@ -147,7 +147,7 @@ jobs:
         id: cache-nuget-net8
         uses: actions/cache@v5
         with:
-          path: ./artifacts-net8/*.nupkg
+          path: ./artifacts-net8
           key: ${{ runner.os }}-ios-net8-packages-${{ steps.sdk-version-net8.outputs.commit }}-${{ hashFiles('src/iOS/Bindings/**/*.csproj') }}
           restore-keys: |
             ${{ runner.os }}-ios-net8-packages-${{ steps.sdk-version-net8.outputs.commit }}-
@@ -163,6 +163,12 @@ jobs:
       - name: Package NuGet packages (net8.0-ios)
         if: steps.cache-nuget-net8.outputs.cache-hit != 'true'
         run: dotnet pack src/iOS/iOSDatadogBindings.sln --configuration Release --no-build --output ./artifacts-net8
+
+      - name: Prepare artifacts directory (cache hit)
+        if: steps.cache-nuget-net8.outputs.cache-hit == 'true'
+        run: |
+          echo "Using cached packages, no packing needed"
+          # Note: artifacts-net8 already contains cached .nupkg files from cache restore
 
       - name: Upload net8.0-ios artifacts
         uses: actions/upload-artifact@v6
@@ -235,7 +241,7 @@ jobs:
         id: cache-nuget-net9plus
         uses: actions/cache@v5
         with:
-          path: ./artifacts-net9plus/*.nupkg
+          path: ./artifacts-net9plus
           key: ${{ runner.os }}-ios-net9plus-packages-${{ steps.sdk-version-net9plus.outputs.commit }}-${{ hashFiles('src/iOS/Bindings/**/*.csproj') }}
           restore-keys: |
             ${{ runner.os }}-ios-net9plus-packages-${{ steps.sdk-version-net9plus.outputs.commit }}-
@@ -251,6 +257,12 @@ jobs:
       - name: Package NuGet packages (net9.0-ios, net10.0-ios)
         if: steps.cache-nuget-net9plus.outputs.cache-hit != 'true'
         run: dotnet pack src/iOS/iOSDatadogBindings.sln --configuration Release --no-build --output ./artifacts-net9plus
+
+      - name: Prepare artifacts directory (cache hit)
+        if: steps.cache-nuget-net9plus.outputs.cache-hit == 'true'
+        run: |
+          echo "Using cached packages, no packing needed"
+          # Note: artifacts-net9plus already contains cached .nupkg files from cache restore
 
       - name: Upload net9.0-ios and net10.0-ios artifacts
         uses: actions/upload-artifact@v6
