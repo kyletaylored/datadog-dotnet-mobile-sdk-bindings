@@ -96,7 +96,7 @@ jobs:
   # Build with .NET SDK 8 for net8.0-ios support
   build-ios-net8:
     needs: build-xcframeworks
-    name: net8.0-ios
+    name: iOS Bindings (net8.0-ios)
     runs-on: macos-15
 
     steps:
@@ -185,7 +185,7 @@ jobs:
   # Build with .NET SDK 9+ for net9.0-ios and net10.0-ios support
   build-ios-net9plus:
     needs: build-xcframeworks
-    name: net9.0-ios, net10.0-ios
+    name: iOS Bindings (net9.0-ios, net10.0-ios)
     runs-on: macos-15
 
     steps:
@@ -301,19 +301,31 @@ jobs:
             net9plus_pkg="./artifacts-net9plus/${pkg_name}.${version}.nupkg"
 
             echo "Processing $pkg_name version $version"
+            echo "  net8 package: $net8_pkg"
+            echo "  net9plus package: $net9plus_pkg"
 
             if [ -f "$net9plus_pkg" ]; then
               # Extract both packages
               unzip -q "$net8_pkg" -d "./temp-extract/net8"
               unzip -q "$net9plus_pkg" -d "./temp-extract/net9plus"
 
+              echo "  net8 frameworks:"
+              ls -la "./temp-extract/net8/lib/" || echo "    No lib directory!"
+              echo "  net9plus frameworks:"
+              ls -la "./temp-extract/net9plus/lib/" || echo "    No lib directory!"
+
               # Copy net9.0-ios and net10.0-ios libs to net8 package structure
               if [ -d "./temp-extract/net9plus/lib/net9.0-ios" ]; then
                 cp -r "./temp-extract/net9plus/lib/net9.0-ios" "./temp-extract/net8/lib/"
+                echo "  Copied net9.0-ios framework"
               fi
               if [ -d "./temp-extract/net9plus/lib/net10.0-ios" ]; then
                 cp -r "./temp-extract/net9plus/lib/net10.0-ios" "./temp-extract/net8/lib/"
+                echo "  Copied net10.0-ios framework"
               fi
+
+              echo "  Combined package frameworks:"
+              ls -la "./temp-extract/net8/lib/"
 
               # Repackage the combined content
               cd "./temp-extract/net8"
@@ -323,12 +335,15 @@ jobs:
               # Clean up temp directory
               rm -rf "./temp-extract/net8" "./temp-extract/net9plus"
 
-              echo "Created combined package: ${pkg_name}.${version}.nupkg"
+              echo "  Created combined package: ${pkg_name}.${version}.nupkg"
+              echo "  Verifying combined package contents:"
+              unzip -l "./artifacts-combined/${pkg_name}.${version}.nupkg" | grep "lib/net.*-ios"
             else
-              echo "Warning: No matching net9+ package found for $pkg_name"
+              echo "  Warning: No matching net9+ package found for $pkg_name"
               # Fall back to net8 package only
               cp "$net8_pkg" "./artifacts-combined/"
             fi
+            echo ""
           done
 
       - name: List combined packages
@@ -394,6 +409,14 @@ jobs:
           echo "version=$VERSION" >> $GITHUB_OUTPUT
           echo "Detected package: $PACKAGE"
           echo "Extracted version: $VERSION"
+
+          # Verify packages contain all target frameworks
+          echo "Verifying package contents..."
+          for pkg in ./artifacts/*.nupkg; do
+            pkg_name=$(basename "$pkg")
+            echo "Inspecting $pkg_name:"
+            unzip -l "$pkg" | grep "lib/net.*-ios" || echo "  No iOS frameworks found!"
+          done
 
       - name: Replace ProjectReferences with PackageReferences
         run: |
