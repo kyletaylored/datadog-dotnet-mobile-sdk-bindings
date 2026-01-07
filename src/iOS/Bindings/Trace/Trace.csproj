@@ -35,7 +35,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Bcr.Otel.Api.iOS" Version="3.4.0" />
+    <ProjectReference Include="..\OpenTelemetryApi\OpenTelemetryApi.csproj" />
     <ProjectReference Include="..\Internal\Internal.csproj" />
   </ItemGroup>
 

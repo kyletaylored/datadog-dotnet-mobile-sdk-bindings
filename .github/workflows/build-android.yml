@@ -59,6 +59,23 @@ jobs:
           src/Android/build-aars.sh
           src/Android/copy-aars.sh
 
+      - name: Upload AAR files
+        uses: actions/upload-artifact@v6
+        with:
+          name: android-aar-files
+          path: |
+            src/Android/Bindings/Core/aars/*.aar
+            src/Android/Bindings/Internal/aars/*.aar
+            src/Android/Bindings/DatadogLogs/aars/*.aar
+            src/Android/Bindings/Ndk/aars/*.aar
+            src/Android/Bindings/Rum/aars/*.aar
+            src/Android/Bindings/SessionReplay/aars/*.aar
+            src/Android/Bindings/SessionReplay.Material/aars/*.aar
+            src/Android/Bindings/Trace/aars/*.aar
+            src/Android/Bindings/Trace.Otel/aars/*.aar
+            src/Android/Bindings/WebView/aars/*.aar
+          retention-days: 1
+
       - name: Restore dependencies (SDK 9)
         run: dotnet restore src/Android/AndroidDatadogBindings.sln
 
@@ -247,7 +264,7 @@ jobs:
   build-android-test:
     name: Build Android Test App
     runs-on: ubuntu-latest
-    needs: combine-android-packages
+    needs: [build-android-net9, combine-android-packages]
 
     steps:
       - name: Checkout repository
@@ -268,6 +285,12 @@ jobs:
 
       - name: Install .NET Android workload
         run: dotnet workload install android
+
+      - name: Download AAR files
+        uses: actions/download-artifact@v7
+        with:
+          name: android-aar-files
+          path: src/Android/Bindings/
 
       - name: Download combined packages
         uses: actions/download-artifact@v7
