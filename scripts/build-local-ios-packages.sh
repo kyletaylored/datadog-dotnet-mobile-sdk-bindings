@@ -86,9 +86,9 @@ dotnet workload install ios
 
 echo ""
 echo "Step 5/8: Building with .NET SDK 8 (net8.0-ios)..."
-dotnet restore src/iOS/iOSBindings.sln
-dotnet build src/iOS/iOSBindings.sln --configuration Release --no-restore
-dotnet pack src/iOS/iOSBindings.sln --configuration Release --no-build --output ./temp-packages-net8
+dotnet restore src/iOS/iOSDatadogBindings.sln
+dotnet build src/iOS/iOSDatadogBindings.sln --configuration Release --no-restore
+dotnet pack src/iOS/iOSDatadogBindings.sln --configuration Release --no-build --output ./temp-packages-net8
 
 # Remove global.json and build with SDK 9+
 rm -f global.json
@@ -96,9 +96,9 @@ rm -f global.json
 echo ""
 echo "Step 6/8: Building with .NET SDK 9+ (net9.0-ios, net10.0-ios)..."
 dotnet workload install ios
-dotnet restore src/iOS/iOSBindings.sln
-dotnet build src/iOS/iOSBindings.sln --configuration Release --no-restore
-dotnet pack src/iOS/iOSBindings.sln --configuration Release --no-build --output ./temp-packages-net9plus
+dotnet restore src/iOS/iOSDatadogBindings.sln
+dotnet build src/iOS/iOSDatadogBindings.sln --configuration Release --no-restore
+dotnet pack src/iOS/iOSDatadogBindings.sln --configuration Release --no-build --output ./temp-packages-net9plus
 
 # Combine packages
 echo ""

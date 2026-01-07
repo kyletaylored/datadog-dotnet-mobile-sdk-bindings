@@ -21,8 +21,8 @@ Session Replay allows you to record and replay user sessions, providing visual i
 
 ```xml
 <ItemGroup>
-  <PackageReference Include="Bcr.Datadog.iOS.ObjC" Version="2.26.0" />
-  <PackageReference Include="Bcr.Datadog.iOS.SessionReplay" Version="2.26.0" />
+  <PackageReference Include="Bcr.Datadog.iOS.ObjC" Version="3.4.0" />
+  <PackageReference Include="Bcr.Datadog.iOS.SessionReplay" Version="3.4.0" />
 </ItemGroup>
 ```
 

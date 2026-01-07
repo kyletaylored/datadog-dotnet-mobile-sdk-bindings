@@ -21,6 +21,7 @@ This guide explains how to build the Datadog .NET iOS and Android binding NuGet 
 ## Building iOS Packages
 
 The iOS build script will:
+
 1. Initialize git submodules
 2. Build XCFrameworks using Carthage (15-20 minutes)
 3. Build with .NET SDK 8 for net8.0-ios
@@ -51,6 +52,7 @@ The iOS build script will:
 - `Bcr.Datadog.iOS.OTel.{version}.nupkg` (OpenTelemetry)
 
 Each package contains binaries for:
+
 - `net8.0-ios` (iOS 17.0+)
 - `net9.0-ios` (iOS 17.0+)
 - `net10.0-ios` (iOS 17.0+)
@@ -58,6 +60,7 @@ Each package contains binaries for:
 ## Building Android Packages
 
 The Android build script will:
+
 1. Initialize git submodules
 2. Build with .NET SDK 9 for net9.0-android
 3. Build with .NET SDK 10 for net10.0-android
@@ -84,6 +87,7 @@ The Android build script will:
 - `Bcr.Datadog.Android.OTel.{version}.nupkg` (OpenTelemetry)
 
 Each package contains binaries for:
+
 - `net9.0-android` (Android API 26+)
 - `net10.0-android` (Android API 26+, ⭐ recommended for 16KB page size support)
 
@@ -124,6 +128,7 @@ dotnet nuget remove source local-datadog-android
 ### iOS Build Issues
 
 **XCFrameworks not found:**
+
 ```bash
 # Ensure submodules are initialized
 git submodule update --init --recursive
@@ -133,6 +138,7 @@ git submodule update --init --recursive
 ```
 
 **Multiple .NET SDK versions required:**
+
 ```bash
 # Check installed SDKs
 dotnet --list-sdks
@@ -141,6 +147,7 @@ dotnet --list-sdks
 ```
 
 **Carthage build fails:**
+
 ```bash
 # Update Carthage
 brew upgrade carthage
@@ -153,6 +160,7 @@ rm -rf dd-sdk-ios/Carthage
 ### Android Build Issues
 
 **Multiple .NET SDK versions required:**
+
 ```bash
 # Check installed SDKs
 dotnet --list-sdks
@@ -161,6 +169,7 @@ dotnet --list-sdks
 ```
 
 **Java version:**
+
 ```bash
 # Check Java version (must be 17+)
 java -version
@@ -170,6 +179,7 @@ export JAVA_HOME=$(/usr/libexec/java_home -v 17)
 ```
 
 **Android SDK not found:**
+
 ```bash
 # Install Android workload
 dotnet workload install android
@@ -189,7 +199,7 @@ dotnet workload install android
 rm -rf ./local-packages
 
 # Clean build artifacts
-dotnet clean src/iOS/iOSBindings.sln
+dotnet clean src/iOS/iOSDatadogBindings.sln
 dotnet clean src/Android/AndroidDatadogBindings.sln
 
 # Remove XCFrameworks (will be rebuilt on next iOS build)

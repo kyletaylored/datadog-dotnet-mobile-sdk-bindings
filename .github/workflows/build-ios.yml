@@ -125,13 +125,13 @@ jobs:
         run: dotnet workload install ios
 
       - name: Restore dependencies (SDK 8)
-        run: dotnet restore src/iOS/iOSBindings.sln
+        run: dotnet restore src/iOS/iOSDatadogBindings.sln
 
       - name: Build iOS bindings (net8.0-ios)
-        run: dotnet build src/iOS/iOSBindings.sln --configuration Release --no-restore
+        run: dotnet build src/iOS/iOSDatadogBindings.sln --configuration Release --no-restore
 
       - name: Package NuGet packages (net8.0-ios)
-        run: dotnet pack src/iOS/iOSBindings.sln --configuration Release --no-build --output ./artifacts-net8
+        run: dotnet pack src/iOS/iOSDatadogBindings.sln --configuration Release --no-build --output ./artifacts-net8
 
       - name: Upload net8.0-ios artifacts
         uses: actions/upload-artifact@v6
@@ -197,13 +197,13 @@ jobs:
         run: dotnet workload install ios
 
       - name: Restore dependencies (SDK 9+)
-        run: dotnet restore src/iOS/iOSBindings.sln
+        run: dotnet restore src/iOS/iOSDatadogBindings.sln
 
       - name: Build iOS bindings (net9.0-ios, net10.0-ios)
-        run: dotnet build src/iOS/iOSBindings.sln --configuration Release --no-restore
+        run: dotnet build src/iOS/iOSDatadogBindings.sln --configuration Release --no-restore
 
       - name: Package NuGet packages (net9.0-ios, net10.0-ios)
-        run: dotnet pack src/iOS/iOSBindings.sln --configuration Release --no-build --output ./artifacts-net9plus
+        run: dotnet pack src/iOS/iOSDatadogBindings.sln --configuration Release --no-build --output ./artifacts-net9plus
 
       - name: Upload net9.0-ios and net10.0-ios artifacts
         uses: actions/upload-artifact@v6

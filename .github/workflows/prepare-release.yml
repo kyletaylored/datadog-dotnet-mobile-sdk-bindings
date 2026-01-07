@@ -226,13 +226,13 @@ jobs:
         run: dotnet workload install ios
 
       - name: Restore dependencies (SDK 8)
-        run: dotnet restore src/iOS/iOSBindings.sln
+        run: dotnet restore src/iOS/iOSDatadogBindings.sln
 
       - name: Build Release (net8.0-ios)
-        run: dotnet build src/iOS/iOSBindings.sln --configuration Release --no-restore
+        run: dotnet build src/iOS/iOSDatadogBindings.sln --configuration Release --no-restore
 
       - name: Pack NuGet packages (net8.0-ios)
-        run: dotnet pack src/iOS/iOSBindings.sln --configuration Release --no-build --output ./release-packages-net8
+        run: dotnet pack src/iOS/iOSDatadogBindings.sln --configuration Release --no-build --output ./release-packages-net8
 
       - name: Remove global.json to allow SDK 9+
         run: rm -f global.json
@@ -248,13 +248,13 @@ jobs:
         run: dotnet workload install ios
 
       - name: Restore dependencies (SDK 9+)
-        run: dotnet restore src/iOS/iOSBindings.sln
+        run: dotnet restore src/iOS/iOSDatadogBindings.sln
 
       - name: Build Release (net9.0-ios, net10.0-ios)
-        run: dotnet build src/iOS/iOSBindings.sln --configuration Release --no-restore
+        run: dotnet build src/iOS/iOSDatadogBindings.sln --configuration Release --no-restore
 
       - name: Pack NuGet packages (net9.0-ios, net10.0-ios)
-        run: dotnet pack src/iOS/iOSBindings.sln --configuration Release --no-build --output ./release-packages-net9plus
+        run: dotnet pack src/iOS/iOSDatadogBindings.sln --configuration Release --no-build --output ./release-packages-net9plus
 
       - name: Combine packages for all target frameworks
         run: |

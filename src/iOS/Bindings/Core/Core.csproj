@@ -13,7 +13,7 @@
 
     <!-- NuGet package properties-->
     <PackageId>Bcr.Datadog.iOS.Core</PackageId>
-    <PackageVersion>2.26.0</PackageVersion>
+    <PackageVersion>3.4.0</PackageVersion>
     <Authors>bcr</Authors>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <Description>.NET Bindings for Datadog iOS SDK Core</Description>

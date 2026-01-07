@@ -64,12 +64,12 @@ The following packages are internal dependencies of `Bcr.Datadog.iOS.ObjC` and t
 
 ```xml
 <!-- Core SDK with Logs, RUM, and Trace (required) -->
-<PackageReference Include="Bcr.Datadog.iOS.ObjC" Version="2.26.0" />
+<PackageReference Include="Bcr.Datadog.iOS.ObjC" Version="3.4.0" />
 
 <!-- Additional features (install as needed) -->
-<PackageReference Include="Bcr.Datadog.iOS.CR" Version="2.26.0" />   <!-- Crash Reporting -->
-<PackageReference Include="Bcr.Datadog.iOS.SR" Version="2.26.0" />   <!-- Session Replay -->
-<PackageReference Include="Bcr.Datadog.iOS.Web" Version="2.26.0" />  <!-- WebView Tracking -->
+<PackageReference Include="Bcr.Datadog.iOS.CR" Version="3.4.0" />   <!-- Crash Reporting -->
+<PackageReference Include="Bcr.Datadog.iOS.SR" Version="3.4.0" />   <!-- Session Replay -->
+<PackageReference Include="Bcr.Datadog.iOS.Web" Version="3.4.0" />  <!-- WebView Tracking -->
 ```
 
 ## Usage

@@ -211,11 +211,11 @@ IOS_FILES=(
 
 for file in "${IOS_FILES[@]}"; do
   if [ -f "$file" ]; then
-    # Update <Version> tag
-    perl -i -pe "s/<Version>[0-9]+\.[0-9]+\.[0-9]+(-[a-zA-Z0-9.]+)?<\\/Version>/<Version>$IOS_VERSION<\\/Version>/g" "$file"
+    # Update <PackageVersion> tag (iOS uses PackageVersion instead of Version)
+    perl -i -pe "s/<PackageVersion>[0-9]+\.[0-9]+\.[0-9]+(-[a-zA-Z0-9.]+)?<\\/PackageVersion>/<PackageVersion>$IOS_VERSION<\\/PackageVersion>/g" "$file"
 
-    # Update PackageReference versions to other iOS packages
-    perl -i -pe "s/(Bcr\.Datadog\.iOS\.[^\"]+)\" Version=\"[0-9]+\.[0-9]+\.[0-9]+(-[a-zA-Z0-9.]+)?\"/\$1\" Version=\"$IOS_VERSION\"/g" "$file"
+    # Update PackageReference versions to other iOS packages (e.g., Bcr.Otel.Api.iOS in Trace.csproj)
+    perl -i -pe "s/(Bcr\.(Datadog\.iOS|Otel\.Api\.iOS)\.[^\"]+)\" Version=\"[0-9]+\.[0-9]+\.[0-9]+(-[a-zA-Z0-9.]+)?\"/\$1\" Version=\"$IOS_VERSION\"/g" "$file"
 
     echo "  Updated: $file"
   fi

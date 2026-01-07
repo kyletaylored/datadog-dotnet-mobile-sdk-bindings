@@ -21,8 +21,8 @@ WebView Tracking enables you to forward logs and RUM events captured in a WKWebV
 
 ```xml
 <ItemGroup>
-  <PackageReference Include="Bcr.Datadog.iOS.ObjC" Version="2.26.0" />
-  <PackageReference Include="Bcr.Datadog.iOS.WebViewTracking" Version="2.26.0" />
+  <PackageReference Include="Bcr.Datadog.iOS.ObjC" Version="3.4.0" />
+  <PackageReference Include="Bcr.Datadog.iOS.WebViewTracking" Version="3.4.0" />
 </ItemGroup>
 ```
 

@@ -26,7 +26,7 @@ For standard iOS app integration, use [Bcr.Datadog.iOS.ObjC](../ObjC/README.md) 
 
 ```xml
 <ItemGroup>
-  <PackageReference Include="Bcr.Datadog.iOS.RUM" Version="2.26.0" />
+  <PackageReference Include="Bcr.Datadog.iOS.RUM" Version="3.4.0" />
 </ItemGroup>
 ```
 

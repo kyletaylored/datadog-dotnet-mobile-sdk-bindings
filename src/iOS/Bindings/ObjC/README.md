@@ -42,7 +42,7 @@ This package provides the core Datadog iOS SDK functionality through Objective-C
 
 ```xml
 <ItemGroup>
-  <PackageReference Include="Bcr.Datadog.iOS.ObjC" Version="2.26.0" />
+  <PackageReference Include="Bcr.Datadog.iOS.ObjC" Version="3.4.0" />
 </ItemGroup>
 ```
 

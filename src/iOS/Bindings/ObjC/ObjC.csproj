@@ -19,7 +19,7 @@
 
     <!-- NuGet package properties-->
     <PackageId>Bcr.Datadog.iOS.ObjC</PackageId>
-    <PackageVersion>2.26.0</PackageVersion>
+    <PackageVersion>3.4.0</PackageVersion>
     <Authors>bcr</Authors>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <Description>[DEPRECATED] This package is deprecated. The DatadogObjc module was removed in Datadog iOS SDK 3.0. ObjC APIs are now integrated into the individual product modules (Core, Logs, RUM, Trace). Please use those packages instead.</Description>
