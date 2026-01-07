@@ -1,8 +1,18 @@
 # Datadog iOS SDK - ObjC Bindings (Core)
 
-.NET bindings for the Datadog iOS SDK Objective-C layer.
+> **⚠️ DEPRECATED:** This package is deprecated as of Datadog iOS SDK 3.0.
+>
+> The `DatadogObjc` module was removed in SDK 3.0. Objective-C APIs are now integrated into the individual product modules (Core, Logs, RUM, Trace).
+>
+> **Migration:** Please use the individual packages instead:
+> - `Bcr.Datadog.iOS.Core`
+> - `Bcr.Datadog.iOS.Logs`
+> - `Bcr.Datadog.iOS.RUM`
+> - `Bcr.Datadog.iOS.Trace`
+>
+> See the [migration guide](https://github.com/DataDog/dd-sdk-ios/blob/develop/MIGRATION.md#migration-from-2x-to-30) for details.
 
-## Overview
+## Overview (Historical Reference)
 
 This package provides the core Datadog iOS SDK functionality through Objective-C interop. It includes initialization, configuration, and access to all major Datadog features (Logs, RUM, Trace) in a single package.
 

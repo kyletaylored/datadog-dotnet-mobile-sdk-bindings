@@ -1,8 +1,14 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <!-- When building with .NET 8 SDK, only build net8.0-ios -->
+    <!-- DEPRECATED: This package is deprecated as of Datadog iOS SDK 3.0 -->
+    <!-- The DatadogObjc module was removed in SDK 3.0. ObjC APIs are now integrated into individual product modules. -->
+    <!-- Users should migrate to using the individual packages: Core, Logs, RUM, Trace -->
+
+    <!-- Disable building this project by default -->
+    <IsPackable>false</IsPackable>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+
     <TargetFrameworks Condition="'$(NETCoreSdkVersion)' &lt; '9.0'">net8.0-ios</TargetFrameworks>
-    <!-- When building with .NET 9+ SDK, build net9.0-ios and net10.0-ios -->
     <TargetFrameworks Condition="'$(NETCoreSdkVersion)' &gt;= '9.0'">net9.0-ios;net10.0-ios</TargetFrameworks>
     <SupportedOSPlatformVersion>17.0</SupportedOSPlatformVersion>
     <NoWarn>$(NoWarn);NETSDK1202;NU5123;CS8767</NoWarn>
@@ -16,22 +22,15 @@
     <PackageVersion>2.26.0</PackageVersion>
     <Authors>bcr</Authors>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <Description>.NET Bindings for Datadog iOS SDK ObjC</Description>
+    <Description>[DEPRECATED] This package is deprecated. The DatadogObjc module was removed in Datadog iOS SDK 3.0. ObjC APIs are now integrated into the individual product modules (Core, Logs, RUM, Trace). Please use those packages instead.</Description>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/brunck/datadog-dotnet-mobile-sdk-bindings</RepositoryUrl>
     <PublishRepositoryUrl>false</PublishRepositoryUrl>
-    <PackageTags>.NET for iOS Datadog Mobile Binding ObjC</PackageTags>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageTags>.NET for iOS Datadog Mobile Binding ObjC deprecated</PackageTags>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageDeprecated>true</PackageDeprecated>
 
-    <XCFrameworkPath>../Libs/DDObjc.xcframework</XCFrameworkPath>
-
-    <!--
-      Enable trim analyzers for class libraries.
-      To learn more, see:
-    https://learn.microsoft.com/dotnet/core/deploying/trimming/prepare-libraries-for-trimming
-    -->
     <IsTrimmable>true</IsTrimmable>
   </PropertyGroup>
 

@@ -3,16 +3,16 @@
 
 # Define workspace and scheme
 WORKSPACE="${PWD}/dd-sdk-ios/Datadog.xcworkspace"
-FRAMEWORK_NAMES=("DatadogInternal" "DatadogCore" "DatadogLogs" "DatadogTrace" "DatadogRUM" "DatadogSessionReplay" "DatadogCrashReporting" "DatadogObjc" "DatadogWebViewTracking")
-XCFRAMEWORK_NAMES=("DDInt" "DDC" "DDL" "DDT" "DDR" "DDSR" "DDCR" "DDObjc" "DWVT")
+FRAMEWORK_NAMES=("DatadogInternal" "DatadogCore" "DatadogLogs" "DatadogTrace" "DatadogRUM" "DatadogSessionReplay" "DatadogCrashReporting" "DatadogWebViewTracking")
+XCFRAMEWORK_NAMES=("DDInt" "DDC" "DDL" "DDT" "DDR" "DDSR" "DDCR" "DWVT")
 CONFIGURATION="Release"
 DERIVED_DATA_PATH="${PWD}/src/iOS/DerivedData"
 BUILD_DIR="${DERIVED_DATA_PATH}/Build/Products/${CONFIGURATION}"
 CARTFILE_DIRECTORY="${PWD}/dd-sdk-ios"
 CARTHAGE_OUTPUT="${CARTFILE_DIRECTORY}/Carthage/Build"
 BINDINGS_FOLDER_PATH="./src/iOS/Bindings"
-HEADER_FILE_PREFIXES=("DatadogObjc" "DatadogCrashReporting" "DatadogSessionReplay" "DatadogWebViewTracking")
-HEADER_XCFRAMEWORK_NAMES=("DDObjc" "DDCR" "DDSR" "DWVT")
+HEADER_FILE_PREFIXES=("DatadogCrashReporting" "DatadogSessionReplay" "DatadogWebViewTracking")
+HEADER_XCFRAMEWORK_NAMES=("DDCR" "DDSR" "DWVT")
 HEADER_FILES_TARGET_PATH="${BINDINGS_FOLDER_PATH}/Headers"
 
 # Debug statements
