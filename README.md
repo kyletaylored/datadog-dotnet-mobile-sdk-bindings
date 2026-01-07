@@ -11,9 +11,11 @@ Unofficial .NET bindings for the **Datadog Mobile SDKs** on **Android** and **iO
 ## Documentation
 
 ### For Users
+
 - **[Getting Started Guide](docs/GETTING_STARTED.md)** - Detailed setup, examples, and API usage
 
 ### For Contributors
+
 - **[Quick Start](docs/QUICK_START.md)** - Quick reference for common development tasks
 - **[SDK Update Guide](docs/SDK_UPDATE_GUIDE.md)** - How to update Datadog SDK versions
 - **[Building & Versioning Guide](docs/BUILDING_AND_VERSIONING.md)** - Build from source and version updates
@@ -64,6 +66,7 @@ Install via NuGet Package Manager or add to your `.csproj`:
 ```
 
 > 💡 **Note**: Both platforms support multiple target frameworks:
+>
 > - **Android**: `net9.0-android`, `net10.0-android` (⭐ `net10.0-android` recommended for 16KB page size support)
 > - **iOS**: `net8.0-ios`, `net9.0-ios`, `net10.0-ios`
 
@@ -181,7 +184,6 @@ These are **binding layers** that expose the native Datadog Android (Java/Kotlin
 Binding versions mirror the native SDK versions:
 
 - Version `2.26.0` binds version `2.26.0` of the native SDK
-- Pre-release tags like `2.21.0` indicate preview versions
 - The revision number is incremented for binding-specific updates
 
 See [BUILDING_AND_VERSIONING.md](docs/BUILDING_AND_VERSIONING.md) for the complete versioning strategy.
@@ -203,6 +205,7 @@ See [BUILDING_AND_VERSIONING.md](docs/BUILDING_AND_VERSIONING.md) for the comple
 Both Android and iOS packages support multiple .NET versions:
 
 **iOS Packages:**
+
 - `net8.0-ios` - For .NET 8 projects
 - `net9.0-ios` - For .NET 9 projects
 - `net10.0-ios` - For .NET 10 projects
@@ -210,6 +213,7 @@ Both Android and iOS packages support multiple .NET versions:
 All frameworks target iOS 17.0+ and are included in a single NuGet package.
 
 **Android Packages:**
+
 - `net9.0-android` - For .NET 9 projects
 - `net10.0-android` - For .NET 10 projects (⭐ **Recommended**)
 
