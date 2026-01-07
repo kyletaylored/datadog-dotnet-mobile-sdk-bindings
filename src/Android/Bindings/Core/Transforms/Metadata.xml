@@ -35,6 +35,9 @@
 >
 	<remove-node path="/api/package[@name='com.datadog.android.api.feature']/class[@name='FeatureScopeExtKt']" />
 	<remove-node path="/api/package[@name='com.datadog.android.api.feature']/interface[@name='FeatureSdkCore']/method[@name='getInternalLogger']" />
+	<remove-node path="/api/package[@name='com.datadog.android.api.feature']/interface[@name='StorageBackedFeature']" />
+	<remove-node path="/api/package[@name='com.datadog.android.api.net']/interface[@name='RequestFactory']" />
+	<remove-node path="/api/package[@name='com.datadog.android.api.net']/class[@name='RequestFactory.Companion']" />
 	<remove-node path="/api/package[@name='com.datadog.android.api.net']/class[@name='Request']/method[starts-with(@name,'component')]" />
 	<remove-node path="/api/package[@name='com.datadog.android.api.storage']/interface[@name='DataWriter']" />
 	<remove-node path="/api/package[@name='com.datadog.android.api.storage']/class[@name='NoOpDataWriter']" />
