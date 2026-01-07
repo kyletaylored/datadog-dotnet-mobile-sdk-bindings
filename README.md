@@ -10,10 +10,17 @@ Unofficial .NET bindings for the **Datadog Mobile SDKs** on **Android** and **iO
 
 ## Documentation
 
+### For Users
 - **[Getting Started Guide](GETTING_STARTED.md)** - Detailed setup, examples, and API usage
+
+### For Contributors
+- **[Quick Start](QUICK_START.md)** - Quick reference for common development tasks
+- **[SDK Update Guide](SDK_UPDATE_GUIDE.md)** - How to update Datadog SDK versions
 - **[Building & Versioning Guide](BUILDING_AND_VERSIONING.md)** - Build from source and version updates
 - **[Local Package Building](LOCAL_BUILD_README.md)** - Generate NuGet packages locally for development
 - **[Release Process Guide](RELEASE_PROCESS.md)** - Publishing new versions to NuGet.org
+
+> 💡 **Tip**: Use `make help` to see all available build commands
 
 ### Platform-Specific Documentation
 
@@ -32,28 +39,28 @@ Install via NuGet Package Manager or add to your `.csproj`:
 
 ```xml
 <!-- Core SDK (required) -->
-<PackageReference Include="Bcr.Datadog.Android.Core" Version="2.21.0-pre.1" />
+<PackageReference Include="Bcr.Datadog.Android" Version="3.4.0" />
 
 <!-- Feature packages (install as needed) -->
-<PackageReference Include="Bcr.Datadog.Android.Logs" Version="2.21.0-pre.1" />
-<PackageReference Include="Bcr.Datadog.Android.Rum" Version="2.21.0-pre.1" />
-<PackageReference Include="Bcr.Datadog.Android.Trace" Version="2.21.0-pre.1" />
-<PackageReference Include="Bcr.Datadog.Android.SessionReplay" Version="2.21.0-pre.1" />
-<PackageReference Include="Bcr.Datadog.Android.WebView" Version="2.21.0-pre.1" />
-<PackageReference Include="Bcr.Datadog.Android.Ndk" Version="2.21.0-pre.1" />
-<PackageReference Include="Bcr.Datadog.Android.Trace.Otel" Version="2.21.0-pre.1" />
+<PackageReference Include="Bcr.Datadog.Android" Version="3.4.0" />
+<PackageReference Include="Bcr.Datadog.Android" Version="3.4.0" />
+<PackageReference Include="Bcr.Datadog.Android" Version="3.4.0" />
+<PackageReference Include="Bcr.Datadog.Android" Version="3.4.0" />
+<PackageReference Include="Bcr.Datadog.Android" Version="3.4.0" />
+<PackageReference Include="Bcr.Datadog.Android" Version="3.4.0" />
+<PackageReference Include="Bcr.Datadog.Android" Version="3.4.0" />
 ```
 
 #### iOS Packages
 
 ```xml
 <!-- Core SDK with Logs, RUM, and Trace (required) -->
-<PackageReference Include="Bcr.Datadog.iOS.ObjC" Version="2.26.0" />
+<PackageReference Include="Bcr.Datadog.iOS" Version="3.4.0" />
 
 <!-- Additional feature packages (install as needed) -->
-<PackageReference Include="Bcr.Datadog.iOS.CR" Version="2.26.0" />   <!-- Crash Reporting -->
-<PackageReference Include="Bcr.Datadog.iOS.SR" Version="2.26.0" />   <!-- Session Replay -->
-<PackageReference Include="Bcr.Datadog.iOS.Web" Version="2.26.0" />  <!-- WebView Tracking -->
+<PackageReference Include="Bcr.Datadog.iOS" Version="3.4.0" />   <!-- Crash Reporting -->
+<PackageReference Include="Bcr.Datadog.iOS" Version="3.4.0" />   <!-- Session Replay -->
+<PackageReference Include="Bcr.Datadog.iOS" Version="3.4.0" />  <!-- WebView Tracking -->
 ```
 
 > 💡 **Note**: Both platforms support multiple target frameworks:
@@ -174,7 +181,7 @@ These are **binding layers** that expose the native Datadog Android (Java/Kotlin
 Binding versions mirror the native SDK versions:
 
 - Version `2.26.0` binds version `2.26.0` of the native SDK
-- Pre-release tags like `2.21.0-pre.1` indicate preview versions
+- Pre-release tags like `2.21.0` indicate preview versions
 - The revision number is incremented for binding-specific updates
 
 See [BUILDING_AND_VERSIONING.md](BUILDING_AND_VERSIONING.md) for the complete versioning strategy.

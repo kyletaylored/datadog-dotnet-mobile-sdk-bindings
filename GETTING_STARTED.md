@@ -64,14 +64,14 @@ Add the following NuGet packages to your `.csproj` file:
 
   <ItemGroup>
     <!-- Core SDK (required) -->
-    <PackageReference Include="Bcr.Datadog.Android.Sdk.Core" Version="2.21.0-pre.1" />
+    <PackageReference Include="Bcr.Datadog.Android" Version="3.4.0" />
 
     <!-- Add features you need -->
-    <PackageReference Include="Bcr.Datadog.Android.Sdk.Logs" Version="2.21.0-pre.1" />
-    <PackageReference Include="Bcr.Datadog.Android.Sdk.Rum" Version="2.21.0-pre.1" />
-    <PackageReference Include="Bcr.Datadog.Android.Sdk.Trace" Version="2.21.0-pre.1" />
-    <PackageReference Include="Bcr.Datadog.Android.Sdk.SessionReplay" Version="2.21.0-pre.1" />
-    <PackageReference Include="Bcr.Datadog.Android.Sdk.Ndk" Version="2.21.0-pre.1" />
+    <PackageReference Include="Bcr.Datadog.Android" Version="3.4.0" />
+    <PackageReference Include="Bcr.Datadog.Android" Version="3.4.0" />
+    <PackageReference Include="Bcr.Datadog.Android" Version="3.4.0" />
+    <PackageReference Include="Bcr.Datadog.Android" Version="3.4.0" />
+    <PackageReference Include="Bcr.Datadog.Android" Version="3.4.0" />
 
     <!-- Optional: AndroidX dependencies to resolve warnings -->
     <PackageReference Include="Xamarin.AndroidX.Collection.Ktx" Version="1.4.5.2" />

@@ -13,10 +13,9 @@
 	</PropertyGroup>
 	<PropertyGroup>
 		<PackageId>Bcr.Datadog.Android.Sdk.Ndk</PackageId>
-		<Version>2.21.0-pre.1</Version>
+		<Version>3.4.0</Version>
 		<PackageReleaseNotes><![CDATA[
-			This addresses the 16 KB requirement for Android.
-			Note that there is a breaking bug in .NET for Android binding projects in the .NET 9 SDK that is fixed in .NET 10, which also requires targeting .NET 10. .NET 10 will not be GA until November 2025, so these packages are in pre-release form until then.
+			Supports net9.0-android and net10.0-android. Note: net10.0-android is recommended for 16KB page size support (Google Play requirement as of November 2025).
 			]]></PackageReleaseNotes>
 		<Authors>bcr</Authors>
 		<Description>Bindings for the Datadog Android SDK NDK library</Description>
@@ -33,7 +32,7 @@
 		<None Include="LICENSE" Pack="true" PackagePath="/" />
 	</ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="Bcr.Datadog.Android.Sdk.Core" Version="2.21.0-pre.1" />
+		<PackageReference Include="Bcr.Datadog.Android.Sdk.Core" Version="3.4.0" />
 		<PackageReference Include="Xamarin.AndroidX.MultiDex" Version="2.0.1.23" />
 	</ItemGroup>
 	<ItemGroup>

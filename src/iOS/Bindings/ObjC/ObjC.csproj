@@ -36,10 +36,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Bcr.Datadog.iOS.Core" Version="2.26.0" />
-    <PackageReference Include="Bcr.Datadog.iOS.Logs" Version="2.26.0" />
-    <PackageReference Include="Bcr.Datadog.iOS.RUM" Version="2.26.0" />
-    <PackageReference Include="Bcr.Datadog.iOS.Trace" Version="2.26.0" />
+    <PackageReference Include="Bcr.Datadog.iOS.Core" Version="3.4.0" />
+    <PackageReference Include="Bcr.Datadog.iOS.Logs" Version="3.4.0" />
+    <PackageReference Include="Bcr.Datadog.iOS.RUM" Version="3.4.0" />
+    <PackageReference Include="Bcr.Datadog.iOS.Trace" Version="3.4.0" />
   </ItemGroup>
 
   <ItemGroup>
