@@ -5,7 +5,7 @@ on:
   workflow_dispatch:  # Allow manual triggering
 
 env:
-  XCODE_VERSION: '26.1'
+  XCODE_VERSION: '26.1' # Must be one of https://github.com/actions/runner-images/blob/main/images/macos/macos-15-Readme.md#xcode
 
 jobs:
   # Build XCFrameworks once and share across all builds
@@ -51,9 +51,6 @@ jobs:
           key: ${{ runner.os }}-carthage-${{ hashFiles('dd-sdk-ios/Cartfile.resolved') }}
           restore-keys: |
             ${{ runner.os }}-carthage-
-
-      - name: Install Carthage
-        run: brew install carthage
 
       - name: Get dd-sdk-ios commit hash
         id: sdk-version
