@@ -411,8 +411,8 @@ jobs:
 
       - name: Install .NET MAUI workload
         run: |
-          # Install iOS workload but skip manifest update to avoid pulling latest (26.2)
-          dotnet workload install ios --skip-manifest-update
+          # Install iOS workload with latest manifest for Xcode 26.1 compatibility
+          dotnet workload install ios
 
       - name: Download NuGet packages
         uses: actions/download-artifact@v7
