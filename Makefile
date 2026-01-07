@@ -167,6 +167,110 @@ build-all: build-android build-ios ## Build both Android and iOS packages
 
 build: build-all ## Alias for build-all
 
+##@ CI/CD Simulation
+
+ci-android: ## Simulate GitHub Actions Android build workflow locally
+	@echo "$(BLUE)=========================================="
+	@echo "Simulating GitHub Actions: Android Build"
+	@echo "==========================================$(NC)"
+	@echo ""
+	@echo "$(YELLOW)Step 1/5: Checking out submodules...$(NC)"
+	@git submodule update --init --recursive
+	@echo "$(GREEN)✓ Submodules updated$(NC)"
+	@echo ""
+	@echo "$(YELLOW)Step 2/5: Setting up .NET...$(NC)"
+	@dotnet --version
+	@echo "$(GREEN)✓ .NET ready$(NC)"
+	@echo ""
+	@echo "$(YELLOW)Step 3/5: Building Android AAR files...$(NC)"
+	@chmod +x src/Android/build-aars.sh
+	@chmod +x src/Android/copy-aars.sh
+	@./src/Android/build-aars.sh
+	@./src/Android/copy-aars.sh
+	@echo "$(GREEN)✓ AAR files built$(NC)"
+	@echo ""
+	@echo "$(YELLOW)Step 4/5: Restoring and building bindings...$(NC)"
+	@dotnet restore src/Android/AndroidDatadogBindings.sln
+	@dotnet build src/Android/AndroidDatadogBindings.sln --configuration Release --no-restore
+	@echo "$(GREEN)✓ Bindings built$(NC)"
+	@echo ""
+	@echo "$(YELLOW)Step 5/5: Creating NuGet packages...$(NC)"
+	@rm -rf ./local-packages
+	@mkdir -p ./local-packages
+	@dotnet pack src/Android/AndroidDatadogBindings.sln --configuration Release --no-build --output ./local-packages
+	@echo "$(GREEN)✓ Packages created$(NC)"
+	@echo ""
+	@echo "$(GREEN)=========================================="
+	@echo "✓ Android CI workflow complete!"
+	@echo "==========================================$(NC)"
+	@echo ""
+	@echo "Packages location: ./local-packages/"
+	@ls -lh ./local-packages/*.nupkg 2>/dev/null || true
+	@echo ""
+
+ci-ios: ## Simulate GitHub Actions iOS build workflow locally (requires macOS)
+	@echo "$(BLUE)=========================================="
+	@echo "Simulating GitHub Actions: iOS Build"
+	@echo "==========================================$(NC)"
+	@echo ""
+	@if [ "$$(uname)" != "Darwin" ]; then \
+		echo "$(RED)Error: iOS builds require macOS$(NC)"; \
+		exit 1; \
+	fi
+	@echo "$(YELLOW)Step 1/5: Checking out submodules...$(NC)"
+	@git submodule update --init --recursive
+	@echo "$(GREEN)✓ Submodules updated$(NC)"
+	@echo ""
+	@echo "$(YELLOW)Step 2/5: Setting up .NET and iOS workload...$(NC)"
+	@dotnet --version
+	@dotnet workload install ios --skip-sign-check 2>/dev/null || true
+	@echo "$(GREEN)✓ .NET ready$(NC)"
+	@echo ""
+	@echo "$(YELLOW)Step 3/5: Building XCFrameworks...$(NC)"
+	@chmod +x src/iOS/buildxcframework.sh
+	@./src/iOS/buildxcframework.sh
+	@echo "$(GREEN)✓ XCFrameworks built$(NC)"
+	@echo ""
+	@echo "$(YELLOW)Step 4/5: Restoring and building bindings...$(NC)"
+	@dotnet restore src/iOS/iOSDatadogBindings.sln
+	@dotnet build src/iOS/iOSDatadogBindings.sln --configuration Release --no-restore
+	@echo "$(GREEN)✓ Bindings built$(NC)"
+	@echo ""
+	@echo "$(YELLOW)Step 5/5: Creating NuGet packages...$(NC)"
+	@rm -rf ./local-packages
+	@mkdir -p ./local-packages
+	@dotnet pack src/iOS/iOSDatadogBindings.sln --configuration Release --no-build --output ./local-packages
+	@echo "$(GREEN)✓ Packages created$(NC)"
+	@echo ""
+	@echo "$(GREEN)=========================================="
+	@echo "✓ iOS CI workflow complete!"
+	@echo "==========================================$(NC)"
+	@echo ""
+	@echo "Packages location: ./local-packages/"
+	@ls -lh ./local-packages/*.nupkg 2>/dev/null || true
+	@echo ""
+
+ci-all: ci-android ci-ios ## Simulate both Android and iOS GitHub Actions workflows
+
+ci-test: ci-android ## Run CI simulation with test validation
+	@echo ""
+	@echo "$(BLUE)=========================================="
+	@echo "Testing Built Packages"
+	@echo "==========================================$(NC)"
+	@echo ""
+	@echo "$(YELLOW)Adding local package source...$(NC)"
+	@dotnet nuget add source $$(pwd)/local-packages --name ci-test 2>/dev/null || true
+	@echo ""
+	@echo "$(YELLOW)Building test application...$(NC)"
+	@dotnet restore src/Android/Bindings/Test/TestBindings/TestBindings.csproj
+	@dotnet build src/Android/Bindings/Test/TestBindings/TestBindings.csproj --configuration Release
+	@echo "$(GREEN)✓ Test build successful$(NC)"
+	@echo ""
+	@dotnet nuget remove source ci-test 2>/dev/null || true
+	@echo "$(GREEN)=========================================="
+	@echo "✓ CI test workflow complete!"
+	@echo "==========================================$(NC)"
+
 ##@ Testing
 
 test-android: build-android ## Build and test Android packages
