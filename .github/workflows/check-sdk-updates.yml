@@ -5,11 +5,23 @@ on:
     # Run every Monday at 9 AM UTC
     - cron: '0 9 * * 1'
   workflow_dispatch:  # Allow manual triggering
+    inputs:
+      auto-build:
+        description: 'Automatically build and test if updates found'
+        required: false
+        type: boolean
+        default: true
 
 jobs:
   check-updates:
     name: Check for SDK Updates
     runs-on: ubuntu-latest
+    outputs:
+      updates-available: ${{ steps.check-versions.outputs.updates-available }}
+      latest-android: ${{ steps.check-versions.outputs.latest-android }}
+      current-android: ${{ steps.check-versions.outputs.current-android }}
+      latest-ios: ${{ steps.check-versions.outputs.latest-ios }}
+      current-ios: ${{ steps.check-versions.outputs.current-ios }}
 
     steps:
       - name: Checkout repository
@@ -17,10 +29,15 @@ jobs:
         with:
           submodules: recursive
           token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
 
       - name: Fetch latest SDK versions
         id: check-versions
         run: |
+          # Get our latest release tag
+          OUR_LATEST=$(git describe --tags --abbrev=0 2>/dev/null || echo "0.0.0")
+          echo "our-latest=$OUR_LATEST" >> $GITHUB_OUTPUT
+
           # Get latest Android SDK version
           cd dd-sdk-android
           git fetch --tags
@@ -150,3 +167,105 @@ jobs:
           else
             echo "✅ **All SDKs are up to date**" >> $GITHUB_STEP_SUMMARY
           fi
+
+  # Automatically update and build if updates are available
+  auto-update-and-build:
+    name: Auto Update and Build
+    needs: check-updates
+    if: needs.check-updates.outputs.updates-available == 'true' && (github.event.inputs.auto-build == 'true' || github.event_name == 'schedule')
+    uses: ./.github/workflows/build-all.yml
+    permissions:
+      contents: write
+      pull-requests: write
+
+  # Create PR with successful build artifacts
+  create-update-pr:
+    name: Create Update PR
+    needs: [check-updates, auto-update-and-build]
+    if: success()
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+          submodules: recursive
+
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Update SDK versions
+        run: |
+          # Update submodules to latest versions
+          cd dd-sdk-android
+          git fetch --tags
+          git checkout ${{ needs.check-updates.outputs.latest-android }}
+          cd ..
+
+          cd dd-sdk-ios
+          git fetch --tags
+          git checkout ${{ needs.check-updates.outputs.latest-ios }}
+          cd ..
+
+          # Run the version update script
+          chmod +x scripts/update-sdk-versions.sh
+          ./scripts/update-sdk-versions.sh \
+            --android-version ${{ needs.check-updates.outputs.latest-android }} \
+            --ios-version ${{ needs.check-updates.outputs.latest-ios }}
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v8
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: |
+            Update Datadog SDKs to latest versions
+
+            - Android: ${{ needs.check-updates.outputs.current-android }} → ${{ needs.check-updates.outputs.latest-android }}
+            - iOS: ${{ needs.check-updates.outputs.current-ios }} → ${{ needs.check-updates.outputs.latest-ios }}
+          branch: auto-update-sdks-${{ needs.check-updates.outputs.latest-android }}-${{ needs.check-updates.outputs.latest-ios }}
+          title: "Update Datadog SDKs (Android: ${{ needs.check-updates.outputs.latest-android }}, iOS: ${{ needs.check-updates.outputs.latest-ios }})"
+          body: |
+            ## 🤖 Automated SDK Update
+
+            This PR updates the Datadog SDKs to their latest versions.
+
+            ### Changes
+
+            #### Android SDK
+            - **Current**: `${{ needs.check-updates.outputs.current-android }}`
+            - **Latest**: `${{ needs.check-updates.outputs.latest-android }}`
+            - [Release Notes](https://github.com/DataDog/dd-sdk-android/releases/tag/${{ needs.check-updates.outputs.latest-android }})
+
+            #### iOS SDK
+            - **Current**: `${{ needs.check-updates.outputs.current-ios }}`
+            - **Latest**: `${{ needs.check-updates.outputs.latest-ios }}`
+            - [Release Notes](https://github.com/DataDog/dd-sdk-ios/releases/tag/${{ needs.check-updates.outputs.latest-ios }})
+
+            ### Build Status
+
+            ✅ All platform builds completed successfully
+
+            ### What's Updated
+
+            - Git submodules updated to latest SDK versions
+            - Version numbers in all `.csproj` files updated
+            - Documentation updated with new versions
+
+            ### Next Steps
+
+            1. Review the changes and SDK release notes
+            2. Test the builds locally if needed
+            3. Merge this PR to trigger release preparation
+            4. Tag and publish the release
+
+            ---
+            *This PR was automatically created by the SDK update workflow*
+          labels: |
+            automated
+            sdk-update
+            dependencies
+          draft: false

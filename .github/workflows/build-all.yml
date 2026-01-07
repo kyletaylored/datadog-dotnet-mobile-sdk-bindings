@@ -15,6 +15,7 @@ on:
       - 'dd-sdk-android/**'
       - 'dd-sdk-ios/**'
       - '.github/workflows/**'
+  workflow_call:  # Allow this workflow to be called by other workflows
   workflow_dispatch:
   schedule:
     # Run weekly on Monday at 9 AM UTC

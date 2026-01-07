@@ -1,0 +1,285 @@
+name: Create GitHub Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Release version (e.g., 3.4.0)'
+        required: true
+        type: string
+      is_prerelease:
+        description: 'Mark as pre-release'
+        required: false
+        type: boolean
+        default: false
+
+jobs:
+  # Build packages using existing build-all workflow
+  build-packages:
+    name: Build All Packages
+    uses: ./.github/workflows/build-all.yml
+
+  # Validate packages
+  validate-packages:
+    name: Validate Packages
+    runs-on: ubuntu-latest
+    needs: build-packages
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Download all-nuget-packages artifact
+        uses: actions/download-artifact@v7
+        with:
+          name: all-nuget-packages
+          path: ./packages
+
+      - name: List all packages
+        run: |
+          echo "=== All NuGet Packages ==="
+          find ./packages -name "*.nupkg" -exec basename {} \; | sort
+          echo ""
+          echo "=== Package Count ==="
+          echo "Total: $(find ./packages -name "*.nupkg" | wc -l) packages"
+
+      - name: Verify package versions match
+        run: |
+          echo "Verifying all packages contain version ${{ github.event.inputs.version }}..."
+
+          MISMATCHED=0
+          for package in $(find ./packages -name "*.nupkg"); do
+            pkg_name=$(basename "$package")
+            if [[ "$pkg_name" != *"${{ github.event.inputs.version }}"* ]]; then
+              echo "❌ Version mismatch: $pkg_name"
+              MISMATCHED=$((MISMATCHED + 1))
+            else
+              echo "✅ $pkg_name"
+            fi
+          done
+
+          if [ $MISMATCHED -gt 0 ]; then
+            echo ""
+            echo "❌ Found $MISMATCHED packages with version mismatches!"
+            echo "Expected version: ${{ github.event.inputs.version }}"
+            echo ""
+            echo "This usually means the .csproj files don't match the release version."
+            echo "Please update package versions and re-run."
+            exit 1
+          fi
+
+          echo "✅ All packages have correct version ${{ github.event.inputs.version }}"
+
+      - name: Validate package metadata
+        run: |
+          echo "Validating package metadata..."
+
+          for package in $(find ./packages -name "*.nupkg"); do
+            pkg_name=$(basename "$package")
+            echo "Inspecting $pkg_name..."
+
+            # Extract and check nuspec
+            mkdir -p temp-pkg
+            unzip -q "$package" -d temp-pkg
+
+            if ! ls temp-pkg/*.nuspec 1> /dev/null 2>&1; then
+              echo "❌ No .nuspec found in $pkg_name"
+              rm -rf temp-pkg
+              exit 1
+            fi
+
+            # Check for license file
+            if [ ! -f temp-pkg/LICENSE ]; then
+              echo "⚠️  Warning: No LICENSE file in $pkg_name"
+            fi
+
+            rm -rf temp-pkg
+          done
+
+          echo "✅ Package metadata validation complete"
+
+  # Create GitHub Release
+  create-github-release:
+    name: Create GitHub Release
+    runs-on: ubuntu-latest
+    needs: validate-packages
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Download all packages
+        uses: actions/download-artifact@v7
+        with:
+          name: all-nuget-packages
+          path: ./packages
+
+      - name: Prepare release assets
+        run: |
+          mkdir -p ./release-assets
+          find ./packages -name "*.nupkg" -exec cp {} ./release-assets/ \;
+
+          echo "=== Release Assets ==="
+          ls -lh ./release-assets/
+          echo ""
+          echo "Total packages: $(ls -1 ./release-assets/*.nupkg | wc -l)"
+
+      - name: Generate checksums
+        run: |
+          cd ./release-assets
+          sha256sum *.nupkg > checksums.txt
+          echo "=== SHA256 Checksums ==="
+          cat checksums.txt
+
+      - name: Generate release notes
+        id: release_notes
+        run: |
+          # Detect which platforms are included
+          ANDROID_COUNT=$(find ./release-assets -name "*Android*.nupkg" | wc -l)
+          IOS_COUNT=$(find ./release-assets -name "*iOS*.nupkg" -o -name "*Otel*.nupkg" | wc -l)
+
+          cat > release-notes.md << 'EOF'
+          # Datadog .NET Mobile SDK Bindings v${{ github.event.inputs.version }}
+
+          This release provides .NET bindings for Datadog Mobile SDKs.
+
+          ## 📦 Platform Support
+
+          EOF
+
+          if [ $ANDROID_COUNT -gt 0 ]; then
+            echo "- ✅ **Android** ($ANDROID_COUNT packages)" >> release-notes.md
+          fi
+          if [ $IOS_COUNT -gt 0 ]; then
+            echo "- ✅ **iOS** ($IOS_COUNT packages)" >> release-notes.md
+          fi
+
+          cat >> release-notes.md << 'EOF'
+
+          ## 📥 Installation
+
+          ### NuGet Package Manager
+
+          ```bash
+          # Android
+          dotnet add package Bcr.Datadog.Android.Core --version ${{ github.event.inputs.version }}
+
+          # iOS
+          dotnet add package Bcr.Datadog.iOS.ObjC --version ${{ github.event.inputs.version }}
+          ```
+
+          ### Package Reference
+
+          ```xml
+          <!-- Android -->
+          <PackageReference Include="Bcr.Datadog.Android.Core" Version="${{ github.event.inputs.version }}" />
+
+          <!-- iOS -->
+          <PackageReference Include="Bcr.Datadog.iOS.ObjC" Version="${{ github.event.inputs.version }}" />
+          ```
+
+          ## 🎯 Framework Support
+
+          ### Android
+          - `net9.0-android` - .NET 9 for Android (API 26+)
+          - `net10.0-android` - .NET 10 for Android (API 26+) ⭐ **Recommended for 16KB page size**
+
+          ### iOS
+          - `net8.0-ios` - .NET 8 for iOS (iOS 17.0+)
+          - `net9.0-ios` - .NET 9 for iOS (iOS 17.0+)
+          - `net10.0-ios` - .NET 10 for iOS (iOS 17.0+)
+
+          ## 📚 Documentation
+
+          - [Getting Started Guide](https://github.com/${{ github.repository }}/blob/main/docs/GETTING_STARTED.md)
+          - [Building & Versioning Guide](https://github.com/${{ github.repository }}/blob/main/docs/BUILDING_AND_VERSIONING.md)
+          - [Local Build Guide](https://github.com/${{ github.repository }}/blob/main/docs/LOCAL_BUILD_README.md)
+          - [Official Datadog Documentation](https://docs.datadoghq.com/)
+
+          ## 🔗 Native SDK Versions
+
+          This release binds to Datadog SDK version **${{ github.event.inputs.version }}**:
+          - [dd-sdk-android Release Notes](https://github.com/DataDog/dd-sdk-android/releases/tag/${{ github.event.inputs.version }})
+          - [dd-sdk-ios Release Notes](https://github.com/DataDog/dd-sdk-ios/releases/tag/${{ github.event.inputs.version }})
+
+          ## 📦 Included Packages
+
+          EOF
+
+          find ./release-assets -name "*.nupkg" -exec basename {} \; | sort | sed 's/^/- `/' | sed 's/$/`/' >> release-notes.md
+
+          cat >> release-notes.md << 'EOF'
+
+          ## 🔐 Package Verification
+
+          Verify package integrity using SHA256 checksums (see `checksums.txt` in release assets):
+
+          ```bash
+          sha256sum -c checksums.txt
+          ```
+
+          ## ⚠️ Important Notes
+
+          ### Android
+          - **16KB Page Size**: Android packages target `net10.0-android` for Google Play's 16KB page size requirement (enforced as of August 31, 2025)
+          - **Minimum API Level**: Android API 26+ (Android 8.0)
+
+          ### iOS
+          - **Multi-Framework**: Single packages contain binaries for .NET 8, 9, and 10
+          - **Minimum iOS Version**: iOS 17.0+
+
+          ## 🚀 Publishing to NuGet
+
+          These packages are available for download from this GitHub release. To publish them to NuGet.org, use the "Publish to NuGet" workflow after validating this release.
+
+          ## 💬 Support
+
+          - **SDK Usage**: Refer to the [Official Datadog Documentation](https://docs.datadoghq.com/)
+          - **Binding Issues**: [Open an issue](https://github.com/${{ github.repository }}/issues)
+
+          ---
+
+          ## 📝 What's Changed
+
+          See the [full changelog](https://github.com/${{ github.repository }}/blob/main/CHANGELOG.md) for detailed changes.
+          EOF
+
+          cat release-notes.md
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ github.event.inputs.version }}
+          name: v${{ github.event.inputs.version }}
+          body_path: release-notes.md
+          draft: false
+          prerelease: ${{ github.event.inputs.is_prerelease }}
+          files: |
+            ./release-assets/*.nupkg
+            ./release-assets/checksums.txt
+          generate_release_notes: false
+          make_latest: ${{ github.event.inputs.is_prerelease == false }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Summary
+        run: |
+          echo "# 🎉 Release v${{ github.event.inputs.version }} Created!" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## 📦 Release Details" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- **Version**: v${{ github.event.inputs.version }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Pre-release**: ${{ github.event.inputs.is_prerelease }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Total Packages**: $(ls -1 ./release-assets/*.nupkg | wc -l)" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## 🔗 Links" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- [View Release](https://github.com/${{ github.repository }}/releases/tag/v${{ github.event.inputs.version }})" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## 📤 Next Steps" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "1. ✅ **Download packages** from the release for testing" >> $GITHUB_STEP_SUMMARY
+          echo "2. ✅ **Test packages** locally in your projects" >> $GITHUB_STEP_SUMMARY
+          echo "3. ✅ **Publish to NuGet** using the 'Publish to NuGet' workflow" >> $GITHUB_STEP_SUMMARY
+          echo "4. ✅ **Update CHANGELOG.md** with release notes" >> $GITHUB_STEP_SUMMARY
+          echo "5. ✅ **Announce release** to users" >> $GITHUB_STEP_SUMMARY
