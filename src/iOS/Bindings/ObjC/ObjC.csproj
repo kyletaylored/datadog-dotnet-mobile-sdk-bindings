@@ -35,10 +35,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Bcr.Datadog.iOS.Core" Version="3.4.0" />
-    <PackageReference Include="Bcr.Datadog.iOS.Logs" Version="3.4.0" />
-    <PackageReference Include="Bcr.Datadog.iOS.RUM" Version="3.4.0" />
-    <PackageReference Include="Bcr.Datadog.iOS.Trace" Version="3.4.0" />
+    <ProjectReference Include="..\Core\Core.csproj" />
+    <ProjectReference Include="..\DDLogs\DDLogs.csproj" />
+    <ProjectReference Include="..\Rum\Rum.csproj" />
+    <ProjectReference Include="..\Trace\Trace.csproj" />
   </ItemGroup>
 
   <ItemGroup>

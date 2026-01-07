@@ -36,7 +36,7 @@
 
   <ItemGroup>
     <PackageReference Include="Bcr.Otel.Api.iOS" Version="2.26.0" />
-    <PackageReference Include="Bcr.Datadog.iOS.Int" Version="3.4.0" />
+    <ProjectReference Include="..\Internal\Internal.csproj" />
   </ItemGroup>
 
   <ItemGroup>
