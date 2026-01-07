@@ -327,14 +327,22 @@ jobs:
               ls -la "./temp-extract/net9plus/lib/" || echo "    No lib directory!"
 
               # Copy net9.0-ios and net10.0-ios libs to net8 package structure
-              if [ -d "./temp-extract/net9plus/lib/net9.0-ios" ]; then
-                cp -r "./temp-extract/net9plus/lib/net9.0-ios" "./temp-extract/net8/lib/"
-                echo "  Copied net9.0-ios framework"
-              fi
-              if [ -d "./temp-extract/net9plus/lib/net10.0-ios" ]; then
-                cp -r "./temp-extract/net9plus/lib/net10.0-ios" "./temp-extract/net8/lib/"
-                echo "  Copied net10.0-ios framework"
-              fi
+              # Need to copy the versioned directories (e.g., net9.0-ios18.0, net10.0-ios26.0)
+              for net9_dir in "./temp-extract/net9plus/lib"/net9.0-ios*; do
+                if [ -d "$net9_dir" ]; then
+                  dir_name=$(basename "$net9_dir")
+                  cp -r "$net9_dir" "./temp-extract/net8/lib/"
+                  echo "  Copied $dir_name framework"
+                fi
+              done
+
+              for net10_dir in "./temp-extract/net9plus/lib"/net10.0-ios*; do
+                if [ -d "$net10_dir" ]; then
+                  dir_name=$(basename "$net10_dir")
+                  cp -r "$net10_dir" "./temp-extract/net8/lib/"
+                  echo "  Copied $dir_name framework"
+                fi
+              done
 
               echo "  Combined package frameworks:"
               ls -la "./temp-extract/net8/lib/"
