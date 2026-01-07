@@ -30,28 +30,6 @@ jobs:
           echo "Verifying Cartfile exists..."
           ls -la dd-sdk-ios/Cartfile
 
-      - name: Select Xcode version
-        run: sudo xcode-select -s /Applications/Xcode_${{ env.XCODE_VERSION }}.app
-
-      - name: Show Xcode version
-        run: xcodebuild -version
-
-      - name: Install iOS platform
-        run: |
-          xcodebuild -version
-          xcrun simctl list > /dev/null
-          xcodebuild -downloadPlatform iOS
-
-      - name: Cache Carthage dependencies
-        uses: actions/cache@v5
-        with:
-          path: |
-            dd-sdk-ios/Carthage
-            ~/Library/Caches/org.carthage.CarthageKit
-          key: ${{ runner.os }}-carthage-${{ hashFiles('dd-sdk-ios/Cartfile.resolved') }}
-          restore-keys: |
-            ${{ runner.os }}-carthage-
-
       - name: Get dd-sdk-ios commit hash
         id: sdk-version
         run: echo "commit=$(git -C dd-sdk-ios rev-parse HEAD)" >> $GITHUB_OUTPUT
@@ -64,6 +42,32 @@ jobs:
           key: ${{ runner.os }}-xcframeworks-${{ steps.sdk-version.outputs.commit }}
           restore-keys: |
             ${{ runner.os }}-xcframeworks-
+
+      - name: Select Xcode version
+        if: steps.cache-xcframeworks.outputs.cache-hit != 'true'
+        run: sudo xcode-select -s /Applications/Xcode_${{ env.XCODE_VERSION }}.app
+
+      - name: Show Xcode version
+        if: steps.cache-xcframeworks.outputs.cache-hit != 'true'
+        run: xcodebuild -version
+
+      - name: Install iOS platform
+        if: steps.cache-xcframeworks.outputs.cache-hit != 'true'
+        run: |
+          xcodebuild -version
+          xcrun simctl list > /dev/null
+          xcodebuild -downloadPlatform iOS
+
+      - name: Cache Carthage dependencies
+        if: steps.cache-xcframeworks.outputs.cache-hit != 'true'
+        uses: actions/cache@v5
+        with:
+          path: |
+            dd-sdk-ios/Carthage
+            ~/Library/Caches/org.carthage.CarthageKit
+          key: ${{ runner.os }}-carthage-${{ hashFiles('dd-sdk-ios/Cartfile.resolved') }}
+          restore-keys: |
+            ${{ runner.os }}-carthage-
 
       - name: Build XCFrameworks
         if: steps.cache-xcframeworks.outputs.cache-hit != 'true'
@@ -135,13 +139,29 @@ jobs:
       - name: Install .NET MAUI iOS workload for SDK 8
         run: dotnet workload install ios
 
+      - name: Get dd-sdk-ios commit hash for cache
+        id: sdk-version-net8
+        run: echo "commit=$(git -C dd-sdk-ios rev-parse HEAD)" >> $GITHUB_OUTPUT
+
+      - name: Cache NuGet packages (net8.0-ios)
+        id: cache-nuget-net8
+        uses: actions/cache@v5
+        with:
+          path: ./artifacts-net8/*.nupkg
+          key: ${{ runner.os }}-ios-net8-packages-${{ steps.sdk-version-net8.outputs.commit }}-${{ hashFiles('src/iOS/Bindings/**/*.csproj') }}
+          restore-keys: |
+            ${{ runner.os }}-ios-net8-packages-${{ steps.sdk-version-net8.outputs.commit }}-
+
       - name: Restore dependencies (SDK 8)
+        if: steps.cache-nuget-net8.outputs.cache-hit != 'true'
         run: dotnet restore src/iOS/iOSDatadogBindings.sln
 
       - name: Build iOS bindings (net8.0-ios)
+        if: steps.cache-nuget-net8.outputs.cache-hit != 'true'
         run: dotnet build src/iOS/iOSDatadogBindings.sln --configuration Release --no-restore
 
       - name: Package NuGet packages (net8.0-ios)
+        if: steps.cache-nuget-net8.outputs.cache-hit != 'true'
         run: dotnet pack src/iOS/iOSDatadogBindings.sln --configuration Release --no-build --output ./artifacts-net8
 
       - name: Upload net8.0-ios artifacts
@@ -207,13 +227,29 @@ jobs:
       - name: Install .NET MAUI iOS workload for SDK 9+
         run: dotnet workload install ios
 
+      - name: Get dd-sdk-ios commit hash for cache
+        id: sdk-version-net9plus
+        run: echo "commit=$(git -C dd-sdk-ios rev-parse HEAD)" >> $GITHUB_OUTPUT
+
+      - name: Cache NuGet packages (net9.0-ios, net10.0-ios)
+        id: cache-nuget-net9plus
+        uses: actions/cache@v5
+        with:
+          path: ./artifacts-net9plus/*.nupkg
+          key: ${{ runner.os }}-ios-net9plus-packages-${{ steps.sdk-version-net9plus.outputs.commit }}-${{ hashFiles('src/iOS/Bindings/**/*.csproj') }}
+          restore-keys: |
+            ${{ runner.os }}-ios-net9plus-packages-${{ steps.sdk-version-net9plus.outputs.commit }}-
+
       - name: Restore dependencies (SDK 9+)
+        if: steps.cache-nuget-net9plus.outputs.cache-hit != 'true'
         run: dotnet restore src/iOS/iOSDatadogBindings.sln
 
       - name: Build iOS bindings (net9.0-ios, net10.0-ios)
+        if: steps.cache-nuget-net9plus.outputs.cache-hit != 'true'
         run: dotnet build src/iOS/iOSDatadogBindings.sln --configuration Release --no-restore
 
       - name: Package NuGet packages (net9.0-ios, net10.0-ios)
+        if: steps.cache-nuget-net9plus.outputs.cache-hit != 'true'
         run: dotnet pack src/iOS/iOSDatadogBindings.sln --configuration Release --no-build --output ./artifacts-net9plus
 
       - name: Upload net9.0-ios and net10.0-ios artifacts
@@ -325,7 +361,12 @@ jobs:
           dotnet-version: 10.0.x
 
       - name: Install .NET MAUI workload
-        run: dotnet workload install ios
+        run: |
+          # Install iOS workload but skip manifest update to avoid pulling latest (26.2)
+          dotnet workload install ios --skip-manifest-update
+
+          # List installed workload versions
+          dotnet workload list
 
       - name: Download XCFrameworks
         uses: actions/download-artifact@v7
@@ -349,7 +390,7 @@ jobs:
         run: dotnet restore src/iOS/T/Test.sln
 
       - name: Build test app
-        run: dotnet build src/iOS/T/Test.sln --configuration Release --no-restore -p:BuildIpa=true
+        run: dotnet build src/iOS/T/Test.sln --configuration Release --no-restore -p:BuildIpa=true -p:_ProvisioningProfile=manual
 
       - name: Upload test app
         uses: actions/upload-artifact@v6
