@@ -1,5 +1,45 @@
 #!/bin/bash
 
+#==============================================================================
+# iOS Bindings Documentation Generator (mdoc)
+#==============================================================================
+#
+# Purpose:
+#   Generates XML API documentation from compiled iOS binding DLLs using mdoc
+#   (Mono Documentation tool). This documentation is used for:
+#   - IntelliSense in Visual Studio/Rider
+#   - API reference documentation
+#   - NuGet package documentation
+#
+# When to Use:
+#   This is a MANUAL developer tool, NOT part of CI/CD pipelines.
+#   Run this script locally when you need to regenerate API documentation
+#   after making changes to the iOS bindings.
+#
+# Prerequisites:
+#   - mdoc tool must be installed (part of Mono tooling)
+#   - iOS bindings must be compiled first (run builds to generate .dll files)
+#   - sudo access required (script runs mdoc with sudo and changes file ownership)
+#
+# How It Works:
+#   1. Locates .NET iOS reference assemblies in /usr/local/share/dotnet/packs
+#   2. Searches for compiled binding DLLs (core.dll, cr.dll, log.dll, etc.)
+#   3. Runs `mdoc update` to extract API signatures and generate XML docs
+#   4. Outputs documentation to the Mdoc/ directory
+#   5. Changes ownership of generated files back to current user
+#
+# Output:
+#   Mdoc/ directory containing:
+#   - XML files for each namespace (ns-Datadog.iOS.*.xml)
+#   - Type documentation organized by namespace
+#   - index.xml with overall documentation structure
+#
+# Note:
+#   Currently searches for net9.0 reference assemblies (line 7). May need
+#   updating if .NET 10 becomes the primary target framework.
+#
+#==============================================================================
+
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 # Define the library path and output directory
