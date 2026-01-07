@@ -334,6 +334,22 @@ jobs:
       - name: List combined packages
         run: ls -lh ./artifacts-combined/
 
+      - name: Package summary
+        run: |
+          echo "## iOS NuGet Packages Built" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Target frameworks included:" >> $GITHUB_STEP_SUMMARY
+          echo "- net8.0-ios" >> $GITHUB_STEP_SUMMARY
+          echo "- net9.0-ios" >> $GITHUB_STEP_SUMMARY
+          echo "- net10.0-ios" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "All frameworks target iOS 17.0+ and are combined into single multi-framework packages." >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Packages" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          ls -1 ./artifacts-combined/*.nupkg | xargs -n1 basename >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+
       - name: Upload combined NuGet packages
         uses: actions/upload-artifact@v6
         with:
@@ -349,8 +365,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
-        with:
-          submodules: recursive
 
       - name: Select Xcode version
         run: sudo xcode-select -s /Applications/Xcode_${{ env.XCODE_VERSION }}.app
@@ -365,26 +379,50 @@ jobs:
           # Install iOS workload but skip manifest update to avoid pulling latest (26.2)
           dotnet workload install ios --skip-manifest-update
 
-          # List installed workload versions
-          dotnet workload list
-
-      - name: Download XCFrameworks
-        uses: actions/download-artifact@v7
-        with:
-          name: ios-xcframeworks
-          path: src/iOS/Bindings/Libs
-
-      - name: Verify XCFrameworks
-        run: ls -la src/iOS/Bindings/Libs/
-
       - name: Download NuGet packages
         uses: actions/download-artifact@v7
         with:
           name: ios-nuget-packages
           path: ./artifacts
 
+      - name: Get package version from artifacts
+        id: package-version
+        run: |
+          # Extract version from first package filename
+          VERSION=$(ls ./artifacts/*.nupkg | head -1 | grep -oP '\d+\.\d+\.\d+' | head -1)
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Detected package version: $VERSION"
+
+      - name: Replace ProjectReferences with PackageReferences
+        run: |
+          # Replace ProjectReferences with PackageReferences using the built packages
+          cat > src/iOS/T/T.csproj << 'EOF'
+          <Project Sdk="Microsoft.NET.Sdk">
+            <PropertyGroup>
+              <TargetFramework>net10.0-ios</TargetFramework>
+              <OutputType>Exe</OutputType>
+              <Nullable>enable</Nullable>
+              <ImplicitUsings>true</ImplicitUsings>
+              <SupportedOSPlatformVersion>17.0</SupportedOSPlatformVersion>
+              <ProvisioningType>manual</ProvisioningType>
+            </PropertyGroup>
+            <ItemGroup>
+              <PackageReference Include="Bcr.Datadog.iOS.Core" Version="${{ steps.package-version.outputs.version }}" />
+              <PackageReference Include="Bcr.Datadog.iOS.Logs" Version="${{ steps.package-version.outputs.version }}" />
+              <PackageReference Include="Bcr.Datadog.iOS.RUM" Version="${{ steps.package-version.outputs.version }}" />
+              <PackageReference Include="Bcr.Datadog.iOS.Trace" Version="${{ steps.package-version.outputs.version }}" />
+              <PackageReference Include="Bcr.Datadog.iOS.CR" Version="${{ steps.package-version.outputs.version }}" />
+              <PackageReference Include="Bcr.Datadog.iOS.SR" Version="${{ steps.package-version.outputs.version }}" />
+              <PackageReference Include="Bcr.Datadog.iOS.Web" Version="${{ steps.package-version.outputs.version }}" />
+            </ItemGroup>
+          </Project>
+          EOF
+
+          echo "Updated T.csproj to use PackageReferences:"
+          cat src/iOS/T/T.csproj
+
       - name: Add local NuGet source
-        run: dotnet nuget add source ./artifacts --name local
+        run: dotnet nuget add source $PWD/artifacts --name local
 
       - name: Restore test app dependencies
         run: dotnet restore src/iOS/T/Test.sln

@@ -368,20 +368,61 @@ jobs:
       - name: Install .NET Android workload
         run: dotnet workload install android
 
-      - name: Download AAR files
-        uses: actions/download-artifact@v7
-        with:
-          name: android-aar-files
-          path: src/Android/Bindings/
-
       - name: Download combined packages
         uses: actions/download-artifact@v7
         with:
           name: android-nuget-packages-combined
           path: ./artifacts
 
+      - name: Get package version from artifacts
+        id: package-version
+        run: |
+          # Extract version from first package filename
+          VERSION=$(ls ./artifacts/*.nupkg | head -1 | grep -oP '\d+\.\d+\.\d+' | head -1)
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Detected package version: $VERSION"
+
+      - name: Replace ProjectReferences with PackageReferences
+        run: |
+          # Replace ProjectReferences with PackageReferences using the built packages
+          cat > src/Android/Bindings/Test/TestBindings/TestBindings.csproj << 'EOF'
+          <Project Sdk="Microsoft.NET.Sdk">
+            <PropertyGroup>
+              <TargetFramework>net10.0-android</TargetFramework>
+              <SupportedOSPlatformVersion>26</SupportedOSPlatformVersion>
+              <OutputType>Exe</OutputType>
+              <Nullable>enable</Nullable>
+              <ImplicitUsings>enable</ImplicitUsings>
+              <ApplicationId>com.bcr.TestAndroidBindings</ApplicationId>
+              <ApplicationVersion>1</ApplicationVersion>
+              <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+              <JavaSdkDirectory>$(JAVA_HOME)</JavaSdkDirectory>
+            </PropertyGroup>
+            <ItemGroup>
+              <PackageReference Include="Bcr.Datadog.Android.Sdk.Logs" Version="${{ steps.package-version.outputs.version }}" />
+              <PackageReference Include="Bcr.Datadog.Android.Sdk.Ndk" Version="${{ steps.package-version.outputs.version }}" />
+              <PackageReference Include="Bcr.Datadog.Android.Sdk.Rum" Version="${{ steps.package-version.outputs.version }}" />
+              <PackageReference Include="Bcr.Datadog.Android.Sdk.SessionReplay" Version="${{ steps.package-version.outputs.version }}" />
+              <PackageReference Include="Bcr.Datadog.Android.Sdk.Trace" Version="${{ steps.package-version.outputs.version }}" />
+              <PackageReference Include="Bcr.Datadog.Android.Sdk.Trace.Otel" Version="${{ steps.package-version.outputs.version }}" />
+              <PackageReference Include="Bcr.Datadog.Android.Sdk.WebView" Version="${{ steps.package-version.outputs.version }}" />
+              <!-- Dependencies to resolve NU1608 warnings -->
+              <PackageReference Include="Xamarin.AndroidX.Collection.Ktx" Version="1.4.5.2" />
+              <PackageReference Include="Xamarin.AndroidX.Lifecycle.Runtime.Ktx" Version="2.8.7.2" />
+              <PackageReference Include="Xamarin.AndroidX.Lifecycle.Common" Version="2.8.7.2" />
+              <PackageReference Include="Xamarin.AndroidX.Lifecycle.LiveData.Core" Version="2.8.7.2" />
+              <PackageReference Include="Xamarin.AndroidX.Lifecycle.LiveData.Core.Ktx" Version="2.8.7.2" />
+              <PackageReference Include="Xamarin.AndroidX.Lifecycle.ViewModelSavedState" Version="2.8.7.2" />
+              <PackageReference Include="Xamarin.AndroidX.Lifecycle.ViewModel.Ktx" Version="2.8.7.2" />
+            </ItemGroup>
+          </Project>
+          EOF
+
+          echo "Updated TestBindings.csproj to use PackageReferences:"
+          cat src/Android/Bindings/Test/TestBindings/TestBindings.csproj
+
       - name: Add local NuGet source
-        run: dotnet nuget add source ./artifacts --name local
+        run: dotnet nuget add source $PWD/artifacts --name local
 
       - name: Restore test app dependencies
         run: dotnet restore src/Android/Bindings/Test/TestBindings/TestBindings.csproj
