@@ -332,6 +332,15 @@ jobs:
       - name: Install .NET MAUI workload
         run: dotnet workload install ios
 
+      - name: Download XCFrameworks
+        uses: actions/download-artifact@v7
+        with:
+          name: ios-xcframeworks
+          path: src/iOS/Bindings/Libs
+
+      - name: Verify XCFrameworks
+        run: ls -la src/iOS/Bindings/Libs/
+
       - name: Download NuGet packages
         uses: actions/download-artifact@v7
         with:
