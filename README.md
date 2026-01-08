@@ -99,6 +99,28 @@ See [GETTING_STARTED.md](docs/GETTING_STARTED.md) for complete initialization ex
 
 ## Requirements
 
+### Compatibility Matrix
+
+The following table shows the required versions for building and compiling the bindings:
+
+| Target Framework | .NET SDK Version | Xcode Version | iOS SDK Version | Android API Level | Notes |
+|------------------|------------------|---------------|-----------------|-------------------|-------|
+| `net8.0-ios` | .NET 8.x | 16.1+ | iOS 17.0+ | N/A | Stable, fully supported |
+| `net9.0-ios` | .NET 9.x | 16.1+ | iOS 17.0+ | N/A | Stable, fully supported |
+| `net10.0-ios` | .NET 10.x | 26.2 | iOS 17.0+ | N/A | Requires macOS-26 runner, iOS SDK 26.2 |
+| `net9.0-android` | .NET 9.x | N/A | N/A | API 26+ | Stable, fully supported |
+| `net10.0-android` | .NET 10.x | N/A | N/A | API 26+ | ⭐ **Recommended** for 16KB page size |
+
+**GitHub Actions Runners:**
+- **iOS builds**: Use `macos-26` runner with Xcode 26.2 for .NET 10 compatibility
+- **Android builds**: Use `ubuntu-latest` runner with Java 17
+
+**Xcode & .NET iOS SDK Compatibility:**
+- .NET iOS SDK 26.0 requires Xcode 26.0
+- .NET iOS SDK 26.1 requires Xcode 26.1
+- .NET iOS SDK 26.2 requires Xcode 26.2
+- Always ensure Xcode version matches the .NET iOS SDK version
+
 ### .NET SDK
 
 - **.NET 8, 9, or 10**
@@ -115,7 +137,7 @@ See [GETTING_STARTED.md](docs/GETTING_STARTED.md) for complete initialization ex
 ### iOS
 
 - **iOS 17.0+**
-- **Xcode 16.1** or later
+- **Xcode 26.2** for .NET 10, or **Xcode 16.1+** for .NET 8/9
 - macOS development environment
 
 ---
