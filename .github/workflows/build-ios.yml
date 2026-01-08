@@ -5,13 +5,13 @@ on:
   workflow_dispatch:  # Allow manual triggering
 
 env:
-  XCODE_VERSION: '26.1' # Must be one of https://github.com/actions/runner-images/blob/main/images/macos/macos-15-Readme.md#xcode
+  XCODE_VERSION: '26.2' # Must be one of https://github.com/actions/runner-images/blob/main/images/macos/macos-15-Readme.md#xcode
 
 jobs:
   # Build XCFrameworks once and share across all builds
   build-xcframeworks:
     name: XCFrameworks
-    runs-on: macos-15
+    runs-on: macos-26
 
     steps:
       - name: Checkout repository
@@ -97,7 +97,7 @@ jobs:
   build-ios-net8:
     needs: build-xcframeworks
     name: iOS Bindings (net8.0-ios)
-    runs-on: macos-15
+    runs-on: macos-26
 
     steps:
       - name: Checkout repository
@@ -192,7 +192,7 @@ jobs:
   build-ios-net9plus:
     needs: build-xcframeworks
     name: iOS Bindings (net9.0-ios, net10.0-ios)
-    runs-on: macos-15
+    runs-on: macos-26
 
     steps:
       - name: Checkout repository
@@ -394,7 +394,7 @@ jobs:
 
   build-ios-test:
     name: Build iOS Test App
-    runs-on: macos-15
+    runs-on: macos-26
     needs: combine-ios-packages
 
     steps:
