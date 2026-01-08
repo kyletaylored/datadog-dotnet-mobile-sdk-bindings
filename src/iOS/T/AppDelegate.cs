@@ -26,7 +26,7 @@ namespace T
             );
 
             config.Service = "<service name>";
-            config.Site = <Datadog Site>;
+            // config.Site = DDSite.Us1; // Set your Datadog site (Us1, Us3, Us5, Eu1, etc.)
 
             DDDatadog.Initialize(config, DDTrackingConsent.Granted);
             DDDatadog.VerbosityLevel = DDSDKVerbosityLevel.Debug;
@@ -34,7 +34,7 @@ namespace T
 
             DDCrashReporter.Enable();
 
-            var rumConfig = new DDRUMConfiguration(ddAppId);
+            var rumConfig = new DDRUMConfiguration("<app-id>");
             rumConfig.SessionSampleRate = 100f;
             DDRUM.Enable(rumConfig);
 
