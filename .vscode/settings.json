@@ -1,0 +1,28 @@
+{
+    // Force OmniSharp (more compatible with Xamarin/Android binding project types)
+    "dotnet.server.useOmnisharp": true,
+    // Optional but often helps OmniSharp pick the right SDK when multiple are installed
+    // Set to your SDK folder OR leave unset and rely on global.json.
+    "omnisharp.sdkPath": "/usr/local/share/dotnet/sdk",
+    // Performance / stability in big repos
+    "omnisharp.useModernNet": true,
+    "omnisharp.enableMsBuildLoadProjectsOnDemand": true,
+    "omnisharp.analyzeOpenDocumentsOnly": false,
+    // Keep VS Code from crawling huge generated folders + submodules
+    "files.watcherExclude": {
+        "**/bin/**": true,
+        "**/obj/**": true,
+        "**/.git/**": true,
+        "**/dd-sdk-android/**": true,
+        "**/dd-sdk-ios/**": true,
+        "**/local-packages/**": true
+    },
+    "search.exclude": {
+        "**/bin/**": true,
+        "**/obj/**": true,
+        "**/dd-sdk-android/**": true,
+        "**/dd-sdk-ios/**": true,
+        "**/local-packages/**": true
+    },
+    "omnisharp.dotnetPath": "/usr/local/share/dotnet"
+}

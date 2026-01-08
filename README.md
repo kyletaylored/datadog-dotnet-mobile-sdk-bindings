@@ -16,6 +16,7 @@ Unofficial .NET bindings for the **Datadog Mobile SDKs** on **Android** and **iO
 
 ### For Contributors
 
+- **[VS Code IntelliSense Setup](docs/vscode-setup.md)** - Configure VS Code for proper IntelliSense and autocomplete
 - **[Quick Start](docs/QUICK_START.md)** - Quick reference for common development tasks
 - **[SDK Update Guide](docs/SDK_UPDATE_GUIDE.md)** - How to update Datadog SDK versions
 - **[Building & Versioning Guide](docs/BUILDING_AND_VERSIONING.md)** - Build from source and version updates
