@@ -14,7 +14,7 @@
 set -e  # Exit on error
 
 # Parse arguments
-OUTPUT_DIR="${1:-./local-packages}"
+OUTPUT_DIR="${1:-./local-packages/android}"
 
 echo "========================================"
 echo "Building Android NuGet Packages Locally"

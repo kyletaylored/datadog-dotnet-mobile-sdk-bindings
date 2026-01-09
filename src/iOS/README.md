@@ -135,7 +135,7 @@ public override bool FinishedLaunching(UIApplication application, NSDictionary l
 
 ### Working Example
 
-See [src/iOS/T/AppDelegate.cs](T/AppDelegate.cs) for a complete working example demonstrating all features.
+See [src/iOS/Test/AppDelegate.cs](Test/AppDelegate.cs) for a complete working example demonstrating all features.
 
 ## Documentation
 

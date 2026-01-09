@@ -998,8 +998,8 @@ catch (Exception ex)
 
 ## Next Steps
 
-- Explore [Android binding samples](src/Android/Bindings/Test/TestBindings/)
-- Explore [iOS binding samples](src/iOS/T/)
+- Explore [Android binding samples](src/Android/Test/TestApp/)
+- Explore [iOS binding samples](src/iOS/Test/)
 - Review [Official Datadog Documentation](https://docs.datadoghq.com/)
 - Check [Android SDK repository](https://github.com/DataDog/dd-sdk-android)
 - Check [iOS SDK repository](https://github.com/DataDog/dd-sdk-ios)

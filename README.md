@@ -189,8 +189,8 @@ This comprehensive guide covers:
 
 Real-world sample applications demonstrating initialization and usage:
 
-- **Android Sample**: [src/Android/Bindings/Test/TestBindings/](src/Android/Bindings/Test/TestBindings/)
-- **iOS Sample**: [src/iOS/T/](src/iOS/T/)
+- **Android Sample**: [src/Android/Test/TestApp/](src/Android/Test/TestApp/)
+- **iOS Sample**: [src/iOS/Test/](src/iOS/Test/)
 
 ---
 

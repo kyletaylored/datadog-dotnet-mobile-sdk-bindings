@@ -183,8 +183,8 @@ for file in "${ANDROID_FILES[@]}"; do
   fi
 done
 
-# Update TestBindings references
-TEST_FILE="src/Android/Bindings/Test/TestBindings/TestBindings.csproj"
+# Update TestApp references
+TEST_FILE="src/Android/Test/TestApp/TestApp.csproj"
 if [ -f "$TEST_FILE" ]; then
   perl -i -pe "s/(Bcr\.Datadog\.Android\.Sdk\.[^\"]+)\" Version=\"[0-9]+\.[0-9]+\.[0-9]+(-[a-zA-Z0-9.]+)?\"/\$1\" Version=\"$ANDROID_VERSION\"/g" "$TEST_FILE"
   echo "  Updated: $TEST_FILE"

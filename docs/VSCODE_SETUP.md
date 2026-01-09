@@ -83,7 +83,7 @@ Create `.vscode/settings.json` at the repo root:
 1. Open the Android test folder:
 
    ```bash
-   code src/Android/Bindings/Test
+   code src/Android/Test
    ```
 
 2. Select the solution:
@@ -94,7 +94,7 @@ Create `.vscode/settings.json` at the repo root:
 3. Restore:
 
    ```bash
-   dotnet restore src/Android/Bindings/Test/AndroidTest.sln
+   dotnet restore src/Android/Test/AndroidTest.sln
    ```
 
 4. Verify IntelliSense:
@@ -109,7 +109,7 @@ Create `.vscode/settings.json` at the repo root:
 1. Open the iOS test folder:
 
    ```bash
-   code src/iOS/T
+   code src/iOS/Test
    ```
 
 2. Select the solution:
@@ -120,7 +120,7 @@ Create `.vscode/settings.json` at the repo root:
 3. Restore:
 
    ```bash
-   dotnet restore src/iOS/T/Test.sln
+   dotnet restore src/iOS/Test/Test.sln
    ```
 
 4. Verify IntelliSense:

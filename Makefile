@@ -268,8 +268,8 @@ ci-test: ci-android ## Run CI simulation with test validation
 	@dotnet nuget add source $$(pwd)/local-packages --name ci-test 2>/dev/null || true
 	@echo ""
 	@echo "$(YELLOW)Building test application...$(NC)"
-	@dotnet restore src/Android/Bindings/Test/TestBindings/TestBindings.csproj
-	@dotnet build src/Android/Bindings/Test/TestBindings/TestBindings.csproj --configuration Release
+	@dotnet restore src/Android/Test/TestApp/TestApp.csproj
+	@dotnet build src/Android/Test/TestApp/TestApp.csproj --configuration Release
 	@echo "$(GREEN)✓ Test build successful$(NC)"
 	@echo ""
 	@dotnet nuget remove source ci-test 2>/dev/null || true
@@ -283,8 +283,8 @@ test-android: build-android ## Build and test Android packages
 	@echo "$(BLUE)Testing Android packages...$(NC)"
 	@dotnet nuget add source $$(pwd)/local-packages --name local-test 2>/dev/null || true
 	@echo "$(YELLOW)Building test app...$(NC)"
-	@dotnet restore src/Android/Bindings/Test/TestBindings/TestBindings.csproj
-	@dotnet build src/Android/Bindings/Test/TestBindings/TestBindings.csproj --configuration Release
+	@dotnet restore src/Android/Test/TestApp/TestApp.csproj
+	@dotnet build src/Android/Test/TestApp/TestApp.csproj --configuration Release
 	@echo "$(GREEN)✓ Android test build successful$(NC)"
 	@dotnet nuget remove source local-test 2>/dev/null || true
 
@@ -296,9 +296,9 @@ test-ios: build-ios ## Build and test iOS packages (requires macOS)
 	fi
 	@dotnet nuget add source $$(pwd)/local-packages --name local-test 2>/dev/null || true
 	@echo "$(YELLOW)Building iOS test app...$(NC)"
-	@if [ -d "src/iOS/T" ]; then \
-		dotnet restore src/iOS/T/T.csproj 2>/dev/null && \
-		dotnet build src/iOS/T/T.csproj --configuration Release 2>/dev/null && \
+	@if [ -d "src/iOS/Test" ]; then \
+		dotnet restore src/iOS/Test/TestApp.csproj 2>/dev/null && \
+		dotnet build src/iOS/Test/TestApp.csproj --configuration Release 2>/dev/null && \
 		echo "$(GREEN)✓ iOS test build successful$(NC)"; \
 	else \
 		echo "$(YELLOW)No iOS test app found, skipping$(NC)"; \

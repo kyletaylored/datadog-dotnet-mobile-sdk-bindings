@@ -441,7 +441,7 @@ jobs:
       - name: Replace ProjectReferences with PackageReferences
         run: |
           # Replace ProjectReferences with PackageReferences using the built packages
-          cat > src/iOS/T/T.csproj << 'EOF'
+          cat > src/iOS/Test/TestApp.csproj << 'EOF'
           <Project Sdk="Microsoft.NET.Sdk">
             <PropertyGroup>
               <TargetFramework>net10.0-ios</TargetFramework>
@@ -463,23 +463,23 @@ jobs:
           </Project>
           EOF
 
-          echo "Updated T.csproj to use PackageReferences:"
-          cat src/iOS/T/T.csproj
+          echo "Updated TestApp.csproj to use PackageReferences:"
+          cat src/iOS/Test/TestApp.csproj
 
       - name: Add local NuGet source
         run: dotnet nuget add source $PWD/artifacts --name local
 
       - name: Restore test app dependencies
-        run: dotnet restore src/iOS/T/Test.sln
+        run: dotnet restore src/iOS/Test/Test.sln
 
       - name: Build test app
-        run: dotnet build src/iOS/T/Test.sln --configuration Release --no-restore -p:BuildIpa=true -p:_ProvisioningProfile=manual
+        run: dotnet build src/iOS/Test/Test.sln --configuration Release --no-restore -p:BuildIpa=true -p:_ProvisioningProfile=manual
 
       - name: Upload test app
         uses: actions/upload-artifact@v6
         with:
           name: ios-test-app
           path: |
-            src/iOS/T/bin/Release/**/*.app
-            src/iOS/T/bin/Release/**/*.ipa
+            src/iOS/Test/bin/Release/**/*.app
+            src/iOS/Test/bin/Release/**/*.ipa
           retention-days: 7

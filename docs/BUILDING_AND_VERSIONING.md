@@ -95,7 +95,7 @@ The script updates:
   - `<Version>` tag
   - `PackageReference` versions to other Android packages
   - `artifact_versioned` in `PackageTags`
-- Test project: `src/Android/Bindings/Test/TestBindings/TestBindings.csproj`
+- Test project: `src/Android/Test/TestApp/TestApp.csproj`
 
 **iOS Packages:**
 - All 10 iOS binding `.csproj` files in `src/iOS/Bindings/`
@@ -211,7 +211,7 @@ artifact_versioned=com.datadog.android:dd-sdk-android-core:3.4.0
 - `src/Android/Bindings/Trace/Trace.csproj`
 - `src/Android/Bindings/Trace.Otel/Trace.Otel.csproj`
 - `src/Android/Bindings/WebView/WebView.csproj`
-- `src/Android/Bindings/Test/TestBindings/TestBindings.csproj`
+- `src/Android/Test/TestApp/TestApp.csproj`
 
 #### 3. Update iOS .csproj Files
 
@@ -403,7 +403,7 @@ dotnet build src/Android/Bindings/
 
 ```bash
 # Build the test app
-dotnet build src/Android/Bindings/Test/TestBindings/TestBindings.csproj
+dotnet build src/Android/Test/TestApp/TestApp.csproj
 
 # Run tests if available
 dotnet test
@@ -563,10 +563,10 @@ This generates XML documentation files in `docs/` folder that provide IntelliSen
 
 ```bash
 # Build the test app
-dotnet build src/iOS/T/T.csproj
+dotnet build src/iOS/Test/TestApp.csproj
 
 # Run on simulator or device
-dotnet build -t:Run src/iOS/T/T.csproj
+dotnet build -t:Run src/iOS/Test/TestApp.csproj
 ```
 
 ---

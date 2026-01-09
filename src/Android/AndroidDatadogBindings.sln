@@ -21,7 +21,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebView", "Bindings\WebView
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{C747C72B-1F5B-4BB2-A4EC-6071320F8B1C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestBindings", "Bindings\Test\TestBindings\TestBindings.csproj", "{FCB1675A-8CA0-474A-BDB2-8019767A370C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestApp", "Test\TestApp\TestApp.csproj", "{FCB1675A-8CA0-474A-BDB2-8019767A370C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Trace.Otel", "Bindings\Trace.Otel\Trace.Otel.csproj", "{67B6A045-1CEE-4736-86E1-2C4C679A729C}"
 EndProject

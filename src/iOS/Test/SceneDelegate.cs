@@ -1,4 +1,4 @@
-namespace T
+namespace TestApp
 {
     [Register("SceneDelegate")]
     public class SceneDelegate : UIResponder, IUIWindowSceneDelegate

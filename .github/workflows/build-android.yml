@@ -395,7 +395,7 @@ jobs:
       - name: Replace ProjectReferences with PackageReferences
         run: |
           # Replace ProjectReferences with PackageReferences using the built packages
-          cat > src/Android/Bindings/Test/TestBindings/TestBindings.csproj << 'EOF'
+          cat > src/Android/Test/TestApp/TestApp.csproj << 'EOF'
           <Project Sdk="Microsoft.NET.Sdk">
             <PropertyGroup>
               <TargetFramework>net10.0-android</TargetFramework>
@@ -428,21 +428,21 @@ jobs:
           </Project>
           EOF
 
-          echo "Updated TestBindings.csproj to use PackageReferences:"
-          cat src/Android/Bindings/Test/TestBindings/TestBindings.csproj
+          echo "Updated TestApp.csproj to use PackageReferences:"
+          cat src/Android/Test/TestApp/TestApp.csproj
 
       - name: Add local NuGet source
         run: dotnet nuget add source $PWD/artifacts --name local
 
       - name: Restore test app dependencies
-        run: dotnet restore src/Android/Bindings/Test/TestBindings/TestBindings.csproj
+        run: dotnet restore src/Android/Test/TestApp/TestApp.csproj
 
       - name: Build test app
-        run: dotnet build src/Android/Bindings/Test/TestBindings/TestBindings.csproj --configuration Release --no-restore
+        run: dotnet build src/Android/Test/TestApp/TestApp.csproj --configuration Release --no-restore
 
       - name: Upload test APK
         uses: actions/upload-artifact@v6
         with:
           name: android-test-apk
-          path: src/Android/Bindings/Test/TestBindings/bin/Release/**/*.apk
+          path: src/Android/Test/TestApp/bin/Release/**/*.apk
           retention-days: 7

@@ -11,7 +11,7 @@ using System.Collections.Generic;
 
 #pragma warning disable CS8604 // Possible null reference argument.
 
-namespace TestBindings;
+namespace TestApp;
 
 /// <summary>
 /// Comprehensive test app demonstrating all Datadog Android SDK features.
