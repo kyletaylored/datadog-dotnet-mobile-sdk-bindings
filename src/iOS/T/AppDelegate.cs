@@ -39,9 +39,9 @@ namespace T
             DDRUM.Enable(rumConfig);
 
             DDSessionReplayConfiguration replayConfig = new DDSessionReplayConfiguration(
-                100.0F, 
-                DDTextAndInputPrivacyLevel.MaskAll, 
-                DDImagePrivacyLevel.MaskAll, 
+                100.0F,
+                DDTextAndInputPrivacyLevel.MaskAll,
+                DDImagePrivacyLevel.MaskAll,
                 DDTouchPrivacyLevel.Hide);
             DDSessionReplay.Enable(replayConfig);
 
@@ -79,7 +79,7 @@ namespace T
             {
                 var nsError = new NSError(new NSString("ERROR"), 1001, new NSDictionary<NSString, NSObject>(
                     NSError.LocalizedDescriptionKey, new NSString(e.Message)));
-                logger.Error(e.Message, nsError, 
+                logger.Error(e.Message, nsError,
                     new NSDictionary<NSString, NSObject>(new NSString("error.stack"), new NSString(e.ToString())));
             }
             // create a UIViewController with a single UILabel

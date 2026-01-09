@@ -7,6 +7,7 @@
 The RUM (Real User Monitoring) binding enables you to track user navigation, interactions, and application performance in your .NET for Android application. It provides comprehensive visibility into user sessions, screen views, user actions, network requests, and errors.
 
 **Key Capabilities:**
+
 - Automatic and manual view tracking
 - User action tracking (taps, swipes, scrolls)
 - Network request monitoring
@@ -16,6 +17,7 @@ The RUM (Real User Monitoring) binding enables you to track user navigation, int
 - Custom timing and performance metrics
 
 **Package Information:**
+
 - **NuGet Package**: `Bcr.Datadog.Android.Sdk.Rum`
 - **Native Artifact**: `com.datadog.android:dd-sdk-android-rum:2.21.0`
 - **Namespace**: `Datadog.Android.Rum`
@@ -31,8 +33,8 @@ The RUM (Real User Monitoring) binding enables you to track user navigation, int
 
 ```xml
 <ItemGroup>
-  <PackageReference Include="Bcr.Datadog.Android.Sdk.Core" Version="2.21.0-pre.1" />
-  <PackageReference Include="Bcr.Datadog.Android.Sdk.Rum" Version="2.21.0-pre.1" />
+  <PackageReference Include="Bcr.Datadog.Android.Sdk.Core" Version="2.21.0" />
+  <PackageReference Include="Bcr.Datadog.Android.Sdk.Rum" Version="2.21.0" />
 </ItemGroup>
 ```
 
@@ -303,14 +305,14 @@ rumMonitor.AddTiming("ui_ready");
 
 ### RumConfiguration Builder Options
 
-| Method | Description | Default |
-|--------|-------------|---------|
-| `.TrackLongTasks(threshold)` | Track tasks blocking main thread | 100ms threshold |
-| `.TrackFrustrations(enabled)` | Track user frustrations (rage taps, etc.) | `true` |
-| `.TrackBackgroundEvents(enabled)` | Track events when app backgrounded | `false` |
-| `.TrackNonFatalAnrs(enabled)` | Track Application Not Responding | `true` |
-| `.SetSessionSampleRate(rate)` | Sample rate for sessions (0-100) | `100.0` |
-| `.SetTelemetrySampleRate(rate)` | Sample rate for telemetry (0-100) | `20.0` |
+| Method                            | Description                               | Default         |
+| --------------------------------- | ----------------------------------------- | --------------- |
+| `.TrackLongTasks(threshold)`      | Track tasks blocking main thread          | 100ms threshold |
+| `.TrackFrustrations(enabled)`     | Track user frustrations (rage taps, etc.) | `true`          |
+| `.TrackBackgroundEvents(enabled)` | Track events when app backgrounded        | `false`         |
+| `.TrackNonFatalAnrs(enabled)`     | Track Application Not Responding          | `true`          |
+| `.SetSessionSampleRate(rate)`     | Sample rate for sessions (0-100)          | `100.0`         |
+| `.SetTelemetrySampleRate(rate)`   | Sample rate for telemetry (0-100)         | `20.0`          |
 
 ### RUM Action Types
 
@@ -349,52 +351,52 @@ rumMonitor.AddTiming("ui_ready");
 
 ### RUM Initialization
 
-| Native API (Kotlin/Java) | .NET Binding |
-|--------------------------|--------------|
-| `RUM.enable(config)` | `Datadog.Android.Rum.Rum.Enable(config)` |
-| `RumConfiguration.Builder(appId)` | `new RumConfiguration.Builder(appId)` |
-| `.trackLongTasks(threshold)` | `.TrackLongTasks(threshold)` |
-| `.trackFrustrations(enabled)` | `.TrackFrustrations(enabled)` |
-| `.build()` | `.Build()` |
+| Native API (Kotlin/Java)          | .NET Binding                             |
+| --------------------------------- | ---------------------------------------- |
+| `RUM.enable(config)`              | `Datadog.Android.Rum.Rum.Enable(config)` |
+| `RumConfiguration.Builder(appId)` | `new RumConfiguration.Builder(appId)`    |
+| `.trackLongTasks(threshold)`      | `.TrackLongTasks(threshold)`             |
+| `.trackFrustrations(enabled)`     | `.TrackFrustrations(enabled)`            |
+| `.build()`                        | `.Build()`                               |
 
 ### RUM Monitor Access
 
-| Native API (Kotlin/Java) | .NET Binding |
-|--------------------------|--------------|
-| `GlobalRumMonitor.get()` | `GlobalRumMonitor.Get()` |
+| Native API (Kotlin/Java) | .NET Binding                |
+| ------------------------ | --------------------------- |
+| `GlobalRumMonitor.get()` | `GlobalRumMonitor.Get()`    |
 | `GlobalRumMonitor.get()` | `GlobalRumMonitor.Instance` |
 
 ### View Tracking
 
-| Native API (Kotlin/Java) | .NET Binding |
-|--------------------------|--------------|
+| Native API (Kotlin/Java)              | .NET Binding                          |
+| ------------------------------------- | ------------------------------------- |
 | `monitor.startView(key, name, attrs)` | `monitor.StartView(key, name, attrs)` |
-| `monitor.stopView(key, attrs)` | `monitor.StopView(key, attrs)` |
-| `monitor.addTiming(name)` | `monitor.AddTiming(name)` |
+| `monitor.stopView(key, attrs)`        | `monitor.StopView(key, attrs)`        |
+| `monitor.addTiming(name)`             | `monitor.AddTiming(name)`             |
 
 ### Action Tracking
 
-| Native API (Kotlin/Java) | .NET Binding |
-|--------------------------|--------------|
+| Native API (Kotlin/Java)               | .NET Binding                           |
+| -------------------------------------- | -------------------------------------- |
 | `monitor.addAction(type, name, attrs)` | `monitor.AddAction(type, name, attrs)` |
-| `RumActionType.TAP` | `RumActionType.Tap` |
-| `RumActionType.SWIPE` | `RumActionType.Swipe` |
+| `RumActionType.TAP`                    | `RumActionType.Tap`                    |
+| `RumActionType.SWIPE`                  | `RumActionType.Swipe`                  |
 
 ### Resource Tracking
 
-| Native API (Kotlin/Java) | .NET Binding |
-|--------------------------|--------------|
-| `monitor.startResource(key, method, url, attrs)` | `monitor.StartResource(key, method, url, attrs)` |
-| `monitor.stopResource(key, status, size, kind, attrs)` | `monitor.StopResource(key, status, size, kind, attrs)` |
+| Native API (Kotlin/Java)                                     | .NET Binding                                                 |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+| `monitor.startResource(key, method, url, attrs)`             | `monitor.StartResource(key, method, url, attrs)`             |
+| `monitor.stopResource(key, status, size, kind, attrs)`       | `monitor.StopResource(key, status, size, kind, attrs)`       |
 | `monitor.stopResourceWithError(key, msg, src, error, attrs)` | `monitor.StopResourceWithError(key, msg, src, error, attrs)` |
 
 ### Error Tracking
 
-| Native API (Kotlin/Java) | .NET Binding |
-|--------------------------|--------------|
+| Native API (Kotlin/Java)                          | .NET Binding                                      |
+| ------------------------------------------------- | ------------------------------------------------- |
 | `monitor.addError(msg, source, throwable, attrs)` | `monitor.AddError(msg, source, throwable, attrs)` |
-| `RumErrorSource.NETWORK` | `RumErrorSource.Network` |
-| `RumErrorSource.SOURCE` | `RumErrorSource.Source` |
+| `RumErrorSource.NETWORK`                          | `RumErrorSource.Network`                          |
+| `RumErrorSource.SOURCE`                           | `RumErrorSource.Source`                           |
 
 ## Related Documentation
 
@@ -414,17 +416,20 @@ rumMonitor.AddTiming("ui_ready");
 ## Troubleshooting
 
 **Issue**: RUM data not appearing in Datadog
+
 - Verify Application ID is correct
 - Ensure `Rum.Enable()` was called after Core SDK initialization
 - Check that `TrackingConsent.Granted` is set
 - Verify network connectivity
 
 **Issue**: Views not tracked properly
+
 - Ensure `StartView()` is called in `OnResume()`
 - Ensure `StopView()` is called in `OnPause()`
 - Use consistent view keys
 
 **Issue**: Network requests not showing
+
 - Ensure you call both `StartResource()` and `StopResource()` (or `StopResourceWithError()`)
 - Use unique keys for each request
 - Verify resource method and kind are correct

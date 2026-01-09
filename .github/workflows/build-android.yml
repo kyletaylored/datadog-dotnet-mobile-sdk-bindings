@@ -144,6 +144,10 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-android-net9-packages-${{ steps.sdk-version.outputs.commit }}-
 
+      - name: Clean build artifacts (SDK 9)
+        if: steps.cache-nuget-net9.outputs.cache-hit != 'true'
+        run: dotnet clean src/Android/AndroidDatadogBindings.sln --configuration Release
+
       - name: Restore dependencies (SDK 9)
         if: steps.cache-nuget-net9.outputs.cache-hit != 'true'
         run: dotnet restore src/Android/AndroidDatadogBindings.sln
@@ -232,6 +236,10 @@ jobs:
           key: ${{ runner.os }}-android-net10-packages-${{ steps.sdk-version-net10.outputs.commit }}-${{ hashFiles('src/Android/Bindings/**/*.csproj') }}
           restore-keys: |
             ${{ runner.os }}-android-net10-packages-${{ steps.sdk-version-net10.outputs.commit }}-
+
+      - name: Clean build artifacts (SDK 10)
+        if: steps.cache-nuget-net10.outputs.cache-hit != 'true'
+        run: dotnet clean src/Android/AndroidDatadogBindings.sln --configuration Release
 
       - name: Restore dependencies (SDK 10)
         if: steps.cache-nuget-net10.outputs.cache-hit != 'true'

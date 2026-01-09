@@ -7,6 +7,7 @@
 The Logs binding enables you to send logs from your .NET for Android application to Datadog. It provides structured logging with support for log levels, custom attributes, and exception tracking.
 
 **Key Capabilities:**
+
 - Multiple log levels (Debug, Info, Warning, Error, Assert)
 - Custom attributes and tags per log
 - Exception tracking with stack traces
@@ -15,6 +16,7 @@ The Logs binding enables you to send logs from your .NET for Android application
 - Correlation with RUM sessions
 
 **Package Information:**
+
 - **NuGet Package**: `Bcr.Datadog.Android.Sdk.Logs`
 - **Native Artifact**: `com.datadog.android:dd-sdk-android-logs:2.21.0`
 - **Namespace**: `Datadog.Android.Log`
@@ -29,8 +31,8 @@ The Logs binding enables you to send logs from your .NET for Android application
 
 ```xml
 <ItemGroup>
-  <PackageReference Include="Bcr.Datadog.Android.Sdk.Core" Version="2.21.0-pre.1" />
-  <PackageReference Include="Bcr.Datadog.Android.Sdk.Logs" Version="2.21.0-pre.1" />
+  <PackageReference Include="Bcr.Datadog.Android.Sdk.Core" Version="3.4.0" />
+  <PackageReference Include="Bcr.Datadog.Android.Sdk.Logs" Version="3.4.0" />
 </ItemGroup>
 ```
 
@@ -259,59 +261,59 @@ logger.RemoveTag("platform");
 
 ### LogsConfiguration Builder Options
 
-| Method | Description |
-|--------|-------------|
+| Method     | Description                           |
+| ---------- | ------------------------------------- |
 | `.Build()` | Build the configuration with defaults |
 
 ### Logger Builder Options
 
-| Method | Description | Default |
-|--------|-------------|---------|
-| `.SetName(string)` | Set logger name | Package name |
-| `.SetNetworkInfoEnabled(bool)` | Include network info in logs | `false` |
-| `.SetLogcatLogsEnabled(bool)` | Also write logs to logcat | `false` |
-| `.SetBundleWithRumEnabled(bool)` | Bundle logs with RUM events | `true` |
-| `.SetBundleWithTraceEnabled(bool)` | Bundle logs with traces | `true` |
-| `.SetRemoteSampleRate(float)` | Sample rate for remote logs (0-100) | `100.0` |
+| Method                             | Description                         | Default      |
+| ---------------------------------- | ----------------------------------- | ------------ |
+| `.SetName(string)`                 | Set logger name                     | Package name |
+| `.SetNetworkInfoEnabled(bool)`     | Include network info in logs        | `false`      |
+| `.SetLogcatLogsEnabled(bool)`      | Also write logs to logcat           | `false`      |
+| `.SetBundleWithRumEnabled(bool)`   | Bundle logs with RUM events         | `true`       |
+| `.SetBundleWithTraceEnabled(bool)` | Bundle logs with traces             | `true`       |
+| `.SetRemoteSampleRate(float)`      | Sample rate for remote logs (0-100) | `100.0`      |
 
 ## API Reference
 
 ### Logs Initialization
 
-| Native API (Kotlin/Java) | .NET Binding |
-|--------------------------|--------------|
-| `Logs.enable(config)` | `Logs.Enable(config)` |
+| Native API (Kotlin/Java)      | .NET Binding                      |
+| ----------------------------- | --------------------------------- |
+| `Logs.enable(config)`         | `Logs.Enable(config)`             |
 | `LogsConfiguration.Builder()` | `new LogsConfiguration.Builder()` |
 
 ### Logger Creation
 
-| Native API (Kotlin/Java) | .NET Binding |
-|--------------------------|--------------|
-| `Logger.Builder()` | `new Logger.Builder()` |
-| `.setName(name)` | `.SetName(name)` |
-| `.setNetworkInfoEnabled(enabled)` | `.SetNetworkInfoEnabled(enabled)` |
-| `.setLogcatLogsEnabled(enabled)` | `.SetLogcatLogsEnabled(enabled)` |
+| Native API (Kotlin/Java)            | .NET Binding                        |
+| ----------------------------------- | ----------------------------------- |
+| `Logger.Builder()`                  | `new Logger.Builder()`              |
+| `.setName(name)`                    | `.SetName(name)`                    |
+| `.setNetworkInfoEnabled(enabled)`   | `.SetNetworkInfoEnabled(enabled)`   |
+| `.setLogcatLogsEnabled(enabled)`    | `.SetLogcatLogsEnabled(enabled)`    |
 | `.setBundleWithRumEnabled(enabled)` | `.SetBundleWithRumEnabled(enabled)` |
-| `.build()` | `.Build()` |
+| `.build()`                          | `.Build()`                          |
 
 ### Logging Methods
 
-| Native API (Kotlin/Java) | .NET Binding |
-|--------------------------|--------------|
-| `logger.d(message, attributes)` | `logger.D(message, null, attributes)` |
-| `logger.i(message, attributes)` | `logger.I(message, null, attributes)` |
-| `logger.w(message, attributes)` | `logger.W(message, null, attributes)` |
+| Native API (Kotlin/Java)                   | .NET Binding                               |
+| ------------------------------------------ | ------------------------------------------ |
+| `logger.d(message, attributes)`            | `logger.D(message, null, attributes)`      |
+| `logger.i(message, attributes)`            | `logger.I(message, null, attributes)`      |
+| `logger.w(message, attributes)`            | `logger.W(message, null, attributes)`      |
 | `logger.e(message, throwable, attributes)` | `logger.E(message, throwable, attributes)` |
-| `logger.wtf(message, attributes)` | `logger.Wtf(message, null, attributes)` |
+| `logger.wtf(message, attributes)`          | `logger.Wtf(message, null, attributes)`    |
 
 ### Logger Attributes
 
-| Native API (Kotlin/Java) | .NET Binding |
-|--------------------------|--------------|
+| Native API (Kotlin/Java)          | .NET Binding                      |
+| --------------------------------- | --------------------------------- |
 | `logger.addAttribute(key, value)` | `logger.AddAttribute(key, value)` |
-| `logger.removeAttribute(key)` | `logger.RemoveAttribute(key)` |
-| `logger.addTag(key, value)` | `logger.AddTag(key, value)` |
-| `logger.removeTag(key)` | `logger.RemoveTag(key)` |
+| `logger.removeAttribute(key)`     | `logger.RemoveAttribute(key)`     |
+| `logger.addTag(key, value)`       | `logger.AddTag(key, value)`       |
+| `logger.removeTag(key)`           | `logger.RemoveTag(key)`           |
 
 ## Related Documentation
 
@@ -329,17 +331,20 @@ logger.RemoveTag("platform");
 ## Troubleshooting
 
 **Issue**: Logs not appearing in Datadog
+
 - Ensure Core SDK is initialized with `TrackingConsent.Granted`
 - Verify `Logs.Enable()` was called after SDK initialization
 - Check network connectivity
 - Increase verbosity: `Datadog.Verbosity = (int)Android.Util.LogPriority.Verbose`
 
 **Issue**: Dictionary conversion errors
+
 - Use `new Java.Lang.String("value")` for string values
 - Use `new Java.Lang.Long(123)` for numeric values
 - Dictionary type should be `Dictionary<string, Java.Lang.Object>`
 
 **Issue**: Stack traces not appearing
+
 - Ensure you're wrapping the .NET exception: `new Java.Lang.Exception(ex.Message)`
 - Include stack trace in attributes: `{ "error.stack", new Java.Lang.String(ex.StackTrace ?? "") }`
 
