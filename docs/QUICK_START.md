@@ -32,6 +32,20 @@ make dev-setup
 
 ### 📦 Building Packages
 
+#### Prerequisites
+
+**For iOS packages:**
+- macOS with Xcode 16.1+
+- .NET SDK 8.0.x, 9.0.x, and 10.0.x
+- Carthage: `brew install carthage`
+
+**For Android packages:**
+- .NET SDK 9.0.x and 10.0.x
+- Java 17+: [Download](https://adoptium.net/)
+- Android SDK (via Visual Studio or Android Studio)
+
+#### Build Commands
+
 ```bash
 # Build everything (Android + iOS)
 make build
@@ -47,6 +61,67 @@ make build-ios
 
 # Quick iOS build (skip framework rebuild)
 make build-ios-quick
+```
+
+#### What Gets Built
+
+**iOS packages** (output: `./local-packages/`):
+- `Bcr.Datadog.iOS.Core.{version}.nupkg`
+- `Bcr.Datadog.iOS.Logs.{version}.nupkg`
+- `Bcr.Datadog.iOS.Trace.{version}.nupkg`
+- `Bcr.Datadog.iOS.RUM.{version}.nupkg`
+- `Bcr.Datadog.iOS.SR.{version}.nupkg` (Session Replay)
+- `Bcr.Datadog.iOS.CR.{version}.nupkg` (Crash Reporting)
+- `Bcr.Datadog.iOS.ObjC.{version}.nupkg`
+- `Bcr.Datadog.iOS.Web.{version}.nupkg` (WebView Tracking)
+- `Bcr.Datadog.iOS.Int.{version}.nupkg` (Internal)
+- `Bcr.Datadog.iOS.OTel.{version}.nupkg` (OpenTelemetry)
+
+Each iOS package contains: `net8.0-ios`, `net9.0-ios`, `net10.0-ios` (all iOS 17.0+)
+
+**Android packages** (output: `./local-packages/`):
+- `Bcr.Datadog.Android.Core.{version}.nupkg`
+- `Bcr.Datadog.Android.Logs.{version}.nupkg`
+- `Bcr.Datadog.Android.Trace.{version}.nupkg`
+- `Bcr.Datadog.Android.RUM.{version}.nupkg`
+- `Bcr.Datadog.Android.SR.{version}.nupkg` (Session Replay)
+- `Bcr.Datadog.Android.Web.{version}.nupkg` (WebView Tracking)
+- `Bcr.Datadog.Android.OTel.{version}.nupkg` (OpenTelemetry)
+
+Each Android package contains: `net9.0-android`, `net10.0-android` (both API 26+)
+
+#### Build Times
+- **iOS**: 20-30 minutes (first time), 5-10 minutes (with cached Carthage builds)
+- **Android**: 5-10 minutes
+
+#### Troubleshooting Builds
+
+**iOS build issues:**
+```bash
+# XCFrameworks not found - ensure submodules initialized
+git submodule update --init --recursive
+./src/iOS/buildxcframework.sh
+
+# Multiple .NET SDK versions required
+dotnet --list-sdks  # Check you have 8.0.x AND (9.0.x OR 10.0.x)
+
+# Carthage build fails
+brew upgrade carthage
+rm -rf ~/Library/Caches/org.carthage.CarthageKit
+rm -rf dd-sdk-ios/Carthage
+```
+
+**Android build issues:**
+```bash
+# Multiple .NET SDK versions required
+dotnet --list-sdks  # Check you have both 9.0.x AND 10.0.x
+
+# Java version issues
+java -version  # Must be 17+
+export JAVA_HOME=$(/usr/libexec/java_home -v 17)
+
+# Android SDK not found
+dotnet workload install android
 ```
 
 ### 🔄 Updating SDK Versions
@@ -283,9 +358,9 @@ dotnet nuget remove source local-datadog
 
 - **[README.md](../README.md)** - Main project documentation
 - **[GETTING_STARTED.md](GETTING_STARTED.md)** - Usage guide for consumers
-- **[SDK_UPDATE_GUIDE.md](SDK_UPDATE_GUIDE.md)** - Detailed SDK update process
-- **[LOCAL_BUILD_README.md](LOCAL_BUILD_README.md)** - Local build instructions
-- **[BUILDING_AND_VERSIONING.md](BUILDING_AND_VERSIONING.md)** - Build system details
+- **[BUILDING_AND_VERSIONING.md](BUILDING_AND_VERSIONING.md)** - Build system, SDK updates, and versioning details
+- **[SDK_VERSIONING_STRATEGY.md](SDK_VERSIONING_STRATEGY.md)** - Versioning philosophy and branching strategy
+- **[RELEASE_PROCESS.md](RELEASE_PROCESS.md)** - Publishing workflow
 
 ## Getting Help
 

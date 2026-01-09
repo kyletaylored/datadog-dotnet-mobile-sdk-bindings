@@ -12,16 +12,26 @@ Unofficial .NET bindings for the **Datadog Mobile SDKs** on **Android** and **iO
 
 ### For Users
 
-- **[Getting Started Guide](docs/GETTING_STARTED.md)** - Detailed setup, examples, and API usage
+- **[Getting Started Guide](docs/GETTING_STARTED.md)** - Complete setup guide, examples, and API usage for consuming the NuGet packages
 
 ### For Contributors
 
-- **[VS Code IntelliSense Setup](docs/vscode-setup.md)** - Configure VS Code for proper IntelliSense and autocomplete
-- **[Quick Start](docs/QUICK_START.md)** - Quick reference for common development tasks
-- **[SDK Update Guide](docs/SDK_UPDATE_GUIDE.md)** - How to update Datadog SDK versions
-- **[Building & Versioning Guide](docs/BUILDING_AND_VERSIONING.md)** - Build from source and version updates
-- **[Local Package Building](docs/LOCAL_BUILD_README.md)** - Generate NuGet packages locally for development
+#### Quick References
+
+- **[Quick Start](docs/QUICK_START.md)** - Quick reference for common development tasks (building, updating, testing)
+- **[VS Code Setup](docs/VSCODE_SETUP.md)** - Configure VS Code for proper IntelliSense and autocomplete
+
+#### Building & Deployment
+
+- **[Building & Versioning Guide](docs/BUILDING_AND_VERSIONING.md)** - Build from source, update SDK versions, and versioning strategy
+- **[SDK Versioning Strategy](docs/SDK_VERSIONING_STRATEGY.md)** - Versioning philosophy and branching strategy
 - **[Release Process Guide](docs/RELEASE_PROCESS.md)** - Publishing new versions to NuGet.org
+
+#### Specialized Guides
+
+- **[Android NDK Setup](docs/ANDROID_NDK_SETUP.md)** - Android NDK installation and configuration
+- **[CI Local Testing](docs/CI_LOCAL_TESTING.md)** - Testing GitHub Actions workflows locally
+- **[Troubleshooting Binding Errors](docs/TROUBLESHOOTING_BINDING_ERRORS.md)** - Fix common errors when updating SDK versions
 
 > 💡 **Tip**: Use `make help` to see all available build commands
 
