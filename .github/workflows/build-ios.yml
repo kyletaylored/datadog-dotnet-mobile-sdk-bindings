@@ -16,30 +16,20 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
-        with:
-          submodules: recursive
 
-      - name: Initialize and verify submodules
-        run: |
-          echo "Initializing submodules..."
-          git submodule update --init --recursive
-          echo "Checking submodule status..."
-          git submodule status
-          echo "Verifying dd-sdk-ios exists..."
-          ls -la dd-sdk-ios/
-          echo "Verifying Cartfile exists..."
-          ls -la dd-sdk-ios/Cartfile
-
-      - name: Get dd-sdk-ios commit hash
+      - name: Get latest Datadog iOS SDK release
         id: sdk-version
-        run: echo "commit=$(git -C dd-sdk-ios rev-parse HEAD)" >> $GITHUB_OUTPUT
+        run: |
+          SDK_VERSION=$(curl -s https://api.github.com/repos/DataDog/dd-sdk-ios/releases/latest | jq -r .tag_name)
+          echo "version=$SDK_VERSION" >> $GITHUB_OUTPUT
+          echo "Using Datadog iOS SDK version: $SDK_VERSION"
 
       - name: Cache XCFrameworks
         id: cache-xcframeworks
         uses: actions/cache@v5
         with:
           path: src/iOS/Bindings/Libs/*.xcframework
-          key: ${{ runner.os }}-xcframeworks-${{ steps.sdk-version.outputs.commit }}
+          key: ${{ runner.os }}-xcframeworks-${{ steps.sdk-version.outputs.version }}
           restore-keys: |
             ${{ runner.os }}-xcframeworks-
 
@@ -51,7 +41,7 @@ jobs:
         if: steps.cache-xcframeworks.outputs.cache-hit != 'true'
         run: |
           chmod +x src/iOS/setup-xcframeworks.sh
-          src/iOS/setup-xcframeworks.sh
+          src/iOS/setup-xcframeworks.sh ${{ steps.sdk-version.outputs.version }}
 
       - name: Upload XCFrameworks
         uses: actions/upload-artifact@v6

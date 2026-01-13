@@ -16,12 +16,13 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
-        with:
-          submodules: recursive
 
-      - name: Get dd-sdk-android commit hash
+      - name: Get latest Datadog Android SDK release
         id: sdk-version
-        run: echo "commit=$(git -C dd-sdk-android rev-parse HEAD)" >> $GITHUB_OUTPUT
+        run: |
+          SDK_VERSION=$(curl -s https://api.github.com/repos/DataDog/dd-sdk-android/releases/latest | jq -r .tag_name)
+          echo "version=$SDK_VERSION" >> $GITHUB_OUTPUT
+          echo "Using Datadog Android SDK version: $SDK_VERSION"
 
       - name: Cache AAR and JAR files
         id: cache-aars
@@ -30,7 +31,7 @@ jobs:
           path: |
             src/Android/Bindings/*/aars/*.aar
             src/Android/Bindings/*/aars/*.jar
-          key: ${{ runner.os }}-aars-${{ steps.sdk-version.outputs.commit }}
+          key: ${{ runner.os }}-aars-${{ steps.sdk-version.outputs.version }}
           restore-keys: |
             ${{ runner.os }}-aars-
 
@@ -44,7 +45,7 @@ jobs:
         if: steps.cache-aars.outputs.cache-hit != 'true'
         run: |
           chmod +x src/Android/setup-aars.sh
-          src/Android/setup-aars.sh
+          src/Android/setup-aars.sh ${{ steps.sdk-version.outputs.version }}
 
       - name: Upload AAR and JAR files
         uses: actions/upload-artifact@v6
