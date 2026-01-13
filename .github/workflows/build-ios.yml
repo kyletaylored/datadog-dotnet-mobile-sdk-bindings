@@ -47,33 +47,11 @@ jobs:
         if: steps.cache-xcframeworks.outputs.cache-hit != 'true'
         run: sudo xcode-select -s /Applications/Xcode_${{ env.XCODE_VERSION }}.app/Contents/Developer
 
-      - name: Show Xcode version
-        if: steps.cache-xcframeworks.outputs.cache-hit != 'true'
-        run: xcodebuild -version
-
-      - name: Install iOS platform
+      - name: Setup iOS XCFrameworks
         if: steps.cache-xcframeworks.outputs.cache-hit != 'true'
         run: |
-          xcodebuild -version
-          xcrun simctl list > /dev/null
-          xcodebuild -downloadPlatform iOS
-
-      - name: Cache Carthage dependencies
-        if: steps.cache-xcframeworks.outputs.cache-hit != 'true'
-        uses: actions/cache@v5
-        with:
-          path: |
-            dd-sdk-ios/Carthage
-            ~/Library/Caches/org.carthage.CarthageKit
-          key: ${{ runner.os }}-carthage-${{ hashFiles('dd-sdk-ios/Cartfile.resolved') }}
-          restore-keys: |
-            ${{ runner.os }}-carthage-
-
-      - name: Build XCFrameworks
-        if: steps.cache-xcframeworks.outputs.cache-hit != 'true'
-        run: ./src/iOS/buildxcframework.sh
-        env:
-          GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+          chmod +x src/iOS/setup-xcframeworks.sh
+          src/iOS/setup-xcframeworks.sh
 
       - name: Upload XCFrameworks
         uses: actions/upload-artifact@v6

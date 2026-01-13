@@ -23,55 +23,36 @@ jobs:
         id: sdk-version
         run: echo "commit=$(git -C dd-sdk-android rev-parse HEAD)" >> $GITHUB_OUTPUT
 
-      - name: Cache AAR files
+      - name: Cache AAR and JAR files
         id: cache-aars
         uses: actions/cache@v5
         with:
           path: |
-            src/Android/Bindings/Core/aars/*.aar
-            src/Android/Bindings/Internal/aars/*.aar
-            src/Android/Bindings/DatadogLogs/aars/*.aar
-            src/Android/Bindings/Ndk/aars/*.aar
-            src/Android/Bindings/Rum/aars/*.aar
-            src/Android/Bindings/SessionReplay/aars/*.aar
-            src/Android/Bindings/SessionReplay.Material/aars/*.aar
-            src/Android/Bindings/Trace/aars/*.aar
-            src/Android/Bindings/Trace.Otel/aars/*.aar
-            src/Android/Bindings/WebView/aars/*.aar
+            src/Android/Bindings/*/aars/*.aar
+            src/Android/Bindings/*/aars/*.jar
           key: ${{ runner.os }}-aars-${{ steps.sdk-version.outputs.commit }}
           restore-keys: |
             ${{ runner.os }}-aars-
 
-      - name: Setup Java ${{ env.JAVA_VERSION }}
-        if: steps.cache-aars.outputs.cache-hit != 'true'
-        uses: actions/setup-java@v5
-        with:
-          distribution: 'microsoft'
-          java-version: ${{ env.JAVA_VERSION }}
-
-      - name: Build Android AAR files
+      - name: Install yq (YAML processor)
         if: steps.cache-aars.outputs.cache-hit != 'true'
         run: |
-          chmod +x src/Android/build-aars.sh
-          chmod +x src/Android/copy-aars.sh
-          src/Android/build-aars.sh
-          src/Android/copy-aars.sh
+          sudo wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64
+          sudo chmod +x /usr/local/bin/yq
 
-      - name: Upload AAR files
+      - name: Setup Android AAR files
+        if: steps.cache-aars.outputs.cache-hit != 'true'
+        run: |
+          chmod +x src/Android/setup-aars.sh
+          src/Android/setup-aars.sh
+
+      - name: Upload AAR and JAR files
         uses: actions/upload-artifact@v6
         with:
           name: android-aar-files
           path: |
-            src/Android/Bindings/Core/aars/*.aar
-            src/Android/Bindings/Internal/aars/*.aar
-            src/Android/Bindings/DatadogLogs/aars/*.aar
-            src/Android/Bindings/Ndk/aars/*.aar
-            src/Android/Bindings/Rum/aars/*.aar
-            src/Android/Bindings/SessionReplay/aars/*.aar
-            src/Android/Bindings/SessionReplay.Material/aars/*.aar
-            src/Android/Bindings/Trace/aars/*.aar
-            src/Android/Bindings/Trace.Otel/aars/*.aar
-            src/Android/Bindings/WebView/aars/*.aar
+            src/Android/Bindings/*/aars/*.aar
+            src/Android/Bindings/*/aars/*.jar
           retention-days: 1
 
       - name: Upload build logs on failure

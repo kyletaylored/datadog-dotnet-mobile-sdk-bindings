@@ -1,4 +1,17 @@
 #!/usr/bin/env bash
+#
+# Build Android AAR files from source (dd-sdk-android submodule)
+#
+# This script builds the Datadog Android SDK AARs from source using Gradle.
+# This is useful for development or when you need unreleased versions.
+#
+# For production builds, consider using setup-aars.sh instead, which
+# intelligently downloads required AARs/JARs from Maven Central (faster and
+# doesn't require Android NDK or Gradle setup).
+#
+# Usage:
+#   ./build-aars.sh
+#
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"

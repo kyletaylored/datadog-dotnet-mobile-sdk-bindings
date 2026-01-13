@@ -1,4 +1,4 @@
-.PHONY: help update-sdks update-android update-ios list-versions build-android build-android-aars build-android-quick build-ios build-all test-android test-ios clean status check-prereqs
+.PHONY: help update-sdks update-android update-ios list-versions build-android setup-android-aars build-android-aars build-android-quick build-ios setup-ios-xcframeworks build-ios-frameworks build-all test-android test-ios clean status check-prereqs ci-android ci-ios
 
 # Default target
 .DEFAULT_GOAL := help
@@ -99,15 +99,25 @@ list-versions: ## List available SDK versions (10 most recent)
 
 ##@ iOS Build
 
-build-ios-frameworks: ## Build iOS XCFrameworks from SDK source (requires macOS)
-	@echo "$(BLUE)Building iOS XCFrameworks...$(NC)"
+setup-ios-xcframeworks: ## Smart XCFramework setup - download pre-built frameworks from GitHub releases (recommended)
+	@echo "$(BLUE)Setting up iOS XCFrameworks...$(NC)"
+	@if [ "$$(uname)" != "Darwin" ]; then \
+		echo "$(RED)Error: iOS builds require macOS$(NC)"; \
+		exit 1; \
+	fi
+	@chmod +x src/iOS/setup-xcframeworks.sh
+	@./src/iOS/setup-xcframeworks.sh
+	@echo "$(GREEN)✓ XCFrameworks ready$(NC)"
+
+build-ios-frameworks: ## Build iOS XCFrameworks from SDK source (for development/unreleased versions, requires macOS)
+	@echo "$(BLUE)Building iOS XCFrameworks from source...$(NC)"
 	@if [ "$$(uname)" != "Darwin" ]; then \
 		echo "$(RED)Error: iOS builds require macOS$(NC)"; \
 		exit 1; \
 	fi
 	@./src/iOS/buildxcframework.sh
 
-build-ios: build-ios-frameworks ## Build iOS NuGet packages (full build with frameworks)
+build-ios: setup-ios-xcframeworks ## Build iOS NuGet packages (full build with frameworks)
 	@echo "$(BLUE)Building iOS NuGet packages...$(NC)"
 	@./scripts/build-local-ios-packages.sh
 
@@ -122,14 +132,20 @@ build-ios-quick: ## Build iOS packages without rebuilding frameworks
 
 ##@ Android Build
 
-build-android-aars: ## Build Android AAR files from SDK source
-	@echo "$(BLUE)Building Android AAR files...$(NC)"
+setup-android-aars: ## Smart AAR setup - intelligently downloads required AARs/JARs from Maven Central
+	@echo "$(BLUE)Setting up Android AAR files...$(NC)"
+	@chmod +x src/Android/setup-aars.sh
+	@./src/Android/setup-aars.sh
+	@echo "$(GREEN)✓ AAR files ready$(NC)"
+
+build-android-aars: ## Build Android AAR files from SDK source (for development/unreleased versions)
+	@echo "$(BLUE)Building Android AAR files from source...$(NC)"
 	@./src/Android/build-aars.sh
 	@echo "$(BLUE)Copying AAR files to binding projects...$(NC)"
 	@./src/Android/copy-aars.sh
 	@echo "$(GREEN)✓ AAR files built and copied$(NC)"
 
-build-android: build-android-aars ## Build Android NuGet packages
+build-android: setup-android-aars ## Build Android NuGet packages
 	@echo "$(BLUE)Building Android NuGet packages...$(NC)"
 	@./scripts/build-local-android-packages.sh
 
@@ -174,22 +190,31 @@ ci-android: ## Simulate GitHub Actions Android build workflow locally
 	@echo "Simulating GitHub Actions: Android Build"
 	@echo "==========================================$(NC)"
 	@echo ""
-	@echo "$(YELLOW)Step 1/5: Checking out submodules...$(NC)"
+	@echo "$(YELLOW)Step 1/6: Checking out submodules...$(NC)"
 	@git submodule update --init --recursive
 	@echo "$(GREEN)✓ Submodules updated$(NC)"
 	@echo ""
-	@echo "$(YELLOW)Step 2/5: Setting up .NET...$(NC)"
+	@echo "$(YELLOW)Step 2/6: Setting up .NET...$(NC)"
 	@dotnet --version
 	@echo "$(GREEN)✓ .NET ready$(NC)"
 	@echo ""
-	@echo "$(YELLOW)Step 3/5: Building Android AAR files...$(NC)"
-	@chmod +x src/Android/build-aars.sh
-	@chmod +x src/Android/copy-aars.sh
-	@./src/Android/build-aars.sh
-	@./src/Android/copy-aars.sh
-	@echo "$(GREEN)✓ AAR files built$(NC)"
+	@echo "$(YELLOW)Step 3/6: Checking for yq (YAML processor)...$(NC)"
+	@if ! command -v yq >/dev/null 2>&1; then \
+		echo "$(RED)✗ yq not found$(NC)"; \
+		echo "$(YELLOW)Please install yq:$(NC)"; \
+		echo "  macOS: brew install yq"; \
+		echo "  Linux: snap install yq"; \
+		echo "  Or download from: https://github.com/mikefarah/yq/releases"; \
+		exit 1; \
+	fi
+	@echo "$(GREEN)✓ yq found: $$(yq --version)$(NC)"
 	@echo ""
-	@echo "$(YELLOW)Step 4/5: Restoring and building bindings...$(NC)"
+	@echo "$(YELLOW)Step 4/6: Setting up Android AAR files...$(NC)"
+	@chmod +x src/Android/setup-aars.sh
+	@./src/Android/setup-aars.sh
+	@echo "$(GREEN)✓ AAR files ready$(NC)"
+	@echo ""
+	@echo "$(YELLOW)Step 5/6: Restoring and building bindings...$(NC)"
 	@dotnet restore src/Android/AndroidDatadogBindings.sln
 	@dotnet build src/Android/AndroidDatadogBindings.sln --configuration Release --no-restore > /tmp/dotnet-build.log 2>&1 || { \
 		echo "$(RED)Build failed! Errors:$(NC)"; \
@@ -200,7 +225,7 @@ ci-android: ## Simulate GitHub Actions Android build workflow locally
 	}
 	@echo "$(GREEN)✓ Bindings built$(NC)"
 	@echo ""
-	@echo "$(YELLOW)Step 5/5: Creating NuGet packages...$(NC)"
+	@echo "$(YELLOW)Step 6/6: Creating NuGet packages...$(NC)"
 	@rm -rf ./local-packages
 	@mkdir -p ./local-packages
 	@dotnet pack src/Android/AndroidDatadogBindings.sln --configuration Release --no-build --output ./local-packages
@@ -237,12 +262,12 @@ ci-ios: ## Simulate GitHub Actions iOS build workflow locally (requires macOS)
 	@./src/iOS/buildxcframework.sh
 	@echo "$(GREEN)✓ XCFrameworks built$(NC)"
 	@echo ""
-	@echo "$(YELLOW)Step 4/5: Restoring and building bindings...$(NC)"
+	@echo "$(YELLOW)Step 5/6: Restoring and building bindings...$(NC)"
 	@dotnet restore src/iOS/iOSDatadogBindings.sln
 	@dotnet build src/iOS/iOSDatadogBindings.sln --configuration Release --no-restore
 	@echo "$(GREEN)✓ Bindings built$(NC)"
 	@echo ""
-	@echo "$(YELLOW)Step 5/5: Creating NuGet packages...$(NC)"
+	@echo "$(YELLOW)Step 6/6: Creating NuGet packages...$(NC)"
 	@rm -rf ./local-packages
 	@mkdir -p ./local-packages
 	@dotnet pack src/iOS/iOSDatadogBindings.sln --configuration Release --no-build --output ./local-packages

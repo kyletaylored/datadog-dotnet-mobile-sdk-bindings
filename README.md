@@ -18,6 +18,7 @@ Unofficial .NET bindings for the **Datadog Mobile SDKs** on **Android** and **iO
 
 #### Quick References
 
+- **[Developer Setup Guide](docs/DEVELOPER_SETUP.md)** - Complete environment setup for new contributors
 - **[Quick Start](docs/QUICK_START.md)** - Quick reference for common development tasks (building, updating, testing)
 - **[VS Code Setup](docs/VSCODE_SETUP.md)** - Configure VS Code for proper IntelliSense and autocomplete
 

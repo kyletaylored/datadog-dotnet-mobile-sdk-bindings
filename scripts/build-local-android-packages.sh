@@ -9,6 +9,7 @@
 #   - .NET SDK 9.0.x and 10.0.x installed
 #   - Java 17+ installed
 #   - Android SDK installed
+#   - yq (YAML processor) - Install via: brew install yq (macOS) or snap install yq (Linux)
 #
 
 set -e  # Exit on error
@@ -61,14 +62,32 @@ fi
 echo "✅ All prerequisites met"
 echo ""
 
+# Check for yq (YAML processor)
+echo "Checking for yq (YAML processor)..."
+if ! command -v yq &> /dev/null; then
+    echo "❌ yq not found. Please install it:"
+    echo "   macOS: brew install yq"
+    echo "   Linux: snap install yq"
+    echo "   Or download from: https://github.com/mikefarah/yq/releases"
+    exit 1
+fi
+echo "✅ yq found: $(yq --version)"
+echo ""
+
 # Initialize submodules
-echo "Step 1/7: Initializing submodules..."
+echo "Step 1/8: Initializing submodules..."
 git submodule update --init --recursive
+
+# Setup AAR files
+echo ""
+echo "Step 2/8: Setting up Android AAR files..."
+chmod +x src/Android/setup-aars.sh
+src/Android/setup-aars.sh
 
 # Get SDK 9 version and build with it
 DOTNET_9_VERSION=$(dotnet --list-sdks | grep "^9\." | tail -1 | awk '{print $1}')
 echo ""
-echo "Step 2/7: Using .NET SDK 9: $DOTNET_9_VERSION"
+echo "Step 3/8: Using .NET SDK 9: $DOTNET_9_VERSION"
 
 # Create temporary global.json for SDK 9
 cat > global.json <<EOF
@@ -81,11 +100,11 @@ cat > global.json <<EOF
 EOF
 
 echo ""
-echo "Step 3/7: Installing Android workload for .NET SDK 9..."
+echo "Step 4/8: Installing Android workload for .NET SDK 9..."
 dotnet workload install android
 
 echo ""
-echo "Step 4/7: Building with .NET SDK 9 (net9.0-android)..."
+echo "Step 5/8: Building with .NET SDK 9 (net9.0-android)..."
 dotnet restore src/Android/AndroidDatadogBindings.sln
 dotnet build src/Android/AndroidDatadogBindings.sln --configuration Release --no-restore --verbosity minimal
 dotnet pack src/Android/AndroidDatadogBindings.sln --configuration Release --no-build --output ./temp-packages-net9 2>&1 | grep -v "prerelease dependency" || true
@@ -94,7 +113,7 @@ dotnet pack src/Android/AndroidDatadogBindings.sln --configuration Release --no-
 rm -f global.json
 
 echo ""
-echo "Step 5/7: Building with .NET SDK 10 (net10.0-android)..."
+echo "Step 6/8: Building with .NET SDK 10 (net10.0-android)..."
 dotnet workload install android
 dotnet restore src/Android/AndroidDatadogBindings.sln
 dotnet build src/Android/AndroidDatadogBindings.sln --configuration Release --no-restore --verbosity minimal
@@ -102,7 +121,7 @@ dotnet pack src/Android/AndroidDatadogBindings.sln --configuration Release --no-
 
 # Combine packages
 echo ""
-echo "Step 6/7: Combining packages with all target frameworks..."
+echo "Step 7/8: Combining packages with all target frameworks..."
 mkdir -p "$OUTPUT_DIR"
 mkdir -p ./temp-extract
 
@@ -138,7 +157,7 @@ done
 
 # Clean up
 echo ""
-echo "Step 7/7: Cleaning up temporary files..."
+echo "Step 8/8: Cleaning up temporary files..."
 rm -rf ./temp-packages-net9 ./temp-packages-net10 ./temp-extract
 rm -f global.json
 

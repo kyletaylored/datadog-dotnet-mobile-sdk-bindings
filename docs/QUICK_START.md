@@ -350,9 +350,11 @@ dotnet nuget remove source local-datadog
 | `update-sdk-versions.sh` | Update SDK versions |
 | `build-local-android-packages.sh` | Build Android NuGet packages |
 | `build-local-ios-packages.sh` | Build iOS NuGet packages |
-| `src/Android/build-aars.sh` | Build Android AAR files from SDK source |
-| `src/Android/copy-aars.sh` | Copy Android AAR files to binding projects |
-| `src/iOS/buildxcframework.sh` | Build iOS XCFrameworks from SDK source |
+| `src/Android/setup-aars.sh` | Smart AAR setup - intelligently downloads required AARs/JARs from Maven Central |
+| `src/Android/build-aars.sh` | Build Android AAR files from SDK source (for development/unreleased versions) |
+| `src/Android/copy-aars.sh` | Copy Android AAR files to binding projects (used with build-aars.sh) |
+| `src/iOS/setup-xcframeworks.sh` | Smart XCFramework setup - downloads pre-built frameworks from GitHub releases |
+| `src/iOS/buildxcframework.sh` | Build iOS XCFrameworks from SDK source (for development/unreleased versions) |
 
 ## Documentation
 

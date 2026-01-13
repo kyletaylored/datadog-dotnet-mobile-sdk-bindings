@@ -1,0 +1,168 @@
+# Android Binding Dependencies Configuration
+#
+# This file defines which Java/Android dependencies need to be handled for Xamarin bindings.
+# The script reads POM files from Maven Central to discover dependencies with versions,
+# then looks up each dependency here to determine the appropriate action.
+#
+# See docs/ANDROID_DEPENDENCIES.md for detailed explanation
+
+# Dependencies that must be downloaded as AAR/JAR files
+# (No NuGet Xamarin bindings available)
+download:
+  # Lyft Kronos - NTP time synchronization
+  - groupId: com.lyft.kronos
+    artifactId: kronos-android
+  - groupId: com.lyft.kronos
+    artifactId: kronos-java
+
+  # JCTools - Java concurrency tools
+  - groupId: org.jctools
+    artifactId: jctools-core
+
+  # RE2J - Regular expression engine
+  - groupId: com.google.re2j
+    artifactId: re2j
+
+  # OpenTracing - Distributed tracing API
+  - groupId: io.opentracing
+    artifactId: opentracing-api
+  - groupId: io.opentracing
+    artifactId: opentracing-util
+  - groupId: io.opentracing
+    artifactId: opentracing-noop
+
+  # OpenTelemetry - Java API (not .NET)
+  # Note: This is the Java OpenTelemetry API needed for trace-otel bindings,
+  # NOT the .NET OpenTelemetry.Api NuGet package
+  - groupId: io.opentelemetry
+    artifactId: opentelemetry-api
+
+  # AndroidX Compose & Metrics
+  - groupId: androidx.compose.runtime
+    artifactId: runtime
+  - groupId: androidx.metrics
+    artifactId: metrics-performance
+
+# Dependencies available as NuGet packages
+# (Xamarin bindings exist - reference via PackageReference in .csproj)
+nuget:
+  # Google libraries
+  - groupId: com.google.code.gson
+    artifactId: gson
+    nugetPackage: GoogleGson
+
+  # Square libraries
+  - groupId: com.squareup.okhttp3
+    artifactId: okhttp
+    nugetPackage: Square.OkHttp3
+
+  # AndroidX libraries with NuGet bindings
+  - groupId: androidx.work
+    artifactId: work-runtime
+    nugetPackage: Xamarin.AndroidX.Work.Runtime
+
+  - groupId: androidx.annotation
+    artifactId: annotation
+    nugetPackage: Xamarin.AndroidX.Annotation
+
+  - groupId: androidx.collection
+    artifactId: collection
+    nugetPackage: Xamarin.AndroidX.Collection
+
+  - groupId: androidx.lifecycle
+    artifactId: lifecycle-common
+    nugetPackage: Xamarin.AndroidX.Lifecycle.Common
+
+  - groupId: androidx.lifecycle
+    artifactId: lifecycle-process
+    nugetPackage: Xamarin.AndroidX.Lifecycle.Process
+
+# Dependencies covered by MAUI Core transitive dependencies
+# MAUI Core includes: Navigation.Fragment, Navigation.Runtime, Material, Lifecycle.LiveData
+# These transitively bring in: core, fragment, recyclerview, appcompat
+skip:
+  # AndroidX Core & UI (transitive from Material/Navigation)
+  - groupId: androidx.core
+    artifactId: core
+    reason: Transitive from Material/Navigation packages
+
+  - groupId: androidx.fragment
+    artifactId: fragment
+    reason: Transitive from Material/Navigation packages
+
+  - groupId: androidx.recyclerview
+    artifactId: recyclerview
+    reason: Transitive from Material package
+
+  - groupId: androidx.appcompat
+    artifactId: appcompat
+    reason: Transitive from Material package
+
+  # AndroidX Navigation (direct in MAUI Core)
+  - groupId: androidx.navigation
+    artifactId: navigation-runtime
+    reason: Direct in MAUI Core (Xamarin.AndroidX.Navigation.Runtime)
+
+  - groupId: androidx.navigation
+    artifactId: navigation-fragment
+    reason: Direct in MAUI Core (Xamarin.AndroidX.Navigation.Fragment)
+
+  # Google Material Design (direct in MAUI Core)
+  - groupId: com.google.android.material
+    artifactId: material
+    reason: Direct in MAUI Core (Xamarin.Google.Android.Material)
+
+  # Multidex (likely not needed for bindings - runtime only)
+  - groupId: androidx.multidex
+    artifactId: multidex
+    reason: Likely not needed for bindings (runtime only)
+
+  # Kotlin standard library (embedded in SDK)
+  - groupId: org.jetbrains.kotlin
+    artifactId: kotlin-stdlib
+    reason: Embedded in SDK
+
+  - groupId: org.jetbrains.kotlin
+    artifactId: kotlin-reflect
+    reason: Embedded in SDK
+
+  # Datadog internal cross-references (handled by binding projects)
+  - groupId: com.datadoghq
+    artifactId: dd-sdk-android-core
+    reason: Internal cross-reference (handled by binding projects)
+
+  - groupId: com.datadoghq
+    artifactId: dd-sdk-android-internal
+    reason: Internal cross-reference (handled by binding projects)
+
+  - groupId: com.datadoghq
+    artifactId: dd-sdk-android-logs
+    reason: Internal cross-reference (handled by binding projects)
+
+  - groupId: com.datadoghq
+    artifactId: dd-sdk-android-rum
+    reason: Internal cross-reference (handled by binding projects)
+
+  - groupId: com.datadoghq
+    artifactId: dd-sdk-android-trace
+    reason: Internal cross-reference (handled by binding projects)
+
+  - groupId: com.datadoghq
+    artifactId: dd-sdk-android-trace-api
+    reason: Internal cross-reference (handled by binding projects)
+
+  - groupId: com.datadoghq
+    artifactId: dd-sdk-android-trace-internal
+    reason: Internal cross-reference (handled by binding projects)
+
+  - groupId: com.datadoghq
+    artifactId: dd-sdk-android-session-replay
+    reason: Internal cross-reference (handled by binding projects)
+
+  - groupId: com.datadoghq
+    artifactId: dd-sdk-android-webview
+    reason: Internal cross-reference (handled by binding projects)
+
+  - groupId: com.datadoghq
+    artifactId: dd-sdk-android-ndk
+    reason: Internal cross-reference (handled by binding projects)
