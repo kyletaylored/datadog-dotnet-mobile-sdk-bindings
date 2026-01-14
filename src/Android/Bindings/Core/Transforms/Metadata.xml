@@ -109,7 +109,33 @@
 	<remove-node path="/api/package[@name='com.datadog.android.core.thread']" />
 	
 	<remove-node path="/api/package[@name='com.datadog.tools.annotation']/interface[@name='NoOpImplementation']" />
-	
+
+	<!-- Remove transitive dependencies that should come from NuGet bindings -->
+	<remove-node path="/api/package[@name='okhttp3']" />
+	<remove-node path="/api/package[@name='okhttp3.internal']" />
+	<remove-node path="/api/package[@name='okhttp3.internal.connection']" />
+	<remove-node path="/api/package[starts-with(@name,'okhttp3.')]" />
+	<remove-node path="/api/package[starts-with(@name,'com.google.gson')]" />
+
+	<!-- Remove Kotlin standard library types that cause binding issues -->
+	<remove-node path="/api/package[@name='kotlin']/class[@name='UByte']" />
+	<remove-node path="/api/package[@name='kotlin']/class[@name='UByteArray']" />
+	<remove-node path="/api/package[@name='kotlin']/class[@name='UInt']" />
+	<remove-node path="/api/package[@name='kotlin']/class[@name='UIntArray']" />
+	<remove-node path="/api/package[@name='kotlin']/class[@name='ULong']" />
+	<remove-node path="/api/package[@name='kotlin']/class[@name='ULongArray']" />
+	<remove-node path="/api/package[@name='kotlin']/class[@name='UShort']" />
+	<remove-node path="/api/package[@name='kotlin']/class[@name='UShortArray']" />
+	<remove-node path="/api/package[starts-with(@name,'kotlin.time')]" />
+	<remove-node path="/api/package[starts-with(@name,'kotlin.collections')]" />
+	<remove-node path="/api/package[starts-with(@name,'kotlin.coroutines')]" />
+	<remove-node path="/api/package[starts-with(@name,'kotlin.jvm')]" />
+	<remove-node path="/api/package[starts-with(@name,'kotlin.ranges')]" />
+	<remove-node path="/api/package[starts-with(@name,'kotlin.sequences')]" />
+	<remove-node path="/api/package[starts-with(@name,'kotlin.text')]" />
+	<remove-node path="/api/package[starts-with(@name,'kotlin.reflect')]" />
+	<remove-node path="/api/package[@name='kotlin']" />
+
 	<!--******************* Renaming *******************-->
 	
 	<attr path="/api/package[@name='com.datadog.android']/class[@name='DatadogSite']/field[@name='AP1']" name="managedName">AP1</attr>

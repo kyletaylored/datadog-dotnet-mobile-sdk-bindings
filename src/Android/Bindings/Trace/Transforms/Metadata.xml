@@ -234,12 +234,16 @@
 	<remove-node path="/api/package[@name='io.opentracing.propagation']/class[@name='TextMapInjectAdapter']" />
 	
 	<remove-node path="/api/package[@name='com.datadog.android.trace.model']/class[@name='SpanEvent.Device.Companion']" />
+	<remove-node path="/api/package[@name='com.datadog.android.trace.model']/class[@name='SpanEvent.Device']/field[@name='Companion']" />
 	<remove-node path="/api/package[@name='com.datadog.android.trace.model']/class[@name='SpanEvent.Device']/method[starts-with(@name,'component')]" />
 	<remove-node path="/api/package[@name='com.datadog.android.trace.model']/class[@name='SpanEvent.Os.Companion']" />
+	<remove-node path="/api/package[@name='com.datadog.android.trace.model']/class[@name='SpanEvent.Os']/field[@name='Companion']" />
 	<remove-node path="/api/package[@name='com.datadog.android.trace.model']/class[@name='SpanEvent.Os']/method[starts-with(@name,'component')]" />
 	<remove-node path="/api/package[@name='com.datadog.android.trace.model']/class[@name='SpanEvent.Span.Companion']" />
+	<remove-node path="/api/package[@name='com.datadog.android.trace.model']/class[@name='SpanEvent.Span']/field[@name='Companion']" />
 	<remove-node path="/api/package[@name='com.datadog.android.trace.model']/class[@name='SpanEvent.Span']/method[starts-with(@name,'component')]" />
 	<remove-node path="/api/package[@name='com.datadog.android.trace.model']/class[@name='SpanEvent.Type.Companion']" />
+	<remove-node path="/api/package[@name='com.datadog.android.trace.model']/class[@name='SpanEvent.Type']/field[@name='Companion']" />
 	<remove-node path="/api/package[@name='com.datadog.android.trace.model']/class[@name='SpanEvent.Type']/method[starts-with(@name,'component')]" />
 
 	<remove-node path="/api/package/class[@deprecated='deprecated']" />
