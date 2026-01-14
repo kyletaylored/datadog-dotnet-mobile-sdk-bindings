@@ -420,6 +420,7 @@ jobs:
               <ProvisioningType>manual</ProvisioningType>
             </PropertyGroup>
             <ItemGroup>
+              <PackageReference Include="Bcr.Datadog.iOS.ObjC" Version="${{ steps.package-version.outputs.version }}" />
               <PackageReference Include="Bcr.Datadog.iOS.Core" Version="${{ steps.package-version.outputs.version }}" />
               <PackageReference Include="Bcr.Datadog.iOS.Logs" Version="${{ steps.package-version.outputs.version }}" />
               <PackageReference Include="Bcr.Datadog.iOS.RUM" Version="${{ steps.package-version.outputs.version }}" />
