@@ -2,6 +2,8 @@
 
 This document explains how Android binding dependencies work and how to maintain them.
 
+> 💡 **For Technical Details**: See [Android Bindings Internals](ANDROID_BINDINGS_INTERNALS.md) for a comprehensive technical reference on how Android bindings work, including Metadata.xml transformations and the JNI bridge.
+
 ## Overview
 
 Android bindings require **NuGet package references** for Java/Android libraries that the Datadog SDK depends on. These are Xamarin bindings of the native Java/Android libraries.

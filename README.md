@@ -30,6 +30,9 @@ Unofficial .NET bindings for the **Datadog Mobile SDKs** on **Android** and **iO
 
 #### Specialized Guides
 
+- **[Android Bindings Internals](docs/ANDROID_BINDINGS_INTERNALS.md)** - Technical reference for Android binding architecture (Metadata.xml, Additions, JNI bridge)
+- **[iOS Bindings Internals](docs/IOS_BINDINGS_INTERNALS.md)** - Technical reference for iOS binding architecture (ApiDefinitions, Objective-C runtime)
+- **[Android Dependencies](docs/ANDROID_DEPENDENCIES.md)** - Managing Android AAR/JAR dependencies with yq
 - **[Android NDK Setup](docs/ANDROID_NDK_SETUP.md)** - Android NDK installation and configuration
 - **[CI Local Testing](docs/CI_LOCAL_TESTING.md)** - Testing GitHub Actions workflows locally
 - **[Troubleshooting Binding Errors](docs/TROUBLESHOOTING_BINDING_ERRORS.md)** - Fix common errors when updating SDK versions

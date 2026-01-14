@@ -407,9 +407,16 @@ export PATH=$ANDROID_HOME/cmdline-tools/latest/bin:$PATH
 
 ## Additional Resources
 
+### Getting Started
 - [Quick Start Guide](QUICK_START.md)
 - [Building & Versioning Guide](BUILDING_AND_VERSIONING.md)
-- [Android Dependencies Documentation](ANDROID_DEPENDENCIES.md)
 - [VS Code Setup Guide](VSCODE_SETUP.md)
 - [CI Local Testing](CI_LOCAL_TESTING.md)
+
+### Platform-Specific Guides
+- [Android Bindings Internals](ANDROID_BINDINGS_INTERNALS.md) - How Android bindings work (Metadata.xml, Additions, JNI)
+- [iOS Bindings Internals](IOS_BINDINGS_INTERNALS.md) - How iOS bindings work (ApiDefinitions, Objective-C runtime)
+- [Android Dependencies Documentation](ANDROID_DEPENDENCIES.md) - Managing AAR/JAR dependencies with yq
+
+### Troubleshooting
 - [Troubleshooting Binding Errors](TROUBLESHOOTING_BINDING_ERRORS.md)

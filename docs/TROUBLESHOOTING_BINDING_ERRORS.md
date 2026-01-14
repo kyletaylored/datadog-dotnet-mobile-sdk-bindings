@@ -2,6 +2,8 @@
 
 This guide helps you understand and fix common errors that occur when updating to a new SDK version.
 
+> 💡 **For Technical Details**: See [Android Bindings Internals](ANDROID_BINDINGS_INTERNALS.md) or [iOS Bindings Internals](IOS_BINDINGS_INTERNALS.md) for comprehensive technical references on how bindings work.
+
 ## Understanding the Architecture
 
 ### What are .NET Bindings?
