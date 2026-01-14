@@ -76,8 +76,8 @@ public class MainActivity : Activity
             email: "john.doe@example.com",
             extraInfo: new Dictionary<string, Object>
             {
-                { "plan", new Java.Lang.String("premium") },
-                { "signup_date", new Java.Lang.String("2024-01-15") }
+                { "plan", (string)("premium") },
+                { "signup_date", (string)("2024-01-15") }
             }
         );
 
@@ -112,14 +112,14 @@ public class MainActivity : Activity
 
         _logger.I("Application started", null, new Dictionary<string, Object>
         {
-            { "screen", new Java.Lang.String("MainActivity") },
-            { "startup_time_ms", new Java.Lang.Long(DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()) }
+            { "screen", (string)("MainActivity") },
+            { "startup_time_ms", (long)(DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()) }
         });
 
         _logger.W("Warning message - something unusual happened", null, new Dictionary<string, Object>
         {
-            { "warning.type", new Java.Lang.String("api_slow_response") },
-            { "duration.ms", new Java.Lang.Long(5000) }
+            { "warning.type", (string)("api_slow_response") },
+            { "duration.ms", (long)(5000) }
         });
 
         // Example: Log exception with stack trace
@@ -135,9 +135,9 @@ public class MainActivity : Activity
                 new Java.Lang.Exception(ex.Message),  // Wrap .NET exception
                 new Dictionary<string, Object>
                 {
-                    { "error.stack", new Java.Lang.String(ex.StackTrace ?? "") },
-                    { "error.type", new Java.Lang.String(ex.GetType().Name) },
-                    { "error.message", new Java.Lang.String(ex.Message) }
+                    { "error.stack", (string)(ex.StackTrace ?? "") },
+                    { "error.type", (string)(ex.GetType().Name) },
+                    { "error.message", (string)(ex.Message) }
                 }
             );
         }
@@ -177,8 +177,8 @@ public class MainActivity : Activity
             name: "MainActivity",
             attributes: new Dictionary<string, Object>
             {
-                { "screen.type", new Java.Lang.String("main") },
-                { "feature", new Java.Lang.String("demo") }
+                { "screen.type", (string)("main") },
+                { "feature", (string)("demo") }
             }
         );
 
@@ -192,15 +192,15 @@ public class MainActivity : Activity
             name: "app_start_action",
             attributes: new Dictionary<string, Object>
             {
-                { "action.target", new Java.Lang.String("MainActivity") },
-                { "action.timestamp", new Java.Lang.Long(DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()) }
+                { "action.target", (string)("MainActivity") },
+                { "action.timestamp", (long)(DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()) }
             }
         );
 
         _logger?.I("RUM monitoring enabled", null, new Dictionary<string, Object>
         {
-            { "rum.app_id", new Java.Lang.String("<RUM_APP_ID>") },
-            { "session.sample_rate", new Java.Lang.Float(100.0f) }
+            { "rum.app_id", (string)("<RUM_APP_ID>") },
+            { "session.sample_rate", (float)(100.0f) }
         });
 
         // =============================================================================
@@ -221,8 +221,8 @@ public class MainActivity : Activity
 
         _logger?.I("Session Replay enabled", null, new Dictionary<string, Object>
         {
-            { "replay.sample_rate", new Java.Lang.Float(100.0f) },
-            { "replay.privacy", new Java.Lang.String("mask_all") }
+            { "replay.sample_rate", (float)(100.0f) },
+            { "replay.privacy", (string)("mask_all") }
         });
 
         // Session Replay can be controlled programmatically:
@@ -243,7 +243,7 @@ public class MainActivity : Activity
 
         _logger?.I("APM tracing enabled", null, new Dictionary<string, Object>
         {
-            { "trace.network_info", new Java.Lang.Boolean(true) }
+            { "trace.network_info", (bool)(true) }
         });
 
         // To create custom spans, use the DatadogTracing API:
@@ -265,7 +265,7 @@ public class MainActivity : Activity
         //     WebViewTracking.Enable(webView, allowedHosts, 100.0f);
         //     _logger?.I("WebView tracking enabled", null, new Dictionary<string, Object>
         //     {
-        //         { "allowed_hosts", new Java.Lang.String(string.Join(", ", allowedHosts)) }
+        //         { "allowed_hosts", (string)(string.Join(", ", allowedHosts)) }
         //     });
         // }
 
@@ -290,15 +290,15 @@ public class MainActivity : Activity
             name: "simulate_button_click",
             attributes: new Dictionary<string, Object>
             {
-                { "button.id", new Java.Lang.String("demo_button") },
-                { "button.label", new Java.Lang.String("Simulate Action") }
+                { "button.id", (string)("demo_button") },
+                { "button.label", (string)("Simulate Action") }
             }
         );
 
         _logger?.D("Button clicked - simulating user action", null, new Dictionary<string, Object>
         {
-            { "button.id", new Java.Lang.String("demo_button") },
-            { "timestamp", new Java.Lang.Long(DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()) }
+            { "button.id", (string)("demo_button") },
+            { "timestamp", (long)(DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()) }
         });
 
         try
@@ -311,8 +311,8 @@ public class MainActivity : Activity
                 url: "https://api.example.com/users/12345",
                 attributes: new Dictionary<string, Object>
                 {
-                    { "api.endpoint", new Java.Lang.String("/users/:id") },
-                    { "api.version", new Java.Lang.String("v1") }
+                    { "api.endpoint", (string)("/users/:id") },
+                    { "api.version", (string)("v1") }
                 }
             );
 
@@ -322,20 +322,20 @@ public class MainActivity : Activity
             // Stop the resource successfully (parameters: key, statusCode, size, kind, attributes)
             _rumMonitor?.StopResource(
                 resourceKey,
-                new Java.Lang.Integer(200),
-                new Java.Lang.Long(1024),
+                (int)(200),
+                (long)(1024),
                 RumResourceKind.Native,
                 new Dictionary<string, Object>
                 {
-                    { "response.cached", new Java.Lang.Boolean(false) }
+                    { "response.cached", (bool)(false) }
                 }
             );
 
             _logger?.I("Resource loaded successfully", null, new Dictionary<string, Object>
             {
-                { "resource.url", new Java.Lang.String("https://api.example.com/users/12345") },
-                { "resource.status", new Java.Lang.Integer(200) },
-                { "resource.size_bytes", new Java.Lang.Long(1024) }
+                { "resource.url", (string)("https://api.example.com/users/12345") },
+                { "resource.status", (int)(200) },
+                { "resource.size_bytes", (long)(1024) }
             });
         }
         catch (Exception ex)
@@ -347,8 +347,8 @@ public class MainActivity : Activity
                 throwable: new Java.Lang.Exception(ex.Message),
                 attributes: new Dictionary<string, Object>
                 {
-                    { "error.stack", new Java.Lang.String(ex.StackTrace ?? "") },
-                    { "error.type", new Java.Lang.String(ex.GetType().Name) }
+                    { "error.stack", (string)(ex.StackTrace ?? "") },
+                    { "error.type", (string)(ex.GetType().Name) }
                 }
             );
 
@@ -358,9 +358,9 @@ public class MainActivity : Activity
                 new Java.Lang.Exception(ex.Message),
                 new Dictionary<string, Object>
                 {
-                    { "error.stack", new Java.Lang.String(ex.StackTrace ?? "") },
-                    { "error.type", new Java.Lang.String(ex.GetType().Name) },
-                    { "resource.url", new Java.Lang.String("https://api.example.com/users/12345") }
+                    { "error.stack", (string)(ex.StackTrace ?? "") },
+                    { "error.type", (string)(ex.GetType().Name) },
+                    { "resource.url", (string)("https://api.example.com/users/12345") }
                 }
             );
         }
@@ -394,7 +394,7 @@ public class MainActivity : Activity
             key: this.GetType().Name,
             attributes: new Dictionary<string, Object>
             {
-                { "view.duration_ms", new Java.Lang.Long(DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()) }
+                { "view.duration_ms", (long)(DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()) }
             }
         );
 
