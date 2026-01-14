@@ -1,4 +1,5 @@
 ﻿<metadata>
 	<remove-node path="/api/package[starts-with(@name, 'com.datadog.android.internal')]"/>
 	<remove-node path="/api/package[@name='com.datadog.tools.annotation']" />
+	<remove-node path="/api/package[@name='com.datadog.android.rum']/class[@name='DdRumContentProvider']/field[@name='Companion']" />
 </metadata>

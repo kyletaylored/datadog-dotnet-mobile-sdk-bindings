@@ -4,6 +4,9 @@
 	<remove-node path="/api/package[@name='com.datadog.opentelemetry.trace']/class[@name='OtelConventions']" />
 	<remove-node path="/api/package[@name='com.datadog.opentelemetry.trace']/class[@name='OtelExtractedContext']" />
 
+	<!-- Fix ReadOnlyArrayMap.EntrySet() return type -->
+	<remove-node path="/api/package[@name='io.opentelemetry.api.internal']/class[@name='ReadOnlyArrayMap']" />
+
 	<attr
 		path="/api/package[@name='com.datadog.android.trace.opentelemetry']/class[@name='BuildConfig']/field[@name='OPENTELEMETRY_API_VERSION_NAME']"
 		name="managedName">
